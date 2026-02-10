@@ -124,6 +124,7 @@ nav:
           - 'Tests & coverage': ''
       - 'Internal Architecture':
           - 'Framework internals': ''
+          - 'Framework internals': 'community/internal-architecture/framework-internals.md'
           - 'Design principles': ''
   - 'Help & Support':
       - 'Troubleshooting & Diagnostics':
