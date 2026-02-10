@@ -102,6 +102,7 @@ nav:
           - 'Database administration': ''  
           - 'Backup / Restore': ''   
       - 'Monitoring & Maintenance':
+          - 'Rights Management Utilities': 'operations/monitoring-maintenance/rights-management-utilities.md'
           - 'Logging': ''
           - 'Performance': '' 
           - 'Upgrades': ''  
