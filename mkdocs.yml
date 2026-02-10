@@ -91,6 +91,7 @@ nav:
           - 'Cheat Sheets': 'application-developpers/howtos-references/cheat-sheet.md'
           - 'API / CLI Reference': 'application-developpers/howtos-references/api-cli.md' 
           - 'Package': 'application-developpers/howtos-references/package.md'
+          - 'Using Shared-lib': 'application-developpers/howtos-references/using-shared-lib.md'
           - 'Workbench Overview' : 'application-developpers/howtos-references/workbench-overview.md'
       - 'AI guidelines ??': ''
   - 'Operations (DevOps / Sysadmin)':
