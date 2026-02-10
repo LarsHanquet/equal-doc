@@ -98,6 +98,7 @@ nav:
           - 'Server setup': 'operations\deployment-environment\server-setup.md'
           - 'CI/CD': 'operations\deployment-environment\ci-cd.md'
           - 'PHP compatibility': 'operations\deployment-environment\php-compatibility.md'
+          - 'Installation & Config Utilities': 'operations/deployment-environment/installation-config-utilities.md'
           - 'Package Utilities': 'operations/deployment-environment/package-utilities.md'
           - 'Shared-lib Setup': 'operations/deployment-environment/shared-lib-setup.md'
       - 'Database & Storage':
