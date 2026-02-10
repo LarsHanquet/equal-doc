@@ -111,6 +111,7 @@ nav:
       - 'Database & Storage':
           - 'Database administration': ''  
           - 'Backup / Restore': ''   
+          - 'Data Manipulation Utilities': 'operations/database-storage/data-manipulation-utilities.md'
       - 'Monitoring & Maintenance':
           - 'Rights Management Utilities': 'operations/monitoring-maintenance/rights-management-utilities.md'
           - 'Logging': ''
