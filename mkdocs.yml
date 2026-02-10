@@ -92,6 +92,7 @@ nav:
                 - 'Tutorial: Creating a ReST API': 'application-developpers/howtos-references/tutorials-examples/tutorial-rest-api.md'
                 - 'Tutorial: A basic WebApp' : 'application-developpers/howtos-references/tutorials-examples/tutorial-basic-webapp.md'
                 - 'Example: A basic Controller' : 'application-developpers/howtos-references/tutorials-examples/example-basic-controller.md'
+                - 'Example: Domains': 'application-developpers/howtos-references/tutorials-examples/example-domain.md'
           - 'Cheat Sheets': 'application-developpers/howtos-references/cheat-sheet.md'
           - 'API / CLI Reference': 'application-developpers/howtos-references/api-cli.md' 
           - 'Package': 'application-developpers/howtos-references/package.md'
