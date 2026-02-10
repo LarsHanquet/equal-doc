@@ -11,7 +11,7 @@ Active committers and contributors are invited to introduce themselves and reque
 
 First contrinutors are welcome !
 
-eQual is registered as an Hacktoberfest projet and there are always always a few issues tagged [Good first issues](https://github.com/equalframework/equal/labels/good%20first%20issue) to make it easy to get started. 
+eQual is registered as a Hacktoberfest projet and there are always a few issues tagged [Good first issues](https://github.com/equalframework/equal/labels/good%20first%20issue) to make it easy to get started. 
 
 
 ## Bugs and Issues
