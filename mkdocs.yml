@@ -81,6 +81,7 @@ nav:
                - 'Charts' : 'application-developpers/core-development-guide/views-ui/charts.md'
                - 'Dashboards' : 'application-developpers/core-development-guide/views-ui/dashboards.md'
                - 'Contexts ??' : ''
+               - 'Contexts': 'application-developpers/core-development-guide/views-ui/contexts.md'
           - 'Validation & Searching': 'application-developpers/core-development-guide/validation-searching.md'
           - 'i18n': 'application-developpers/core-development-guide/i18n.md'
           - 'Controllers & Routing': 'application-developpers/core-development-guide/controllers-routing.md'
