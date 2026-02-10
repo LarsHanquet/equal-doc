@@ -93,6 +93,7 @@ nav:
                 - 'Tutorial: A basic WebApp' : 'application-developpers/howtos-references/tutorials-examples/tutorial-basic-webapp.md'
                 - 'Example: A basic Controller' : 'application-developpers/howtos-references/tutorials-examples/example-basic-controller.md'
                 - 'Example: Domains': 'application-developpers/howtos-references/tutorials-examples/example-domain.md'
+                - 'Example: Shared-lib Code Snippets': 'application-developpers/howtos-references/tutorials-examples/shared-lib-code-snippets.md'
           - 'Cheat Sheets': 'application-developpers/howtos-references/cheat-sheet.md'
           - 'API / CLI Reference': 'application-developpers/howtos-references/api-cli.md' 
           - 'Package': 'application-developpers/howtos-references/package.md'
