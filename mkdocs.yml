@@ -67,6 +67,7 @@ nav:
                - 'Actions': 'application-developpers/core-development-guide/models/actions.md'
                - 'Entities': 'application-developpers/core-development-guide/models/entities.md'
                - 'Workflows': 'application-developpers/core-development-guide/models/workflows.md'
+               - 'Domains': 'application-developpers/core-development-guide/models/domains.md'
           - 'Views & UI': 
                - 'Views':
                      - 'Common Structures': 'application-developpers/core-development-guide/views-ui/views/common-structures.md'
