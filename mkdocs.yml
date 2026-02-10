@@ -98,6 +98,7 @@ nav:
           - 'Server setup': 'operations\deployment-environment\server-setup.md'
           - 'CI/CD': 'operations\deployment-environment\ci-cd.md'
           - 'PHP compatibility': 'operations\deployment-environment\php-compatibility.md'
+          - 'Shared-lib Setup': 'operations/deployment-environment/shared-lib-setup.md'
       - 'Database & Storage':
           - 'Database administration': ''  
           - 'Backup / Restore': ''   
