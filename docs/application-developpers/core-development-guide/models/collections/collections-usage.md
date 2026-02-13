@@ -21,8 +21,11 @@ $collection = MyEntity::create();
 Collections can be exported as arrays or maps for further processing:
 
 ```php
-$map = $collection->map('id', 'name');
-$array = $collection->toArray();
+$array = $collection->get($to_array = true);
+```
+
+```php
+$map = $collection->get();
 ```
 
 ---
@@ -69,23 +72,20 @@ $filtered = MyEntity::search(['status' => 'active']);
 
 ---
 
-### Sorting
-
-Sort collections by a specific field:
-
-```php
-$sorted = $collection->orderBy('name', 'asc');
-```
-
----
-
 ### Aggregating Data
 
 Perform aggregate operations like counting or summing fields:
 
 ```php
 $count = $collection->count();
-$total = $collection->sum('price');
+```
+
+```php
+// Sum the 'amount' field for all objects in the collection
+$sum = 0;
+$collection->each(function($id, $object) use (&$sum) {
+    $sum += $object['amount'];
+});
 ```
 
 ---
@@ -100,7 +100,7 @@ $results = MyEntity::search(['status' => 'active'])
     ->read(['id', 'name']);
 ```
 
-For more on domains and filtering, see Domain Filtering.
+For more on domains and filtering, see [Domain Filtering](TODO).
 
 ---
 
