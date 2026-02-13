@@ -1,32 +1,30 @@
 # Operations
 
-The **operations** in eQual allow to define **aggregation or computation logic** to be applied on one or more fields of the records being displayed (typically in a list view). 
+**Operations** in eQual allow defining **aggregation or computation logic** to be applied on one or more fields of the records being displayed (typically in a [list view](TODO)). 
 
-These operations are useful for **showing totals, averages, counts, or custom calculations** on the dataset.
+These operations are useful for **displaying totals, averages, counts, or custom calculations** on a dataset.
 
-### Operation types
+---
+
+## Operation Types
 
 There are two types of operators:
 
-**1) unary operators**
+### Unary Operators
+
+Unary operators take a single operand (either a single value or a field reference representing an array of values).
 
 ```php
 <?php
-/**
- * Unary Operators a single operand (either a single value, or a field reference [array of values])
- * @var array
- */
 private static $unary_operators = ['ABS', 'AVG', 'COUNT', 'DIFF', 'MAX', 'MIN', 'SUM'];
 ```
 
-**2) binary operators**
+### Binary Operators
+
+Binary operators take two operands. Each operand can be another operation, a single value, or a field reference.
 
 ```php
 <?php
-/**
- * Operators that take two operands (each operand can be an Operation, a single value, or a field reference [array of values])
- * @var array
- */
 private static $binary_operators = [
     '+',            // addition
     '-',            // subtraction
@@ -37,22 +35,45 @@ private static $binary_operators = [
 ];
 ```
 
-### Operation Syntax
+---
 
-Operations follow a functional-style array syntax that supports both unary and binary operators.
+## Operation Syntax
 
-**Unary operator:**
+Operations follow a functional-style array syntax. Field references use the `object.` prefix followed by the field name.
+
+**Unary operator example:**
 
 ```json
 ["SUM", "object.qty"]
 ```
 
-**Binary operator:**
+**Binary operator example (nested):**
 
 ```json
-["DIV", ["SUM", "object.total"], ["COUNT", "object.id"]]
+["/", ["SUM", "object.total"], ["COUNT", "object.id"]]
+```
 
-Examples:
+This example divides the sum of `total` by the count of `id`, effectively calculating an average.
+
+---
+
+## Operation Object Format
+
+Each operation object supports the following properties:
+
+| Property    | Description                                                         |
+| ----------- | ------------------------------------------------------------------- |
+| `operation` | The operator (e.g., `SUM`, `COUNT`) or a nested operation array     |
+| `usage`     | Output format (e.g., `amount/money:2` for currency with 2 decimals) |
+| `label`     | Display label shown in the UI (optional)                            |
+| `id`        | Translation key for [translation](TODO) support (optional)          |
+| `suffix`    | Text appended after the result (optional)                           |
+
+---
+
+## Examples
+
+### Summing monetary values
 
 ```json
 "operations": {
@@ -71,6 +92,8 @@ Examples:
 }
 ```
 
+### Counting records with a suffix
+
 ```json
 "operations": {
     "total": {
@@ -82,12 +105,3 @@ Examples:
     }
 }
 ```
-
-## Operation Object Format
-
-Each operation supports the following properties:
-
-- **`operation`**: Operator or nested operation array
-- **`usage`**: Output format (e.g., `amount/money:2` for 2-decimal currency)
-- **`label`**: Display label (optional, used in UI)
-- **`id`**: Translation key (optional, used for i18n)
