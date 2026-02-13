@@ -1,46 +1,62 @@
-# Data anonymization
+# Data Anonymization in eQual
 
-Data anonymization is a process that transforms personal data to make it non-identifiable. This means modifying the data so that the individuals or entities it refers to can no longer be identified, either directly or indirectly.
+Data anonymization is the process of transforming personal data to make it non-identifiable. This ensures that individuals or entities can no longer be identified, either directly or indirectly. 
 
-This process is crucial for compliance with modern regulations (GDPR, CCPA, LGPD, PIPEDA, PDPA, ...) and ensures the protection of individuals' privacy, while allowing the use of data for analytical or commercial purposes without violating privacy rules.
+This process is crucial for compliance with modern [data protection regulations](Maybe TODO) such as GDPR, CCPA, LGPD, PIPEDA, and PDPA. It also ensures the protection of individuals' privacy while allowing the use of data for analytical or commercial purposes without violating privacy rules.
 
-In eQual, data anonymization is irreversible and primarily based on randomization: data values are modified randomly, using datasets selected based on each field's descriptor, leveraging its type, usage (when available), and, if applicable, its name.
+---
 
-This approach offers several benefits:
+## Why Anonymize Data?
 
-1. **Data security**: Companies that anonymize data significantly reduce the risks of data leaks or malicious exploitation, as the information can no longer be attributed to specific individuals.
-2. **Data reuse**: Anonymization allows the reuse of data without breaching data protection rules, which is particularly useful in sectors like healthcare, where sensitive data can be used for statistical or epidemiological studies.
-3. **Customer trust**: Users are more likely to share their data with companies that commit to anonymizing and protecting it, strengthening trust and improving the company's reputation.
-4. **Analytical flexibility**: Anonymized data can be used for market studies, behavioral analysis, and other research while respecting individual rights, opening new opportunities for companies to leverage their data without legal constraints.
+Anonymizing data offers several benefits:
 
-eQual allows both the anonymization of specific objects of a given entity, filtered using a domain; or all the objects of a given package.
-In the latter case, a schema can be used to specify the strategies for anonymizing the data.
+1. **Data Security**: Anonymized data significantly reduces the risk of data leaks or malicious exploitation, as the information can no longer be attributed to specific individuals.
+2. **Regulatory Compliance**: Ensures adherence to privacy laws and regulations, avoiding legal penalties.
+3. **Data Reuse**: Enables the reuse of data for purposes such as statistical analysis or research without breaching data protection rules. This is particularly useful in sensitive sectors like healthcare.
+4. **Customer Trust**: Strengthens trust and improves reputation by demonstrating a commitment to data protection.
+5. **Analytical Flexibility**: Allows companies to leverage anonymized data for market studies, behavioral analysis, and other research while respecting individual rights.
 
-## Entity schema
+---
 
-At the level of field descriptors, as defined in `getColumns()`, certain specific attributes define the behavior of the anonymization:
+## How eQual Handles Data Anonymization
 
-* **sensitive**: When set to `true`, the field is always anonymized (even if not listed among the fields).
+In eQual, data anonymization is **irreversible** and primarily based on **randomization**. Data values are modified randomly using datasets selected based on each field's descriptor, leveraging its type, usage (when available), and, if applicable, its name.
 
-* **generation**: Specifies how the field's values should be generated when it is anonymized. Must refer to a static method of the targeted entity (without parameters).
+eQual supports two main approaches to anonymization:
+1. **Object-Level Anonymization**: Specific objects of a given entity can be anonymized, filtered using a domain.
+2. **Package-Level Anonymization**: All objects of a given package can be anonymized using a schema to specify the strategies for anonymizing the data.
 
-A Model field can be anonymized automatically (without having to specify it in the `fields` option) by setting its sensitive option to true. 
+---
 
-```php
-public static function getColumns() {
-	return [
-        'content' => [
-			'type'              => 'string',
-		    'description'       => 'Content of the message.',
-		    'sensitive'         => true
-		]
-	];
-}
-```
+## Entity Schema for Anonymization
 
-## Anonymization schema
+At the level of field descriptors (as defined in [`getColumns()`](TODO)), certain attributes define the behavior of anonymization:
+
+### Key Attributes
+
+- **`sensitive`**:  
+  When set to `true`, the field is always anonymized, even if it is not explicitly listed among the fields to anonymize.  
+  Example:
+  ```php
+  public static function getColumns() {
+      return [
+          'content' => [
+              'type'        => 'string',
+              'description' => 'Content of the message.',
+              'sensitive'   => true
+          ]
+      ];
+  }
+  ```
+
+- **`generation`**:  
+  Specifies how the field's values should be generated during anonymization. This must refer to a static method of the targeted entity (without parameters).
+
+## Anonymization Schema
 
 An anonymization schema is a JSON array where each object specifies a model to be anonymized, including the fields and relationships to be processed.
+
+### Example Schema
 
 ```json
 [
@@ -56,10 +72,29 @@ An anonymization schema is a JSON array where each object specifies a model to b
 ]
 ```
 
-| **Attribute** | **Description**                                              |
-| ------------- | ------------------------------------------------------------ |
-| **name**      | Specifies the fully qualified name of the model class to be seeded. *(required)* |
-| **fields**    | Contains fields that need to be anonymized.                  |
-| **relations** | Defines relationships to other models and how to handle them. |
+### Schema Attributes
 
+| **Attribute**   | **Description**                                                                      |
+| --------------- | ------------------------------------------------------------------------------------ |
+| **`name`**      | Specifies the fully qualified name of the model class to be anonymized. *(required)* |
+| **`fields`**    | Lists the [fields](TODO) that need to be anonymized.                                 |
+| **`relations`** | Defines relationships to other models and how to handle them.                        |
 
+---
+
+## Best Practices for Data Anonymization
+
+1. **Identify Sensitive Data**: Use the `sensitive` attribute to mark fields that must always be anonymized.
+2. **Define Clear Schemas**: Create well-structured anonymization schemas to ensure consistency and clarity.
+3. **Test Anonymization**: Validate the anonymization process to ensure compliance with privacy regulations and data integrity.
+4. **Document Relationships**: Clearly define how relationships between models should be anonymized to avoid data inconsistencies.
+
+---
+
+## Additional Notes
+
+- Data anonymization in eQual is **irreversible**, meaning the original data cannot be restored once anonymized.
+- The `generation` attribute allows for custom anonymization logic, making the process flexible and adaptable to specific needs.
+- For more information on how to implement anonymization in your project, refer to the [eQual Documentation](TODO).
+
+---
