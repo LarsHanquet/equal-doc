@@ -1,158 +1,137 @@
-# Domains Overview & Structure
+# Domains: Overview and Structure
 
-In eQual, **conditional domains** play a crucial role in condition-matching operations and filtering. 
+In eQual, **domains** are a powerful tool for defining conditional filters and constraints. They are used extensively for operations such as filtering objects, determining visibility, and evaluating conditions in various contexts.
 
-A **Domain** is essentially a structure that defines a set of conditions used to create filtered lists of objects or to determine the boolean value of a flag depending on a given context.
+---
 
-Domains are mostly used either for visibility (Views) or filtering (Models and Controllers).
+## What is a Domain?
 
-### Concept definition
+A **Domain** is a structure that defines a set of conditions used to filter objects or evaluate boolean flags based on a given context. Domains are primarily used in:
 
-The purpose of a conditional domain is to define a logical filter targeting all objects that comply to a series of criteria.
+- **Views**: To control visibility.
+- **Models and Controllers**: To filter data.
 
-To represent such a filter, we take advantage of the fact that, whatever the logical configuration, it is always possible to convert it to a list of operands on which the OR operator is applied (disjunction).
+Domains are represented as a logical structure of conditions, which can be incrementally built and manipulated. The eQual framework provides a [`Domain`](TODO) class to facilitate this process.
 
-Here below are some mathematical equivalences to illustrate this (`∨` = OR, `∧` =  AND):
+---
 
-```
-(A ∨ B) ∧ (C ∨ D) = (A ∧ C) ∨ (A ∧ D) ∨ (B ∧ C) ∨ (B ∧ D)
-```
+## Domain Structure
 
-In turn, each operand can be either a direct value or a conjunction of operands (logical AND).
+A domain is a list of one or more **clauses**, where each clause consists of one or more **conditions**. The minimal domain is a single clause with a single condition.
 
-In other words, a domain is a structure that represents a list of "disjunctions (OR) of conjunctions (AND)".
+### Condition
 
-Based on that fact, it is possible to build a domain in an incremental way.
+A **condition** is represented as an array with three elements:
 
-To help with domain manipulations, eQual offers a `Domain` class (`lib\equal\orm\Domain.class.php`) that both holds helper methods and allows to instantiate OOP modelization of domains.
-
-### Structure
-
-A domain is a list of one or more clauses, each clause consisting of one or more conditions.
-
-The minimal domain being a single clause with a single condition.
-
-#### Condition
-
-A condition is represented as an array holding 3 elements:
-
-```
+```php
 [ operand, operator, value ]
 ```
 
-| **PART**  | **ROLE**                            |
-| --------- | ----------------------------------- |
-| operand   | Indicates the field on which the condition must be applied and matches one of the properties returned by `Model::getColumns()`. |
-| operator  | Provides the operator of the condition. Accepted operators are : `=`, `<`, `>`,` <=`, `>=`, `<>`, `like`, `ilike` (case-insensitive), `in`, `contains`. |
-| value  | Provides the value against which the operator must be applied on the operand. |
+| **Part**   | **Description**                                                                                                                             |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `operand`  | The field on which the condition is applied. It matches a property from `Model::getColumns()`.                                              |
+| `operator` | The operator for the condition. Supported operators: `=`, `<`, `>`, `<=`, `>=`, `<>`, `like`, `ilike` (case-insensitive), `in`, `contains`. |
+| `value`    | The value against which the operator is applied.                                                                                            |
 
-!!! note "About value type"
-    The operator influences the type of the value (e.g.: 'in' implies that the value is an array).
+**Note**: The operator determines the type of the value. For example, the `in` operator requires the value to be an array.
 
-
-#### Clause
-
-A clause is a series or conditions on which the AND operator is applied.
-
-```
-[ [ operand1, operator1, value1 ], [ operand1, operator1, value2 ] ]
-```
-
-For instance, the below notation can be interpreted as "*field1 must be equal to 1 AND field2 must be equal to 2*":
-
-```
-[ [ "field1", "=" , 1 ], [ "field2", "=", 2 ] ]
-```
-
-
-
-### Notation
-
-The complete domain syntax is : 
-
-``` 
-[ [ [operand, operator, value], {...} ], {...} ]
-```
-
-!!! note "Shortcut notations"
-    eQual accepts shortcut notations : `[operand, operator, value]` and `[[operand, operator, value]]` (two pairs of square brackets) will both be interpreted as a domain with a single clause and a single condition.
-
-??? example "Recap of the syntax"
-    ```php
-    <?php
-    $domain = [                                        // domain
-        [                                              // clause
-            [
-                '{operand}', '{operator}', '{value}'   // condition
-            ],
-            [
-                '{operand}', '{operator}', '{value}'   // another contition (AND)
-            ]
-        ],
-        [		                                       // another clause (OR)
-            [
-                '{operand}', '{operator}', '{value}'   // condition
-            ],
-            [
-                '{operand}', '{operator}', '{value}'   // another contition (AND)
-            ]
-        ]
-    ];
-    ```
-
-One advantage of using the array notation is that the syntax is very similar in PHP controllers and in JSON views.
-
-**PHP:**
+#### Example: Condition
 
 ```php
-<?php
+["field1", "=", 1]
+```
+
+This condition checks if `field1` equals `1`.
+
+---
+
+### Clause
+
+A **clause** is a series of conditions combined with the logical `AND` operator.
+
+```php
+[
+    ["field1", "=", 1],
+    ["field2", "=", 2]
+]
+```
+
+This clause can be interpreted as: "*field1 must equal 1 AND field2 must equal 2*."
+
+---
+
+### Domain Notation
+
+A complete domain is a list of clauses combined with the logical `OR` operator. Each clause contains conditions combined with `AND`.
+
+```php
+[
+    [ ["field1", "=", 1], ["field2", "=", 2] ], // Clause 1
+    [ ["field3", ">", 5] ]                     // Clause 2
+]
+```
+
+This domain can be interpreted as: "*field1 equals 1 AND field2 equals 2 OR field3 is greater than 5*."
+
+#### Shortcut Notations
+
+eQual supports shortcut notations for simpler domains:
+
+- `[operand, operator, value]`: Interpreted as a domain with one clause and one condition.
+- `[[operand, operator, value]]`: Interpreted as a domain with one clause containing one condition.
+
+#### Example: Shortcut Notations
+
+```php
+["field1", "=", 1] // Single condition
+[[ "field1", "=", 1 ]] // Single clause with one condition
+```
+
+---
+
+## Using Domains in Code
+
+Domains can be defined in both PHP and JSON, making them versatile for use in controllers and views.
+
+### PHP Example
+
+```php
 $domain = [
-	["login", "like", "%@equal.run"],
-	["validated", "=", true]
+    ["login", "like", "%@equal.run"],
+    ["validated", "=", true]
 ];
 ```
-**JSON:**
+
+### JSON Example
 
 ```json
 {
-	"domain": [
+    "domain": [
         ["login", "like", "%@equal.run"],
         ["validated", "=", true]
     ]
 }
 ```
 
+### URL Example
 
+Domains can also be used in URLs (must be URL-encoded):
 
-Domains can be used in URL (must be URL encoded).
-
-Example:
 ```http
-http://equal.local/?get=model_search&entity=core\User&domain=[[id,in,[1,2,3]]
+http://equal.local/?get=model_search&entity=core\User&domain=[[id,in,[1,2,3]]]
 ```
 
-### References
+---
 
-A few references can be used in the domain to improve the search.
+## References in Domains
 
-| **REFERENCE** | **DESCRIPTION**     | **EXAMPLE**                                  |
-| ------------- | ------------------- | -------------------------------------------- |
-| `object.`     | The current object. | `["object_id", "=", "object.id"]`            |
-| `user.`       | The current user.   | `["creator", "=", "user.id"]`                |
-| `date.`       | The current date.   | `["date_from", "=", "date.this.year.first"]` |
+eQual supports references to dynamic values in domains, such as the current object, user, or date. These references enhance flexibility and allow for context-aware filtering.
 
-#### Object Reference
+### Object Reference
 
-In a Model or a View, a domain might refers to the current object. This feature is particularly useful when it comes to filtering which objects can be assigned to the current object based on the context.
+Domains can refer to the current object in a model or view. This is useful for filtering objects based on their relationship to the current object.
 
-**Example:**
-
-Let's say we have two entities: **Project** and **Techie**.
-
-- A **Project**  depends on the company but is assigned to a specific department.
-- One or more **Techies** can be assigned to a project, but only amongts those who belong to the same department as the project.
-
-Here is how the domain might look in eQual:
+#### Example: Object Reference
 
 ```json
 {
@@ -163,109 +142,112 @@ Here is how the domain might look in eQual:
 }
 ```
 
-In a View form for editing Project, the techies not belonging to the same departement of the project will be filtered out.
+This domain filters **Techies** to only include those in the same department as the current **Project**.
 
-#### User Reference
+---
 
-Domains can also use the current user as reference . The current user is the user from which originates the current processing.
+### User Reference
 
-The available fields are : 
+Domains can reference the current user, enabling user-specific filtering. Available fields are:
 
-* `id` (identifier of the user)
-* `login`
-* `validated`
-* `language`
-* `groups_ids` (list of groups identifiers)
-* `groups` (list of groups names)
+- `id`: User ID.
+- `login`: User login.
+- `validated`: Whether the user is validated.
+- `language`: User's language.
+- `groups_ids`: List of group IDs.
+- `groups`: List of group names.
 
-#### Date Reference
+#### Example: User Reference
 
-eQual provides a structured way to reference dates allowing to describe and retrieve any date based on the current date, which can be used in Domains for filtering or conditioning visibility. 
-
-Date References allow to reference dates relatively to various intervals and dynamically compute dates for a wide range of scenarios by combining methods and parameters.
-
-
-
-A **Date Reference** descriptor is built using the following structure : 
-
+```php
+["creator", "=", "user.id"]
 ```
+
+This condition filters objects created by the current user.
+
+---
+
+### Date Reference
+
+eQual provides a structured way to reference dates dynamically. Date references allow filtering based on relative dates, such as the current day, week, or year.
+
+#### Date Reference Syntax
+
+```text
 date.<origin>(<offset>).<interval>.<method>(<arguments>)
 ```
 
-or, in a more explicit notation : 
+#### Example: Date Reference
 
+```php
+["date_from", "=", "date.this.year.first"]
 ```
-date.{this|prev|next}[(<offset>)].{day|week|month|quarter|semester|year}.{first|last|get(reference:index)}
+
+This condition filters objects starting from the first day of the current year.
+
+---
+
+## Roles in Domains
+
+In eQual, **roles** define permissions and access levels for users interacting with objects. Roles can be used in domains to enforce constraints such as Separation of Duty (SoD).
+
+### Role Definitions
+
+Roles are defined in the `getRoles` method and can include rights such as `create`, `read`, `update`, `delete`, and `manage`.
+
+#### Example: Role Definition
+
+```php
+public static function getRoles() {
+    return [
+        "owner" => [
+            "rights" => EQ_R_READ | EQ_R_UPDATE | EQ_R_DELETE | EQ_R_MANAGE
+        ],
+        "editor" => [
+            "rights" => EQ_R_READ | EQ_R_UPDATE
+        ],
+        "viewer" => [
+            "rights" => EQ_R_READ
+        ]
+    ];
+}
 ```
 
-### Attributes and Arguments
+### Role Assignment
 
-#### Origin
+Roles are assigned using `Assignment` objects, which maps users to roles for specific objects.
 
-| Method  | Description                                                | Offset | Possible Values   |
-| ------- | ---------------------------------------------------------- | ------ | ----------------- |
-| prev(n) | First day of previous period with an offset of n intervals | n > 0  | `prev`, `prev(n)` |
-| next(n) | First day of next period with an offset of n intervals     | n > 0  | `next`, `next(n)` |
-| this()  | First day of current period                                | n = 0  | `this`, `this(0)` |
+#### Example: Role Assignment
 
-#### Interval
+```sql
+Assignment
+    object_class
+    object_id
+    role
+    user_id
+```
 
-| Interval | Description |
-| -------- | ----------- |
-| day      | Day         |
-| week     | Week        |
-| month    | Month       |
-| quarter  | Quarter     |
-| semester | Semester    |
-| year     | Year        |
+---
 
-#### Method
+## Selector Hierarchy
 
-| Method  | Description                        |
-| ------- | ---------------------------------- |
-| first() | First day of the interval          |
-| last()  | Last day of the interval           |
-| get()   | Get a specific date with arguments |
+The **selector** defines the context of a value or sequence. It ensures clarity and avoids ambiguity when retrieving values.
 
-### Tables of Possible Values
+### Selector Rules
 
-#### Origin
+- **Empty Selector**: Targets the most generic (global) value.
+- **Non-Empty Selector**: Matches values with exactly those fields set, while all other fields are `null` (fields omitted in the selector are considered implicitly `null`).
 
-| Method              | Possible Values           |
-| ------------------- | ------------------------- |
-| `prev(<increment>)` | `prev`, `prev(n)` (n > 0) |
-| `next(<increment>)` | `next`, `next(n)` (n > 0) |
-| `this()`            | `this`, `this(0)`         |
+#### Example: Selector
 
-#### Interval
+```php
+$selector = [
+    "user_id" => 1,
+    "org_id" => null
+];
+```
 
-| Interval   | Description |
-| ---------- | ----------- |
-| `day`      | Day         |
-| `week`     | Week        |
-| `month`    | Month       |
-| `quarter`  | Quarter     |
-| `semester` | Semester    |
-| `year`     | Year        |
+This selector targets values specific to user `1` but not tied to any organization.
 
-#### Method
+---
 
-Methods can be applied on the chosen interval (except for `day`, for which the method has no effect).
-
-| Method  | Description               |
-| ------- | ------------------------- |
-| first() | First day of the interval |
-| last()  | Last day of the interval  |
-| get()   | Get a specific date       |
-
-##### Arguments for the `get()` Method
-
-| Argument (reference:index) | Concerned Interval             | Possible Values                                              |
-| -------------------------- | ------------------------------ | ------------------------------------------------------------ |
-| day:<number>               | month, quarter, semester, year | Month: `day:1` to `day:31`<br>Year: `day:1` to `day:365`     |
-| week:<number>              | month, quarter, semester, year | `week:1` to `week:52` (or `week:53`)                         |
-| <day_of_week>:first        | month, quarter, semester, year | `monday:first` to `sunday:first`                             |
-| <day_of_week>:last         | month, quarter, semester, year | `monday:last` to `sunday:last`                               |
-| <day_of_week>:<number>     | month, quarter, semester, year | `monday:1` to `monday:5` (month)<br>`monday:1` to `monday:14` (quarter)<br>`monday:1` to `monday:26` (semester)<br>`monday:1` to `monday:52` (or `monday:53`) (year) |
-
-For examples on domains check out [Examples: Domains](../../howtos-references/tutorials-examples/example-domain.md)
