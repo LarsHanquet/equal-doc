@@ -1,72 +1,105 @@
 # Menus
 
-Menus define custom tree structures of action-buttons for accessing specific routes or contexts. They enable navigation within applications by organizing views (e.g., forms, lists, charts, dashboards) into hierarchical structures.
+Menus are specific [Views](TODO) used to define the navigational structure of an application. They organize access to different parts of the application—such as [Forms](TODO), [Lists](TODO), or [Dashboards](TODO)—into a hierarchical tree of action buttons.
+
+While often defined within the `layout` property of a [View](TODO) file, the fundamental building block of a menu is the **Menu Item**.
 
 ## Menu Item Structure
 
-Menu items are objects with the following properties:
+A Menu represents a tree structure where every node is a **Menu Item**. An item can be one of two types:
 
-| **PROPERTY** | **TYPE**  | **DESCRIPTION** |
-| ------------ | -------- | --------------- |
-| `id` | string  | Unique identifier of the item (used for translations and references) |
-| `label` | string  | Title of the item displayed in the menu |
-| `description` | string  | (optional) Short string explaining the purpose of the item (e.g., the view it leads to) |
-| `icon` | string | (optional) Icon to display alongside the item (e.g., Material Icons name) |
-| `type` | string | Either `'entry'` (leaf node) or `'parent'` (has children) |
+*   **Parent:** A container that holds other items (categories or groups).
+*   **Entry:** A leaf node that triggers an action, usually redirecting the user to a specific [Context](TODO).
+
+### Common Properties
+
+The following properties apply to all menu items, regardless of their type:
+
+| Property      | Type     | Description                                                                                                              |
+| :------------ | :------- | :----------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string` | A unique identifier for the item. This is essential for referencing the item in [Translations](TODO) and access control. |
+| `type`        | `string` | Defines the behavior of the item. Accepted values: `parent` (contains children) or `entry` (link/action).                |
+| `label`       | `string` | The display name of the item in the UI (unless overridden by a [Translation](TODO)).                                     |
+| `description` | `string` | (Optional) A brief explanation of the item's purpose, often displayed as a tooltip or helper text.                       |
+| `icon`        | `string` | (Optional) The name of an icon to visualize the item (e.g., from [Material Icons](TODO)).                                |
 
 ### Parent Items
 
-Parent items include a `children` property, which is an array of nested menu items (each can be an entry or another parent).
+A **Parent** item is used to group related views (e.g., a "Sales" folder containing "Orders" and "Invoices"). It requires the `children` property.
+
+| Property   | Type    | Description                                                                               |
+| :--------- | :------ | :---------------------------------------------------------------------------------------- |
+| `children` | `array` | A list of nested Menu Item objects. These can be further `parent` items or `entry` items. |
 
 ### Entry Items
 
-Entry items include a `context` property, defining the target view or route. The `context` object has the following structure:
+An **Entry** item serves as a link. It defines a `context` that tells the framework what data to load and how to display it when clicked.
 
-| **PROPERTY** | **TYPE**  | **DESCRIPTION** |
-| ------------ | -------- | --------------- |
-| `entity` | string | Full name (with namespace) of the entity related to the view (e.g., `'core\User'`) |
-| `view` | string | ID of the view to display (e.g., `'list.default'` or `'form.default'`) |
-| `order` | string | (optional) Column name for sorting results (e.g., `'name'`) |
-| `sort` | string | (optional) Sort direction: `'asc'` or `'desc'` (default: `'asc'`) |
-| `domain` | array | (optional) Domain filter as an array of conditions (e.g., `[['status', '=', 'active']]`) |
+| Property  | Type     | Description                                                                                                                                      |
+| :-------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `context` | `object` | Defines the target parameters (Entity, View, Filters) for the navigation.                                                                        |
+| `route`   | `string` | (Optional) A custom URL path to navigate to when the item is clicked. If not provided, the framework will generate a URL based on the `context`. |
 
-Example:
+!!! notes "Custom Routes"
+    If a `route` is specified, it takes precedence over the `context` for navigation. This allows for custom URL structures or external links.
+
+#### Context Object configuration
+
+The `context` object determines the state of the application upon navigation. It links the menu item to a specific [Entity](TODO).
+
+| Property | Type     | Description                                                                                                    |
+| :------- | :------- | :------------------------------------------------------------------------------------------------------------- |
+| `entity` | `string` | The fully qualified name of the [Entity](TODO) to display (e.g., `core\User`, `lodging\sale\booking\Booking`). |
+| `view`   | `string` | The ID of the [View](TODO) to render (e.g., `list.default` for a list, `form.default` for a form).             |
+| `domain` | `array`  | (Optional) A [Domain](TODO) array defining filters to apply to the data (e.g., `[['status', '=', 'active']]`). |
+| `order`  | `string` | (Optional) The name of the field by which to sort the results.                                                 |
+| `sort`   | `string` | (Optional) The direction of the sort: `asc` (ascending, default) or `desc` (descending).                       |
+
+## Example Configuration
+
+The following JSON snippet demonstrates a menu structure containing a parent category ("Users") with two entries: one for listing users and another for creating a new user.
 
 ```json
-[
-    {
-        "id": "users_menu",
-        "label": "Users",
-        "description": "Manage user accounts",
-        "icon": "people",
-        "type": "parent",
-        "children": [
-            {
-                "id": "user_list",
-                "label": "List Users",
-                "description": "View all users",
-                "icon": "list",
-                "type": "entry",
-                "context": {
-                    "entity": "core\\User",
-                    "view": "list.default",
-                    "order": "name",
-                    "sort": "asc",
-                    "domain": [["is_active", "=", true]]
+{
+    "name": "Menu",
+    "access": {
+        "groups": ["users"]
+    },
+    "layout": {
+        "items":
+            [
+                {
+                    "id": "item.users",
+                    "label": "Users",
+                    "description": "Manage user accounts",
+                    "icon": "people",
+                    "type": "parent",
+                    "children": [
+                        {
+                            "id": "item.user.list",
+                            "label": "List Users",
+                            "description": "View all active users",
+                            "icon": "list",
+                            "type": "entry",
+                            "context": {
+                                "entity": "core\\User",
+                                "view": "list.default",
+                                "order": "name",
+                                "sort": "asc",
+                                "domain": [
+                                    ["is_active", "=", true]
+                                ]
+                            }
+                        },
+                        {
+                            "id": "routes",
+                            "type": "entry",
+                            "label": "Routes",
+                            "icon": "route",
+                            "route": "/routes"
+                        }
+                    ]
                 }
-            },
-            {
-                "id": "user_form",
-                "label": "Add User",
-                "description": "Create a new user",
-                "icon": "add",
-                "type": "entry",
-                "context": {
-                    "entity": "core\\User",
-                    "view": "form.default"
-                }
-            }
-        ]
+            ]
     }
-]
-```
+}
