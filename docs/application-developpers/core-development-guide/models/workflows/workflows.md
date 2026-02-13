@@ -1,12 +1,3 @@
-## Recommended File Structure
-
-Split into three files:
-1. workflows.md - Core workflow concepts
-2. `tasks.md` - Task management system
-3. Move passkey content to `doc/application-developpers/security/passkey-authentication.md`
-
----
-
 # Workflows
 
 Workflows are part of the [Model](TODO) definition and describe the lifecycle of an entity through a series of statuses and transitions.
@@ -107,7 +98,7 @@ The workflow is composed of **nodes** representing statuses (successive logical 
 | `domain`      | Condition that must be satisfied for the transition to be allowed. Uses [Domain](TODO) syntax. |
 | `policies`    | Array of [policy](TODO) names that must pass for the transition to proceed.                    |
 | `description` | Human-readable description of the transition.                                                  |
-| `status`      | Target status after the transition completes.                                                  |
+| `status`      | Target status after the transition completes. |
 | `onbefore`    | Method name to call before the transition executes.                                            |
 | `onafter`     | Method name to call after the transition completes.                                            |
 
