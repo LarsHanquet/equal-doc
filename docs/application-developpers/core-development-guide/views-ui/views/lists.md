@@ -1,524 +1,689 @@
 # Lists
 
-## header
+Lists display multiple objects in a grid or table format, enabling users to browse, sort, filter, and perform bulk operations on collections.
 
-The **header** section allows to override the default behavior of the view.
+**Purpose:** Display multiple objects in a grid or table format.
 
-Here are the properties are specific to views.
+**Example:** A user list showing `name`, `email`, and `role`.
 
-(for the common properties of the Views header, see [views common structure](../common-structures/#header)).
+**Key Features:**
 
-| **PROPERTY** | **TYPE** | **DESCRIPTION**                                              |
-| ------------ | ---- | ------------------------------------------------------------ |
-| selection | [Selection](#selection) | Descriptor for the actions that can be applied when one or more items are selected in the list. |
-| actions |                         | Map allowing to disable specific actions for the view. |
-| advanced_search | `boolean` or descriptor |  |
+* Pagination, sorting, and filtering
+* Domain-based filters applied dynamically (e.g., `domain=[name,like,John]`)
+* Bulk actions on selected items
+* Grouping and aggregation with operations
+* Customizable columns and layout
+* Inline actions for per-row interactions
 
-#### `selection`
-The `selection` property allows to customize the list of bulk actions that are available when one or more items are selected.
+---
 
-| **PROPERTY** | **TYPE** |**DESCRIPTION**                                              |
-| ------------ | ------------------------------------------------------------ | ----- |
-| **default**  | `boolean` | (optional) Flag telling if the default actions have to be present in the available action to apply on current selection. (defaults to true) |
-| **actions**  | array of [Action](#actions) |(optional) An array of action items that can be applied on current selection. |
+## Header Configuration
 
-**Examples :**
+The **header** section customizes the list view's header behavior and action buttons. For common header properties shared across all view types, refer to the [common view header](TODO) documentation.
 
-**a. Prevent selecting items within the list:**
+List-specific header properties include:
+
+| **PROPERTY**      | **TYPE**                | **DESCRIPTION**                                                  |
+| ----------------- | ----------------------- | ---------------------------------------------------------------- |
+| `selection`       | [Selection](#selection) | Configuration for bulk actions available when items are selected |
+| `actions`         | object                  | Fine-grained control over action button visibility and behavior  |
+| `filters`         | object                  | Configuration for quick search and custom filter display         |
+| `advanced_search` | `boolean` or object     | Show/hide and control the advanced search form                   |
+
+### Selection
+
+The `selection` property customizes bulk actions that apply to one or more selected items in the list.
+
+**Structure:**
+
+| **PROPERTY** | **TYPE**                              | **DESCRIPTION**                                                                                                                 |
+| ------------ | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `default`    | `boolean`                             | (optional) If `true` (default), includes predefined actions like Edit, Delete, Clone. Set to `false` to use only custom actions |
+| `actions`    | array of [Action](#selection-actions) | (optional) Custom actions available for selected items                                                                          |
+
+**Disable Selection Entirely:**
 
 ```json
-"header": {
+{
+  "header": {
     "selection": false
+  }
 }
 ```
 
-**b. Allow custom filters, disable quick search, and  allow only `ACTION.CLONE` and a custom action :**
+**Custom Bulk Actions:**
 
 ```json
-"header": {
-    "filters": {
-        "custom": true,
-        "quicksearch": false
-    },
+{
+  "header": {
     "selection": {
-        "default" : false,
-        "actions" : [
-            {
-                "id": "ACTION.CLONE"
-            },
-            {
-                "id": "header.selection.actions.mark_ignored",
-                "label": "Mark as ignored",
-                "icon": "",
-                "controller": "lodging_sale_booking_bankstatementline_bulk-ignore"
-            }
-        ]
-    }
-}
-```
-
-
-
-#### `actions`
-
-The `actions` property allows fine control over the visibility and behavior of action buttons applying to List views (`ACTION.CREATE`, `ACTION.SELECT`, `ACTION.OPEN`).
-
-For any of the predefined actions (`ACTION.CREATE`, `ACTION.SELECT`, `ACTION.EDIT`, `ACTION.SAVE`, `ACTION.CANCEL`), you can:
-
-* use a boolean to enable/disable the action 
-* provide a map of "{mode: boolean}" to enable/disable the action depending on the current mode (view, edit)
-* or use an array of descriptors to define overloads or conditional behaviors
-
-**Examples:**
-
-Disable an action entirely (never visible, whatever the mode):
-
-```json
-"header": {
-    "actions": {
-        "ACTION.CREATE": false
-    }
-}
-```
-
-Enable an action depending on mode:
-
-```json
-"header": {
-    "actions": {
-        "ACTION.EDIT": {
-            "visible":  ["support.default.user", "in", "user.groups"]
-        },
-        "ACTION.SAVE": {
-            "edit": true,
-            "view": false
-        },
-        "ACTION.DELETE": false
-    }
-}
-```
-
-Overload an action's behavior with additional options (visible in all modes):
-
-```json
-"header": {
-    "actions": {
-        "ACTION.CREATE": [
-            {
-                "view": "form.create",
-                "description": "Overload form to use for objects creation.",
-                "domain": ["parent_status", "=", "object.status"],
-                "access": {
-                    "groups": ["admin"]
-                },
-                "controller": "custompackage_mode_update"
-            }
-        ]
-    }
-}
-```
-
-Overload an action's behavior only for 'view' mode:
-
-
-```json
-"header": {
-    "actions": {
-        "ACTION.CREATE": {
-            "view": [
-    	        {
-	                "view": "form.create",
-                	"description": "Overload form to use for objects creation."
-            	}
-            ],
-            "edit": false            
-        ]
-    }
-}
-```
-
-### Inline actions
-
-Actions can also be displayed directly on each row of a list instead of only in the header. Set `"inline": true` on an action descriptor to show its icon next to every line. This allows quick per-row interactions while keeping the header in the default `"full"` layout.
-
-??? example "Example Inline Action "
-    ```json
-    {
-        "name": "Fund Request Lines",
-        "description": "Fund request lines with amount and apportionment.",
-        "operations": {
-            "total": {
-                "request_amount": {
-                    "operation": "SUM",
-                    "usage": "amount/money:2"
-                },
-                "allocated_amount": {
-                    "operation": "SUM",
-                    "usage": "amount/money:2"
-                }
-            }
-        },
-        "actions": [
-            {
-                "id": "action.generate_allocations",
-                "inline": true,
-                "label": "Generate allocations",
-                "icon": "play_arrow",
-                "description": "Generate the allocations of the fund request part.",
-                "controller": "core_model_do",
-                "params": {
-                    "entity": "realestate\\funding\\FundRequestLine",
-                    "action": "generate_allocation"
-                },
-                "confirm": true
-            }
-        ],
-        "layout": {
-            "items": [
-                {
-                    "type": "field",
-                    "label": "condominium",
-                    "value": "condo_id",
-                    "width": "25%"
-                },
-                {
-                    "type": "field",
-                    "label": "Fund request",
-                    "value": "fund_request_id",
-                    "width": "25%"
-                },
-                {
-                    "type": "field",
-                    "label": "apportionment",
-                    "value": "apportionment_id",
-                    "width": "25%"
-                },
-                {
-                    "type": "field",
-                    "label": "Requested amount",
-                    "value": "request_amount",
-                    "width": "15%"
-                },
-                {
-                    "type": "field",
-                    "label": "Allocated amount",
-                    "value": "allocated_amount",
-                    "width": "15%"
-                }
-            ]
-        }
-    }
-    ```
-
-#### `advanced_search`
-
-In the case where the specified controller for data collection is not the default controller (`core_mode_collect`), the UI checks if a view is associated with this controller (that must extend `core_model_collect`). Since controllers can be handled as an entity. In that case, its parameters are considered as fields that can be assigned in an "advanced search" form.
-
-However, in the header, it is always possible to explicitly tell if the advanced search must be shown or not, and if it should be open when view loads (default behavior is closed).
-
-**Examples : **
-
-```
-    "advanced_search": false
-```
-
-```
-    "advanced_search": {
-        "show": true,
-        "open": true
-    }
-```
-
-## `order`
-
-String holding the name(s) of the field to sort results on, separated with commas.
-
-Example :
-
-```json
-"order": "sku,product_model_id"
-```
-
-## `sort`
-
-String indicating the sort direction(s) to apply to the corresponding fields in the `order` parameter. Accepted values are:
-
-* `"asc"` (ascending)
-* `"desc"` (descending)
-
-If multiple fields are specified in `order`, you can specify a comma-separated list of directions matching the order of the fields.
-
-If omitted or incomplete, the default `"asc"` order is applied to unspecified fields.
-
-Example:
-
-```json
-"order": "sku,product_model_id",
-"sort": "asc,desc"
-```
-
-This will sort results by `sku` ascending and then by `product_model_id` descending.
-
-
-## `limit`
-
-Integer providing the maximum number of items that can be shown on each page of the list.
-(Read more details about pagination.) <!--- TODO Maybe add a link to a meaningful page->
-
-## `controller`
-
-Property specifying the controller that must be requested for fetching the Model collection that will feed the View (either a single object or a collection of objects).
-
-The default values is `model_collect` (which is an alias for `core_model_collect`)
-
-## `filters`
-
-It is possible to pre-define "custom" filters, which will be displayed among the list of user-defined custom filters. These pre-defined filters provide preset filtering options that complement the user's own configurations.
-
-Example :
-```json
-    "filters": [
+      "default": false,
+      "actions": [
         {
-            "id": "lang.french",
-            "label": "français",
-            "description": "Users with locale set to french.",
-            "clause": ["language", "=", "fr"]
+          "id": "ACTION.CLONE"
+        },
+        {
+          "id": "header.selection.actions.mark_ignored",
+          "label": "Mark as ignored",
+          "icon": "done_all",
+          "controller": "lodging_sale_booking_bankstatementline_bulk-ignore"
         }
-    ],
-```
-
-!!! Note "clause or domain"
-    Both "clause" and "domain" are allowed to describe a filter
-
-## `group_by`
-
-A `group_by` array can be set to describe the way the objects have to be grouped.
-Each item in the array is either a field name or the descriptor of an operation to perform on a specific field.
-
-| Property     | Type                | Description                                                  |
-| ------------ | ------------------- | ------------------------------------------------------------ |
-| `field`      | `string`            |  The field on which to group the data. Can be a scalar field (e.g., `date`) or a relation (e.g., `product_id`). |
-| `operation`  | `array` or `string` |  An operation to perform on the grouped data. Accepts an operation array like `["SUM", "object.qty"]` or a string operator. |
-| `order`      | `string`            |  Field used to sort the groups. By default, uses `"name"` for object fields, or the field value itself for scalars. |
-| `open`       | `boolean`           |  Indicates whether the group should be expanded (`true`) or collapsed (`false`) by default in the UI. |
-| `operations` | `object`            |  A mapping of additional operations to apply to specific fields inside this group. Useful for displaying multiple computed values with formatting. |
-
-When objects are grouped on fields, they're sorted on the field when it is a string, or on the `name` field when it is an object. In the latter case, the field to be used for sorting can be modified using the `order`  property.
-
-Example :
-
-```json
-"group_by": ["date"]
-```
-
-The group_by descriptors use the structure shown in the following example:
-
-```json
-"group_by":[ {
-    "open": true,
-    "colspan": 3,
-    "field": "product_id",
-    "operation": ["SUM", "object.qty"],
-    "order": "name"
-}]
-```
-
-Another example :
-
-```json
-"group_by": ["date", {"field": "product_id", "operation": ["SUM", "object.qty"], "open": false}]
-```
-
-## `operations`
-
-<!--TODO change link-->
-Associative array ([Operation](/architecture-concepts/operations) | (optional)) make calculation on the whole fetcthed data do display it.
-
-**Examples:**
-
-```json
-"operations": {
-  "total": {
-    "total_paid": {
-      "id": "operations.total.total_paid",
-      "label": "Total received",
-      "operation": "SUM",
-      "usage": "amount/money:2"
-    },
-    "total_due": {
-      "operation": "SUM",
-      "usage": "amount/money:2"
+      ]
     }
   }
 }
 ```
 
-### Binary operators
+#### Selection Actions
 
-| **OPERATOR** | **RESULT**                      | **SYNTAX**    |
-| ------------ | ------------------------------- | ------------- |
-| +            | Sum of `a` and `b`.             | `['+', a, b]` |
-| -            | Difference between `a` and `b`. | `['-', a, b]` |
-| *            | Product of `a` by `b`.          | `['*', a, b]` |
-| /            | Division of `a` by `b`.         | `['/', a, b]` |
-| %            | Modulo `b` of `a`.              | `['%', a, b]` |
-| ^            | `a` at power  `b`.              | `['^', a, b]` |
+Actions in the `selection.actions` array can reference predefined action IDs (like `ACTION.CLONE`) or define custom actions with the following structure:
 
-### Unary operators
+| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                      |
+| ------------ | --------- | -------------------------------------------------------------------- |
+| `id`         | `string`  | Unique identifier for the action                                     |
+| `label`      | `string`  | Button label displayed to the user                                   |
+| `icon`       | `string`  | Icon identifier for the button                                       |
+| `controller` | `string`  | [ORM/Entity controller](TODO) to invoke when the action is triggered |
+| `confirm`    | `boolean` | (optional) If `true`, display a confirmation dialog before execution |
 
-| **OPERATOR** | **SYNTAX**                                                   |
-| ------------ | ------------------------------------------------------------ |
-| SUM          | `['SUM', object.field]`                                      |
-| AVG          | `['AVG', object.field]` (which is a shortcut for `['/', ['SUM', object.field], ['COUNT', object.field]]`) |
-| COUNT        | `['COUNT', object.field]`                                    |
-| MIN          | `['MIN', object.field]`                                      |
-| MAX          | `['MAX', object.field]`                                      |
+### Actions
 
-## `layout`
-Lists views hold a **layout**  element that contains all the information needed to display the list of objects that must be presented  in the view.
+The `actions` property provides fine-grained control over predefined action buttons in list views (`ACTION.CREATE`, `ACTION.SELECT`, `ACTION.OPEN`, etc.).
 
-At the root of their layout descriptor, list views have a single array of Items descriptors. Each Item descriptor defines the structure of a row in the table, including the fields or attributes of the object to be displayed.
+**Control Options:**
 
-When rendered, a list view consists of a table with each of its columns showing the value for the corresponding object's attributes as defined in the Item descriptors. Users can interact with the table, such as sorting rows based on specific column values or filtering based on certain criteria.
+* Use a `boolean` to enable or disable the action entirely
+* Provide an object with `view`/`edit` keys to control behavior per mode
+* Use an array of descriptors to define overloads or conditional behaviors with additional options
 
-| **PROPERTY** | **TYPE** |**DESCRIPTION**                                              |
-| ------------ | ------------------------------------------------------------ | ----- |
-| Items | list of [Item](#items) | List of the column to display |
-
-
-
-### `items`
-
-
-**Items** are a descriptor of the way a **field** or a **label** of a **Model** is displayed in a view.
-
-| **PROPERTY** | **TYPE** |**DESCRIPTION**                                              |
-| ------------ | ------------------------------------------------------------ | ----- |
-| id | `string` | (optional) unique id, used for traductions (traductions override label and value) |
-| label | `string` | (optional) override the value for the title value of the item |
-| type | `string` | type of item (either `field` or `label`) |
-| width |  `integer`>`number/natural:100`| width of the field (in percentage its parent) |
-| readonly | `boolean` | tell if the item is editable in a creation or edtition context of the usage of the view |
-| visible | `boolean` or `array`>`domain` | tell if the item should be displayed |
-| widget | [Widget](#widget) | Give properties to the item, depends on the type of view |
-
-
-
-#### `widget`
-The widget property can be used to set properties that depends on the type of view. For full documentation about widgets [see](./widgets.md)
-
-When a widget targets a view, the properties of the related schema can be overridden by assigning custom values.
-
-**Properties common to all fields**
-
-| **PROPERTY** | **TYPE** |**DESCRIPTION**                                              |
-| ------------ | ------------------------------------------------------------ | ----- |
-| link | `boolean` | If set to true, the value will be displayed as a link. |
-| sortable | `boolean`| Can the user sort the list by this item ? |
-| type | `string` | Edit the type of display of the item, depends on the type of the field |
-| domain | `array`>`domain` | Domain that use the context |
-| usage | `string` | Override the usage of the field to display it|
-
-**Properties specific to many2one and many2many fields**
-
-Most of the properties can be forced within the widget
-
-| PROPERTY   | **TYPE**        | **DESCRIPTION**        |
-| ---------- | --------------- | ---------------------- |
-| header     | `header object` | @see [Header](#../common-structures/#header) |
-| controller |                 |                        |
-| start      |                 |                        |
-| limit      |                 |                        |
-| sort       |                 |                        |
-| order      |                 |                        |
-| group_by   |                 |                        |
-| view       | `string`        | The view to use for displaying the relation (e.g., "list.selection") |
-
-**Properties specific to selection fields**
-
-| PROPERTY | **TYPE** | **DESCRIPTION** |
-| -------- | -------- | --------------- |
-| type     | `string` | Set to "select" for dropdown display |
-| values   | `array`  | List of values for the select options |
-
-**Properties specific to text fields**
-
-| PROPERTY | **TYPE**    | **DESCRIPTION** |
-| -------- | ----------- | --------------- |
-| heading  | `boolean`  | If true, display the field value as a heading |
-
-**Examples (For one2many relation):**
-
-**Default**
+**Disable an Action Entirely:**
 
 ```json
-"widget": {
-    "header": {
-        "selection": {
-            "default": true,
-            "actions": [
-                {"id": "ACTION.CREATE"},
-                {"id": "ACTION.REMOVE"}
-            ]
-        }
+{
+  "header": {
+    "actions": {
+      "ACTION.CREATE": false,
+      "ACTION.DELETE": false
     }
-}
-```
-(no overrides in `widget`)
-
-* View Mode
-  - "create" button
-
-* Edit Mode
-  - "create" button
-  - Selection allowed
-      - Actions: "remove"
-
-
-
-**Custom actions**
-
-```json
-"widget": {
-    "header": {
-        "selection": {
-            "default": false,
-            "actions": [
-                {"id": "ACTION.EDIT_INLINE"},
-                {"id": "ACTION.CLONE"}
-            ]
-        }
-    }
+  }
 }
 ```
 
-* View Mode
-  - "create" button
-
-* Edit Mode
-  - "create" button
-  - Selection allowed
-    - Actions: "edit inline", "duplicate"
-
-
-
-**No selection or actions**
+**Control by Mode:**
 
 ```json
-"widget": {
-    "header": {
-        "selection": false,
-        "actions": {
-            "ACTION.CREATE": false
-        }
+{
+  "header": {
+    "actions": {
+      "ACTION.SAVE": {
+        "view": false,
+        "edit": true
+      },
+      "ACTION.EDIT": {
+        "visible": ["support.default.user", "in", "user.groups"]
+      }
     }
+  }
 }
 ```
 
-* View Mode
-  - No action buttons
+**Override with Custom Configuration:**
 
-* Edit Mode
-  - No action buttons
-  - Selection / Actions
-    - No selection allowed
+```json
+{
+  "header": {
+    "actions": {
+      "ACTION.CREATE": [
+        {
+          "view": "form.create",
+          "description": "Custom form for object creation.",
+          "domain": ["parent_status", "=", "object.status"],
+          "access": {
+            "groups": ["admin"]
+          },
+          "controller": "custompackage_mode_update"
+        }
+      ]
+    }
+  }
+}
+```
+
+**Override by Mode:**
+
+```json
+{
+  "header": {
+    "actions": {
+      "ACTION.CREATE": {
+        "view": [
+          {
+            "view": "form.create",
+            "description": "Custom form for object creation."
+          }
+        ],
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+#### Inline Actions
+
+Actions can be displayed directly on each row of the list instead of only in the header. Set `"inline": true` on an action descriptor to show its icon next to every line. This allows quick per-row interactions while maintaining a clean header.
+
+Inline actions are particularly useful for operations like "Generate allocations," "Approve," or other per-item workflows.
+
+**Example - Inline action in list view:**
+
+```json
+{
+  "name": "Fund Request Lines",
+  "description": "Fund request lines with amount and apportionment.",
+  "actions": [
+    {
+      "id": "action.generate_allocations",
+      "inline": true,
+      "label": "Generate allocations",
+      "icon": "play_arrow",
+      "description": "Generate the allocations for this fund request line.",
+      "controller": "core_model_do",
+      "params": {
+        "entity": "realestate\\funding\\FundRequestLine",
+        "action": "generate_allocation"
+      },
+      "confirm": true
+    }
+  ],
+  "layout": {
+    "items": [
+      {
+        "type": "field",
+        "label": "Condominium",
+        "value": "condo_id",
+        "width": 25
+      },
+      {
+        "type": "field",
+        "label": "Fund request",
+        "value": "fund_request_id",
+        "width": 25
+      },
+      {
+        "type": "field",
+        "label": "Requested amount",
+        "value": "request_amount",
+        "width": 25
+      }
+    ]
+  }
+}
+```
+
+### Advanced Search
+
+The `advanced_search` property controls whether an advanced search form is displayed. This is useful when the list uses a custom [controller](TODO) with parameters that function as searchable fields.
+
+If a custom controller is specified (other than the default `core_model_collect`) and a view is associated with it, the controller's parameters are treated as searchable fields.
+
+**Hide Advanced Search:**
+
+```json
+{
+  "advanced_search": false
+}
+```
+
+**Show and Auto-open Advanced Search:**
+
+```json
+{
+  "advanced_search": {
+    "show": true,
+    "open": true
+  }
+}
+```
+
+---
+
+## Sorting and Pagination
+
+### Order
+
+The `order` property specifies which fields to sort results by. Multiple fields can be specified, separated by commas.
+
+```json
+{
+  "order": "sku,product_model_id"
+}
+```
+
+### Sort
+
+The `sort` property indicates the sort direction(s) applied to fields specified in `order`. Accepted values are:
+
+* `"asc"` - ascending order
+* `"desc"` - descending order
+
+For multiple fields, provide a comma-separated list matching the order of fields. Unspecified fields default to `"asc"`.
+
+**Example - Mixed sort directions:**
+
+```json
+{
+  "order": "sku,product_model_id",
+  "sort": "asc,desc"
+}
+```
+
+This sorts by `sku` ascending, then by `product_model_id` descending.
+
+### Limit
+
+The `limit` property specifies the maximum number of items displayed per page.
+
+```json
+{
+  "limit": 50
+}
+```
+
+Refer to the [contexts](TODO) documentation for additional pagination details.
+
+---
+
+## Data Retrieval
+
+### Controller
+
+The `controller` property specifies which [ORM/Entity controller](TODO) fetches the object collection for the view. The default is `core_model_collect` (aliased as `model_collect`).
+
+```json
+{
+  "controller": "core_model_collect"
+}
+```
+
+---
+
+## Filtering
+
+### Filters
+
+Pre-defined filters provide users with quick filtering options complementing their custom filters. Each filter adds a clause to the domain when applied.
+
+**Structure:**
+
+| **PROPERTY**  | **TYPE**            | **DESCRIPTION**                                                           |
+| ------------- | ------------------- | ------------------------------------------------------------------------- |
+| `id`          | `string`            | Unique identifier for translation purposes                                |
+| `label`       | `string`            | Display name for the filter button                                        |
+| `description` | `string`            | (optional) Tooltip explaining the filter's purpose                        |
+| `clause`      | `array` or `domain` | Filter conditions to apply (both clause and domain formats are supported) |
+
+**Example:**
+
+```json
+{
+  "filters": [
+    {
+      "id": "lang.french",
+      "label": "French",
+      "description": "Users with locale set to French.",
+      "clause": ["language", "=", "fr"]
+    },
+    {
+      "id": "status.active",
+      "label": "Active",
+      "clause": ["status", "=", "active"]
+    }
+  ]
+}
+```
+
+---
+
+## Grouping and Aggregation
+
+### Group By
+
+The `group_by` property organizes list results into collapsed/expandable groups. Each item in the array is either a simple field name or a descriptor defining grouping behavior and operations.
+
+**Simple Grouping:**
+
+```json
+{
+  "group_by": ["date"]
+}
+```
+
+**Grouping with Operations:**
+
+```json
+{
+  "group_by": [
+    {
+      "field": "product_id",
+      "operation": ["SUM", "object.qty"],
+      "order": "name",
+      "open": false
+    }
+  ]
+}
+```
+
+**Mixed Simple and Complex Groups:**
+
+```json
+{
+  "group_by": [
+    "date",
+    {
+      "field": "product_id",
+      "operation": ["SUM", "object.qty"],
+      "open": false
+    }
+  ]
+}
+```
+
+**Group By Structure:**
+
+| **PROPERTY** | **TYPE**            | **DESCRIPTION**                                                                                            |
+| ------------ | ------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `field`      | `string`            | The field to group by. Can be a scalar field (e.g., `date`) or a relation (e.g., `product_id`)             |
+| `operation`  | `array` or `string` | (optional) Operation to perform on grouped data. Uses array syntax like `["SUM", "object.qty"]`            |
+| `order`      | `string`            | Field used to sort groups. Defaults to `"name"` for related objects, or the field value itself for scalars |
+| `open`       | `boolean`           | (optional) If `true`, groups expand by default; if `false`, groups are collapsed by default                |
+| `operations` | object              | (optional) Additional named calculations displayed for each group (see [Operations](#operations))          |
+
+**Sorting Behavior:**
+
+* For scalar fields: Results are sorted by the field value
+* For relation fields: Results are sorted by the related object's `name` field (customizable via `order`)
+
+### Operations
+
+Operations apply calculations (aggregations) to list data, displaying summary rows with computed values. Operations can appear at two levels: as part of `group_by` definitions or in the global `operations` property.
+
+**Global Operations Structure:**
+
+```json
+{
+  "operations": {
+    "total": {
+      "total_paid": {
+        "id": "operations.total.total_paid",
+        "label": "Total received",
+        "operation": "SUM",
+        "usage": "amount/money:2"
+      },
+      "total_due": {
+        "id": "operations.total.total_due",
+        "label": "Total due",
+        "operation": "SUM",
+        "usage": "amount/money:2"
+      }
+    }
+  }
+}
+```
+
+**Operation Properties:**
+
+| **PROPERTY** | **TYPE**            | **DESCRIPTION**                                                                          |
+| ------------ | ------------------- | ---------------------------------------------------------------------------------------- |
+| `operation`  | `string` or `array` | The operation to apply (e.g., `"SUM"`, `["SUM", "object.field"]`)                        |
+| `usage`      | `string`            | [Usage](TODO) hint for formatting the result (e.g., `amount/money:2`, `numeric/integer`) |
+| `label`      | `string`            | (optional) Display label for the operation result                                        |
+| `id`         | `string`            | (optional) Identifier for translation purposes                                           |
+
+#### Unary Operators
+
+| **OPERATOR** | **SYNTAX**                | **DESCRIPTION**                     |
+| ------------ | ------------------------- | ----------------------------------- |
+| SUM          | `['SUM', object.field]`   | Sum of all values in the field      |
+| AVG          | `['AVG', object.field]`   | Average (equivalent to SUM / COUNT) |
+| COUNT        | `['COUNT', object.field]` | Number of non-null values           |
+| MIN          | `['MIN', object.field]`   | Minimum value                       |
+| MAX          | `['MAX', object.field]`   | Maximum value                       |
+
+#### Binary Operators
+
+| **OPERATOR** | **RESULT**                     | **SYNTAX**    |
+| ------------ | ------------------------------ | ------------- |
+| `+`          | Sum of `a` and `b`             | `['+', a, b]` |
+| `-`          | Difference between `a` and `b` | `['-', a, b]` |
+| `*`          | Product of `a` by `b`          | `['*', a, b]` |
+| `/`          | Division of `a` by `b`         | `['/', a, b]` |
+| `%`          | Modulo `b` of `a`              | `['%', a, b]` |
+| `^`          | `a` to the power of `b`        | `['^', a, b]` |
+
+---
+
+## Layout Configuration
+
+List layouts define how objects are displayed in table columns. Each item descriptor corresponds to a column in the table.
+
+**Structure:**
+
+| **PROPERTY** | **TYPE**                | **DESCRIPTION**            |
+| ------------ | ----------------------- | -------------------------- |
+| `items`      | array of [Item](#items) | List of columns to display |
+
+### Items
+
+**Items** define how a field or label from an object is displayed as a table column.
+
+**Structure:**
+
+| **PROPERTY** | **TYPE**             | **DESCRIPTION**                                                                    |
+| ------------ | -------------------- | ---------------------------------------------------------------------------------- |
+| `id`         | `string`             | (optional) Unique identifier for translation purposes (overrides label and value)  |
+| `label`      | `string`             | (optional) Custom column header text                                               |
+| `type`       | `string`             | Type of item: `field` (displays object property) or `label` (displays static text) |
+| `value`      | `string`             | The field name to display (for `field` type) or static text (for `label` type)     |
+| `width`      | `integer`            | Column width as a percentage of the table width (0-100)                            |
+| `readonly`   | `boolean`            | (optional) If `true`, the field cannot be edited inline                            |
+| `visible`    | `boolean` or `array` | (optional) If `false` or a [domain](TODO) condition, hides the column              |
+| `widget`     | [Widget](#widget)    | Configuration for column display and behavior                                      |
+
+### Widget
+
+Widgets configure how items are displayed and behave. Refer to the [widgets](TODO) documentation for complete details.
+
+**Common Properties:**
+
+| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                     |
+| ------------ | --------- | ------------------------------------------------------------------- |
+| `link`       | `boolean` | If `true`, the column value displays as a clickable link            |
+| `sortable`   | `boolean` | If `true`, users can sort the list by clicking this column header   |
+| `heading`    | `boolean` | If `true`, displays the field value with heading emphasis           |
+| `type`       | `string`  | Overrides the default display type (e.g., `text`, `select`, `date`) |
+| `usage`      | `string`  | Overrides the field's [usage](TODO) to customize formatting         |
+| `domain`     | `array`   | [Domain](TODO) conditions affecting display                         |
+
+**Relational Field Properties (many2one, many2many, one2many):**
+
+| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                              |
+| ------------ | --------- | ---------------------------------------------------------------------------- |
+| `header`     | object    | Override the [header](TODO) configuration for the relational view            |
+| `view`       | `string`  | View ID for displaying the relation (e.g., `list.selection`, `list.default`) |
+| `controller` | `string`  | Custom controller for fetching related data                                  |
+| `group_by`   | `array`   | Group related items by field                                                 |
+| `sort`       | `string`  | Sort direction for related items                                             |
+| `order`      | `string`  | Field to sort related items by                                               |
+| `start`      | `integer` | Pagination offset for related items                                          |
+| `limit`      | `integer` | Maximum number of related items to display                                   |
+
+**Selection Field Properties:**
+
+| **PROPERTY** | **TYPE** | **DESCRIPTION**                        |
+| ------------ | -------- | -------------------------------------- |
+| `type`       | `string` | Set to `"select"` for dropdown display |
+| `values`     | `array`  | List of options for the dropdown       |
+
+#### Relational Field Examples
+
+**one2many Default Configuration:**
+
+```json
+{
+  "widget": {
+    "header": {
+      "selection": {
+        "default": true,
+        "actions": [
+          {"id": "ACTION.CREATE"},
+          {"id": "ACTION.REMOVE"}
+        ]
+      }
+    }
+  }
+}
+```
+
+**Behavior:**
+
+* View Mode: "Create" button available
+* 
+* Edit Mode: "Create" button and selection with "Remove" action
+
+**Custom Bulk Actions:**
+
+```json
+{
+  "widget": {
+    "header": {
+      "selection": {
+        "default": false,
+        "actions": [
+          {"id": "ACTION.EDIT_INLINE"},
+          {"id": "ACTION.CLONE"}
+        ]
+      }
+    }
+  }
+}
+```
+
+**Behavior:**
+
+* View Mode: "Create" button available
+  
+* Edit Mode: "Create" button and selection with "Edit inline" and "Duplicate" actions
+
+**No Selection or Actions:**
+
+```json
+{
+  "widget": {
+    "header": {
+      "selection": false,
+      "actions": {
+        "ACTION.CREATE": false
+      }
+    }
+  }
+}
+```
+
+**Behavior:**
+
+* View Mode: No action buttons
+
+* Edit Mode: No action buttons, selection disabled
+
+## Complete List View Example
+
+```json
+{
+  "name": "Bookings",
+  "description": "Manage all bookings and their status.",
+  "domain": ["archived", "=", false],
+  "controller": "core_model_collect",
+  "limit": 50,
+  "order": "created,booking_reference",
+  "sort": "desc,asc",
+  "filters": [
+    {
+      "id": "status.pending",
+      "label": "Pending",
+      "clause": ["status", "=", "pending"]
+    },
+    {
+      "id": "status.confirmed",
+      "label": "Confirmed",
+      "clause": ["status", "=", "confirmed"]
+    }
+  ],
+  "group_by": [
+    {
+      "field": "booking_date",
+      "open": true
+    }
+  ],
+  "operations": {
+    "summary": {
+      "total_amount": {
+        "label": "Total",
+        "operation": "SUM",
+        "usage": "amount/money:2"
+      }
+    }
+  },
+  "layout": {
+    "items": [
+      {
+        "type": "field",
+        "label": "Reference",
+        "value": "booking_reference",
+        "width": 20
+      },
+      {
+        "type": "field",
+        "label": "Customer",
+        "value": "customer_id",
+        "width": 25
+      },
+      {
+        "type": "field",
+        "label": "Status",
+        "value": "status",
+        "width": 15,
+        "widget": {
+          "type": "select"
+        }
+      },
+      {
+        "type": "field",
+        "label": "Amount",
+        "value": "total_amount",
+        "width": 20,
+        "widget": {
+          "usage": "amount/money:2"
+        }
+      }
+    ]
+  },
+  "header": {
+    "layout": "full",
+    "filters": true,
+    "selection": {
+      "default": true,
+      "actions": [
+        {"id": "ACTION.EDIT_BULK"},
+        {"id": "ACTION.ARCHIVE"}
+      ]
+    },
+    "actions": {
+      "ACTION.CREATE": true,
+      "ACTION.DELETE": false
+    }
+  }
+}
+```
+
+---
