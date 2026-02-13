@@ -29,10 +29,12 @@ An **Item** is responsible for displaying the value of an object's field (in 'vi
 
 Here is an example of the views defined for the `core\User` entity :
 
-| **FILENAME**       | **ENTITY** | **VIEW TYPE** | **VIEW NAME** | **VIEW ID** | **Workbench Name**|
-| --------------------------------- | --------- | --------- | --------- | --------- | --- |
-| `core\views\User.list.default.json` | core\User | list | default | `list.default` | core\User:list.default|
-| `core\views\User.form.default.json` | core\User | form | default | `form.default` | core\User:form.default|
+| **FILENAME**                        | **ENTITY** | **VIEW TYPE** | **VIEW NAME** | **VIEW ID**    | **Workbench Name**     |
+| ----------------------------------- | ---------- | ------------- | ------------- | -------------- | ---------------------- |
+| `core\views\User.list.default.json` | core\User  | list          | default       | `list.default` | core\User:list.default |
+| `core\views\User.form.default.json` | core\User  | form          | default       | `form.default` | core\User:form.default |
+
+---
 
 ## Types of views
 
@@ -287,48 +289,48 @@ As other views, a menu has a `name` property and a `layout` property, that descr
 In the example shown below, one parent menu item is present named "New Booking" and it contains two children, "New Booking" to create a new booking and "All Bookings" that displays the list of all the bookings ordered by id and sorted in descending order.
 
 ??? example "Example Form view "
-```json
-{
-    "name": "Booking menu",
-    "layout": {
-        "items": [
-            {
-                "id": "item.bookings",
-                "label": "Bookings",
-                "description": "",
-                "icon": "menu_book",
-                "type": "parent",
-                "children": [
-                    {
-                        "id": "item.new_booking",
-                        "type": "entry",
-                        "label": "New booking",
-                        "description": "",
-                        "icon": "add",
-                        "context": {
-                            "entity": "lodging\\sale\\booking\\Booking",
-                            "view": "form.default",
-                            "purpose": "create"
+    ```json
+    {
+        "name": "Booking menu",
+        "layout": {
+            "items": [
+                {
+                    "id": "item.bookings",
+                    "label": "Bookings",
+                    "description": "",
+                    "icon": "menu_book",
+                    "type": "parent",
+                    "children": [
+                        {
+                            "id": "item.new_booking",
+                            "type": "entry",
+                            "label": "New booking",
+                            "description": "",
+                            "icon": "add",
+                            "context": {
+                                "entity": "lodging\\sale\\booking\\Booking",
+                                "view": "form.default",
+                                "purpose": "create"
+                            }
+                        },
+                        {
+                            "id": "item.all_booking",
+                            "type": "entry",
+                            "label": "All bookings",
+                            "description": "",
+                            "context": {
+                                "entity": "lodging\\sale\\booking\\Booking",
+                                "view": "list.default",
+                                "order": "id",
+                                "sort": "desc"
+                            }
                         }
-                    },
-                    {
-                        "id": "item.all_booking",
-                        "type": "entry",
-                        "label": "All bookings",
-                        "description": "",
-                        "context": {
-                            "entity": "lodging\\sale\\booking\\Booking",
-                            "view": "list.default",
-                            "order": "id",
-                            "sort": "desc"
-                        }
-                    }
-                ]
-            }
-        ]
+                    ]
+                }
+            ]
+        }
     }
-}
-```
+    ```
 
 ### Dashboard
 
@@ -419,7 +421,7 @@ The following example displays 4 different views to simplify the management of i
 
 Charts enable us to visually compare multiple sets of data. It can be very helpful to display statistics.
 
-Below is an example of a chart view, the proprerties are very similar to the ones we can find in menus (check this [section](#menu)).
+Below is an example of a chart view, the proprerties are very similar to the ones we can find in menus.
 
 ??? example "Example Chart view "
     ``` json title="Booking.chart.default.json" linenums="1"
@@ -456,3 +458,60 @@ Below is an example of a chart view, the proprerties are very similar to the one
         }
     }
     ```
+
+## Search
+
+Search views are used to define the fields that are going to be used as filters in the search bar of the list views.
+
+Below is an example of a search view, it's properties are very similar to the ones we can find in forms.
+
+??? example "Example Search view "
+    ```json
+    {
+        "name": "User search", 
+        "description": "This view defines the fields that are going to be used as filters in the search bar of the list views.",
+        "layout": {
+            "groups": [
+                {
+                    "label": "Search",
+                    "id": "group.user",
+                    "sections": [
+                        {
+                            "label": "User details",
+                            "id": "section.details",
+                            "rows": [
+                                {
+                                    "label": "",
+                                    "columns": [
+                                        {
+                                            "width": "33%",
+                                            "align": "left",
+                                            "items": [
+                                                {
+                                                    "type": "field",
+                                                    "value": "login",
+                                                    "width": "50%",
+                                                    "label": "Login",
+                                                    "help": "Email address of the user."
+                                                },
+                                                {
+                                                    "type": "field",
+                                                    "value": "language",
+                                                    "width": "50%",
+                                                    "widget": {
+                                                        "type": "select",
+                                                        "values": ["fr", "en", "nl"]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+    ```
+
+---
