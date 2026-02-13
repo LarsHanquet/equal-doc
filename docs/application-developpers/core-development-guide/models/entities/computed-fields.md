@@ -71,14 +71,28 @@ This follows the relation to `sale_entry_id`, then retrieves the `vat_rate` fiel
 
 ## Properties
 
-| **Property** | **Type**               | **Description**                                                                          |
-| ------------ | ---------------------- | ---------------------------------------------------------------------------------------- |
-| result_type  | `string`               | Type of the computed result (`boolean`, `integer`, `float`, `string`, `many2one`, etc.). |
-| store        | `boolean`              | Whether to persist the computed value in the database (default: `false`).                |
-| function     | `string` \| `callable` | Method name or closure for computing the value.                                          |
-| relation     | `array`                | Path of relations to follow for retrieving the value.                                    |
-| multilang    | `boolean`              | Whether the field is translatable (only for stored fields).                              |
-| onrevert     | `string`               | Method to invoke when the field is reverted to `NULL`.                                   |
+| **Attribute**  | **Type**                | **Description**                                                                                    |
+| -------------- | ----------------------- | -------------------------------------------------------------------------------------------------- |
+| type           | `string`                | (required)Type of the computed result (`boolean`, `integer`, `float`, `string`, `many2one`, etc.). |
+| description    | `string`                | Field description.                                                                                 |
+| help           | `string`                | Help text.                                                                                         |
+| visible        | `boolean`               | UI visibility.                                                                                     |
+| default        | `mixed`                 | Default value.                                                                                     |
+| dependents     | `array`                 | List of computed fields to reset when this field is updated.                                       |
+| readonly       | `boolean`               | Non-editable.                                                                                      |
+| deprecated     | `boolean`               | Deprecated field.                                                                                  |
+| result_type    | `string`                | (required) Type of the computed result.                                                            |
+| usage          | `string`                | Format information.                                                                                |
+| function       | `string` \| `callable`  | (required) Method name or closure for computing the value.                                         |
+| relation       | `array`                 | (required) Path of relations to follow for retrieving the value.                                   |
+| onupdate       | `string`                | Method to call on update.                                                                          |
+| onrevert       | `string`                | Method to invoke when the field is reverted to `NULL`.                                             |
+| store          | `boolean`               | Whether the computed value is stored (default: `false`).                                           |
+| instant        | `boolean`               | Whether the value is computed instantly.                                                           |
+| multilang      | `boolean`               | Whether the field is translatable (only for stored fields).                                        |
+| domain         | `array`                 | Additional conditions for relational field targets.                                                |
+| selection      | `array`                 | Pre-defined list of possible values.                                                               |
+| foreign_object | `string`                | Target class name (if applicable).                                                                 |
 
 ## Computation Behavior
 

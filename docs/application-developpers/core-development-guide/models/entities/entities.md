@@ -75,16 +75,16 @@ When a new class is created or the schema of a class is modified, the SQL schema
 
 Some fields are mandatory and defined in the `Model` base class:
 
-| **Name** | **Type**   | **Role**                                                                                       |
-| -------- | ---------- | ---------------------------------------------------------------------------------------------- |
-| id       | `integer`  | Unique identifier of the object.                                                               |
-| name     | `string`   | Name used when referring to the object (in views). By default, this field is an alias of `id`. |
-| status   | `string`   | One of: `'draft'`, `'instance'`, or `'archive'`.                                               |
-| created  | `datetime` | Date at which the object was created.                                                          |
-| creator  | `many2one` | Reference to `core\User`.                                                                      |
-| modified | `datetime` | Date on which the object was last modified.                                                    |
-| modifier | `many2one` | Reference to `core\User`.                                                                      |
-| deleted  | `boolean`  | Marks the object as soft-deleted.                                                              |
+| **Name** | **Type**   | **Role**                                                                                                  |
+| -------- | ---------- | --------------------------------------------------------------------------------------------------------- |
+| id       | `integer`  | Unique identifier of the object.                                                                          |
+| name     | `string`   | (optional) Name used when referring to the object (in views). By default, this field is an alias of `id`. |
+| state    | `string`   | One of: `'draft'`, `'instance'`, or `'archive'`.                                                          |
+| created  | `datetime` | Date at which the object was created.                                                                     |
+| creator  | `many2one` | Reference to `core\User`.                                                                                 |
+| modified | `datetime` | Date on which the object was last modified.                                                               |
+| modifier | `many2one` | Reference to `core\User`.                                                                                 |
+| deleted  | `boolean`  | Marks the object as soft-deleted.                                                                         |
 
 !!! note "About the 'name' field"
     The `name` field can be redefined as an alias or a computed field to provide more meaningful object identification.
@@ -104,37 +104,45 @@ By convention, **getter methods** (`getSomething()`) are always declared with **
 
 This convention ensures a clear and controlled interface for exposing object data while maintaining strict encapsulation of internal logic.
 
-| **Method**       | **Description**                                                                      |
-| ---------------- | ------------------------------------------------------------------------------------ |
-| getName()        | Get model readable name.                                                             |
-| getDescription() | Get model description.                                                               |
-| getType()        | Provide the list of unique rules (array of field combinations).                      |
-| getLink()        | Get the URL associated with the class.                                               |
-| getColumns()     | Returns the user-defined part of the schema (fields list with types and attributes). |
-| getConstraints() | Returns a map of constraint items associating fields with validation functions.      |
-| getUnique()      | Provide the list of unique rules (list of arrays of field combinations).             |
-| getFields()      | Returns all field names.                                                             |
-| getValues()      | Returns values of static instance.                                                   |
-| getDefaults()    | Return default values.                                                               |
-| getTable()       | Return the name of the DB table for storing objects of current class.                |
-| getWorkflow()    | Returns the [workflow](TODO) associated with the entity.                             |
-| getRoles()       | Returns the list of [roles](TODO) explicitly associated with the entity.             |
-| getActions()     | Returns a list of available [actions](TODO) that can be triggered on the entity.     |
-| getPolicies()    | Returns the [access control policies](TODO) applicable to the entity.                |
+| **Method**           | **Description**                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| getName()            | Get model readable name.                                                             |
+| getDescription()     | Get model description.                                                               |
+| getType()            | Provide the list of unique rules (array of field combinations).                      |
+| getLink()            | Get the URL associated with the class.                                               |
+| getColumns()         | Returns the user-defined part of the schema (fields list with types and attributes). |
+| getSpecialColumns()  | Returns the mandatory (system) fields for all models                                 |
+| getConstraints()     | Returns a map of constraint items associating fields with validation functions.      |
+| getUnique()          | Provide the list of unique rules (list of arrays of field combinations).             |
+| getFields()          | Returns all field names.                                                             |
+| getField($name)      | Returns the field descriptor for a given field name.                                 |
+| getValues()          | Returns values of static instance.                                                   |
+| getDefaults()        | Return default values.                                                               |
+| getTable()           | Return the name of the DB table for storing objects of current class.                |
+| getWorkflow()        | Returns the [workflow](TODO) associated with the entity.                             |
+| getRoles()           | Returns the list of [roles](TODO) explicitly associated with the entity.             |
+| getActions()         | Returns a list of available [actions](TODO) that can be triggered on the entity.     |
+| getPolicies()        | Returns the [access control policies](TODO) applicable to the entity.                |
+| getSchema()          | Returns the full schema of the entity, including system fields.                      |
+| getSettingDefaults() | Returns an associative array of setting defaults for fields.                         |
 
 ## Overridable Methods
 
-| **Method**  | **Description**                                                                |
-| ----------- | ------------------------------------------------------------------------------ |
-| canCreate() | Checks whether an object can be created.                                       |
-| onCreate()  | Hook invoked after object creation for performing additional operations.       |
-| canUpdate() | Checks whether an object can be updated.                                       |
-| onUpdate()  | Hook invoked before object update for performing additional operations.        |
-| canDelete() | Checks whether an object can be deleted.                                       |
-| onDelete()  | Hook invoked before object deletion for performing additional operations.      |
-| canClone()  | Checks whether an object can be cloned.                                        |
-| onClone()   | Hook invoked after object cloning for performing additional operations.        |
-| onChange()  | Handler for providing model consistency by reacting to front-end form edition. |
+| **Method**       | **Description**                                                                   |
+| ---------------- | --------------------------------------------------------------------------------- |
+| canRead()        | Check whether the current user can read the object. Returns an array of errors.   |
+| canCreate()      | Check whether the current user can create the object. Returns an array of errors. |
+| canUpdate()      | Check whether the current user can update the object. Returns an array of errors. |
+| canDelete()      | Check whether the current user can delete the object. Returns an array of errors. |
+| canClone()       | Check whether the current user can clone the object. Returns an array of errors.  |
+| onCreate()       | Hook invoked after object creation for performing additional operations.          |
+| onBeforeUpdate() | Hook invoked before object update for performing additional operations.           |
+| onUpdate()       | Alias of `onBeforeUpdate()`.                                                      |
+| onAfterUpdate()  | Hook invoked after object update for performing additional operations.            |
+| onBeforeDelete() | Hook invoked before object deletion for performing additional operations.         |
+| onDelete()       | Alias of `onBeforeDelete()`.                                                      |
+| onAfterDelete()  | Hook invoked after object deletion for performing additional operations.          |
+| onClone()        | Hook invoked after object cloning for performing additional operations.           |
 
 ## Custom Methods
 

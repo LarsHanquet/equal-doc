@@ -1,28 +1,81 @@
 # Fields
+
 ## Field Categories
 
 | **Category** | **Description**                                                                                                             |
 | ------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| virtual      | Field not stored in the database.                                                                                           |
 | simple       | Direct field holding a value of a given type. Stored as-is in the database and automatically converted between SQL and PHP. |
 | relational   | Field whose value targets one or more objects. Supported relations: `one2many`, `many2many`, and `many2one`.                |
 | computed     | Indirect field resulting from a computation based on other values. See [Computed Fields](computed-fields.md) for details.   |
 
 ---
 
-## Field Types
+## Field Types and Attributes
 
-The `type` property sets the field type. The following types are supported by the ORM (Object-Relational Mapping):
+The `type` property sets the field type. The following types are supported by the ORM (Object-Relational Mapping). Each type has a set of valid attributes, as enforced by the ORM.
+
+### Common Attributes
+
+Most field types support these attributes:
+
+| **Attribute** | **Description**                                                                 |
+| ------------- | ------------------------------------------------------------------------------- |
+| type          | The field type (see below). Required for all fields.                            |
+| description   | Brief description of the field (max 65 characters).                             |
+| help          | Additional help text for the field.                                             |
+| visible       | [Domain](domains.md) holding conditions for field visibility in UI.             |
+| default       | Default value or callable returning the default.                                |
+| usage         | Additional format information (see [Usages](#usages)).                          |
+| dependents    | List of computed fields to reset when this field is updated.                    |
+| readonly      | Marks the field as non-editable (default: `false`).                             |
+| required      | Marks the field as mandatory (default: `false`).                                |
+| deprecated    | Marks the field as deprecated.                                                  |
+| onupdate      | Method to invoke when field is updated.                                         |
+| multilang     | Marks the field as [translatable](TODO) (default: `false`).                     |
+| domain        | Additional conditions for relational field targets (see [Domains](domains.md)). |
+
+---
 
 ### Scalar Types
 
 #### boolean
 
-Numeric value of Boolean type (`true` or `false`).
+| **Attribute** | **Description**                                              |
+| ------------- | ------------------------------------------------------------ |
+| type          | Must be `'boolean'`.                                         |
+| description   | Field description.                                           |
+| help          | Help text.                                                   |
+| visible       | UI visibility.                                               |
+| default       | Default value.                                               |
+| dependents    | List of computed fields to reset when this field is updated. |
+| readonly      | Non-editable.                                                |
+| usage         | Format information.                                          |
+| required      | Mandatory field.                                             |
+| deprecated    | Deprecated field.                                            |
+| onupdate      | Method to call on update.                                    |
 
 !!! note "Boolean Notation"
     Use PHP built-in constants `true` and `false`. When using `'0'`, `'1'`, `0`, or `1`, the value is automatically converted to a boolean.
 
 #### integer
+
+| **Attribute** | **Description**                                              |
+| ------------- | ------------------------------------------------------------ |
+| type          | Must be `'integer'`.                                         |
+| description   | Field description.                                           |
+| help          | Help text.                                                   |
+| visible       | UI visibility.                                               |
+| default       | Default value.                                               |
+| dependents    | List of computed fields to reset when this field is updated. |
+| readonly      | Non-editable.                                                |
+| usage         | Format information.                                          |
+| required      | Mandatory field.                                             |
+| deprecated    | Deprecated field.                                            |
+| onupdate      | Method to call on update.                                    |
+| selection     | Pre-defined list of possible values.                         |
+| unique        | Enforce uniqueness.                                          |
+| precision     | Numeric precision.                                           |
 
 Signed numeric value (negative or positive). By default, integers are stored in the DBMS (Database Management System) using `INT(11)`.
 
@@ -31,9 +84,42 @@ Signed numeric value (negative or positive). By default, integers are stored in 
 
 #### float
 
+| **Attribute** | **Description**                                              |
+| ------------- | ------------------------------------------------------------ |
+| type          | Must be `'float'`.                                           |
+| description   | Field description.                                           |
+| help          | Help text.                                                   |
+| visible       | UI visibility.                                               |
+| default       | Default value.                                               |
+| dependents    | List of computed fields to reset when this field is updated. |
+| readonly      | Non-editable.                                                |
+| usage         | Format information.                                          |
+| required      | Mandatory field.                                             |
+| deprecated    | Deprecated field.                                            |
+| onupdate      | Method to call on update.                                    |
+| selection     | Pre-defined list of possible values.                         |
+| precision     | Numeric precision.                                           |
+
 Floating-point numeric value. By default, floats are stored using `DECIMAL(10,2)`.
 
 #### string
+
+| **Attribute** | **Description**                                              |
+| ------------- | ------------------------------------------------------------ |
+| type          | Must be `'string'`.                                          |
+| description   | Field description.                                           |
+| help          | Help text.                                                   |
+| visible       | UI visibility.                                               |
+| default       | Default value.                                               |
+| dependents    | List of computed fields to reset when this field is updated. |
+| readonly      | Non-editable.                                                |
+| usage         | Format information.                                          |
+| required      | Mandatory field.                                             |
+| deprecated    | Deprecated field.                                            |
+| onupdate      | Method to call on update.                                    |
+| multilang     | Translatable field.                                          |
+| selection     | Pre-defined list of possible values.                         |
+| unique        | Enforce uniqueness.                                          |
 
 Short string without formatting or carriage returns (e.g., lastname, place). By default, stored using `VARCHAR(255)`.
 
@@ -57,17 +143,41 @@ Strings can be longer and include formatting when combined with specific [usages
 ]
 ```
 
-#### binary
+!!! note "Key-Value Mapping"
+    In associative arrays, avoid numeric keys as they may be interpreted as array indices when converted to JSON, potentially mixing up values and labels.
 
-Any binary value (e.g., pictures, documents). Binary values can be stored either in the database or within the filesystem under the `/bin` folder.
+#### text
 
-This behavior is controlled by the `FILE_STORAGE_MODE` and `FILE_STORAGE_DIR` configuration parameters.
+| **Attribute** | **Description**                                              |
+| ------------- | ------------------------------------------------------------ |
+| type          | Must be `'text'`.                                            |
+| description   | Field description.                                           |
+| help          | Help text.                                                   |
+| visible       | UI visibility.                                               |
+| default       | Default value.                                               |
+| dependents    | List of computed fields to reset when this field is updated. |
+| readonly      | Non-editable.                                                |
+| usage         | Format information.                                          |
+| required      | Mandatory field.                                             |
+| deprecated    | Deprecated field.                                            |
+| onupdate      | Method to call on update.                                    |
+| multilang     | Translatable field.                                          |
 
-#### file
+#### date, time, datetime
 
-A file value stored in the database as `LONGBLOB`.
-
-#### date, time & datetime
+| **Attribute** | **Description**                                              |
+| ------------- | ------------------------------------------------------------ |
+| type          | Must be `'date'`, `'time'`, or `'datetime'`.                 |
+| description   | Field description.                                           |
+| help          | Help text.                                                   |
+| visible       | UI visibility.                                               |
+| default       | Default value.                                               |
+| dependents    | List of computed fields to reset when this field is updated. |
+| readonly      | Non-editable.                                                |
+| usage         | Format information.                                          |
+| required      | Mandatory field.                                             |
+| deprecated    | Deprecated field.                                            |
+| onupdate      | Method to call on update.                                    |
 
 When stored in the DBMS, these types follow standard SQL formats:
 
@@ -78,11 +188,49 @@ When stored in the DBMS, these types follow standard SQL formats:
 !!! tip "Datetime Manipulations"
     Within PHP scripts, eQual handles dates, times, and datetimes as UTC timestamps. These are adapted to SQL or JSON format when needed.
 
+#### file, binary
+
+| **Attribute** | **Description**                                              |
+| ------------- | ------------------------------------------------------------ |
+| type          | Must be `'file'` or `'binary'`.                              |
+| description   | Field description.                                           |
+| help          | Help text.                                                   |
+| visible       | UI visibility.                                               |
+| default       | Default value.                                               |
+| dependents    | List of computed fields to reset when this field is updated. |
+| readonly      | Non-editable.                                                |
+| usage         | Format information.                                          |
+| required      | Mandatory field.                                             |
+| deprecated    | Deprecated field.                                            |
+| onupdate      | Method to call on update.                                    |
+| multilang     | Translatable field.                                          |
+
+Any binary value (e.g., pictures, documents). Binary values can be stored either in the database or within the filesystem under the `/bin` folder. This behavior is controlled by the `FILE_STORAGE_MODE` and `FILE_STORAGE_DIR` configuration parameters.
+
+A file value stored in the database as `LONGBLOB`.
+
 ---
 
 ### Relational Types
 
 #### many2one
+
+| **Attribute**  | **Description**                                              |
+| -------------- | ------------------------------------------------------------ |
+| type           | Must be `'many2one'`.                                        |
+| description    | Field description.                                           |
+| help           | Help text.                                                   |
+| visible        | UI visibility.                                               |
+| default        | Default value.                                               |
+| dependents     | List of computed fields to reset when this field is updated. |
+| readonly       | Non-editable.                                                |
+| required       | Mandatory field.                                             |
+| deprecated     | Deprecated field.                                            |
+| foreign_object | (required) Full name of the target class.                    |
+| domain         | Additional conditions for relational field targets.          |
+| onupdate       | Method to call on update.                                    |
+| ondelete       | Behavior when parent is deleted: `'null'` or `'cascade'`.    |
+| multilang      | Translatable field.                                          |
 
 Relational field for N-1 relationships. The stored value is an integer holding the identifier of the pointed object.
 
@@ -97,6 +245,24 @@ Relational field for N-1 relationships. The stored value is an integer holding t
 
 #### one2many
 
+| **Attribute**  | **Description**                                              |
+| -------------- | ------------------------------------------------------------ |
+| type           | Must be `'one2many'`.                                        |
+| description    | Field description.                                           |
+| help           | Help text.                                                   |
+| visible        | UI visibility.                                               |
+| default        | Default value.                                               |
+| dependents     | List of computed fields to reset when this field is updated. |
+| readonly       | Non-editable.                                                |
+| deprecated     | Deprecated field.                                            |
+| foreign_object | (required) Target class name.                                |
+| foreign_field  | (required) Name of the field pointing back to current class. |
+| domain         | Additional conditions for relational field targets.          |
+| onupdate       | Method to call on update.                                    |
+| ondetach       | Behavior when relation is removed: `'null'` or `'delete'`.   |
+| order          | Field to sort pointed objects on.                            |
+| sort           | Sort direction: `'asc'` or `'desc'`.                         |
+
 Relational field for 1-N relationships, linked to a `many2one` field on the related object.
 
 ```php
@@ -110,6 +276,24 @@ Relational field for 1-N relationships, linked to a `many2one` field on the rela
 ```
 
 #### many2many
+
+| **Attribute**   | **Description**                                                   |
+| --------------- | ----------------------------------------------------------------- |
+| type            | Must be `'many2many'`.                                            |
+| description     | Field description.                                                |
+| help            | Help text.                                                        |
+| visible         | UI visibility.                                                    |
+| default         | Default value.                                                    |
+| dependents      | List of computed fields to reset when this field is updated.      |
+| readonly        | Non-editable.                                                     |
+| deprecated      | Deprecated field.                                                 |
+| foreign_object  | (required) Full name of the target class.                         |
+| foreign_field   | (required) Name of the field pointing back to current class.      |
+| rel_table       | (required) Name of the pivot table.                               |
+| rel_local_key   | (required) Column in pivot table for current object's identifier. |
+| rel_foreign_key | (required) Column in pivot table for target object's identifier.  |
+| domain          | Additional conditions for relational field targets.               |
+| onupdate        | Method to call on update.                                         |
 
 Relational field for M-N relationships, requiring a pivot table.
 
@@ -128,9 +312,21 @@ Relational field for M-N relationships, requiring a pivot table.
 
 ---
 
-### Special Types
+### Virtual Types
 
 #### alias
+
+| **Attribute** | **Description**                                    |
+| ------------- | -------------------------------------------------- |
+| type          | Must be `'alias'`.                                 |
+| description   | Field description.                                 |
+| help          | Help text.                                         |
+| visible       | UI visibility.                                     |
+| default       | Default value.                                     |
+| usage         | Format information.                                |
+| alias         | (required) Name of the field this is an alias for. |
+| required      | Mandatory field.                                   |
+| deprecated    | Deprecated field.                                  |
 
 Targets another field whose value is returned when fetching the field. By default, the `name` field is an alias for `id`.
 
@@ -144,91 +340,30 @@ Targets another field whose value is returned when fetching the field. By defaul
 
 #### computed
 
+| **Attribute**  | **Description**                                              |
+| -------------- | ------------------------------------------------------------ |
+| type           | Must be `'computed'`.                                        |
+| description    | Field description.                                           |
+| help           | Help text.                                                   |
+| visible        | UI visibility.                                               |
+| default        | Default value.                                               |
+| dependents     | List of computed fields to reset when this field is updated. |
+| readonly       | Non-editable.                                                |
+| deprecated     | Deprecated field.                                            |
+| result_type    | (required) Type of the computed result.                      |
+| usage          | Format information.                                          |
+| function       | (required) Callable for computation.                         |
+| relation       | (required) Relation information.                             |
+| onupdate       | Method to call on update.                                    |
+| onrevert       | Method to call on revert.                                    |
+| store          | Whether the computed value is stored.                        |
+| instant        | Whether the value is computed instantly.                     |
+| multilang      | Translatable field.                                          |
+| domain         | Additional conditions for relational field targets.          |
+| selection      | Pre-defined list of possible values.                         |
+| foreign_object | Target class name (if applicable).                           |
+
 See [Computed Fields](computed-fields.md) for detailed documentation.
-
----
-
-## Field Properties
-
-### Common Properties
-
-| **Property** | **Type**             | **Description**                                                                 |
-| ------------ | -------------------- | ------------------------------------------------------------------------------- |
-| type         | `string`             | The field type (see [Field Types](#field-types)).                               |
-| usage        | `string`             | Additional format information (see [Usages](#usages)).                          |
-| description  | `string`             | Brief description of the field (max 65 characters).                             |
-| visible      | `boolean` \| `array` | [Domain](domains.md) holding conditions for field visibility in UI.             |
-| default      | mixed                | Default value or callable returning the default.                                |
-| readonly     | `boolean`            | Marks the field as non-editable (default: `false`).                             |
-| required     | `boolean`            | Marks the field as mandatory (default: `false`).                                |
-| multilang    | `boolean`            | Marks the field as [translatable](TODO) (default: `false`).                     |
-| onupdate     | `string`             | Method to invoke when field is updated. Format: `package\Class::method`         |
-| domain       | `array`              | Additional conditions for relational field targets (see [Domains](domains.md)). |
-| dependencies | `array`              | List of computed fields to reset when this field is updated.                    |
-
-### Type-Specific Properties
-
-#### string
-
-| **Property** | **Description**                                       |
-| ------------ | ----------------------------------------------------- |
-| multilang    | Whether the field is translatable (default: `false`). |
-| selection    | Pre-defined list of possible values.                  |
-
-**Selection examples:**
-
-```php
-<?php
-// Simple list
-'status' => [
-    'type'      => 'string',
-    'selection' => ['pending', 'approved', 'rejected']
-]
-```
-
-```php
-<?php
-// Associative array with labels
-'priority' => [
-    'type'      => 'string',
-    'selection' => [
-        'low'    => 'Low Priority', 
-        'medium' => 'Medium Priority',
-        'high'   => 'High Priority'
-    ]
-]
-```
-
-!!! note "Key-Value Mapping"
-    In associative arrays, avoid numeric keys as they may be interpreted as array indices when converted to JSON, potentially mixing up values and labels.
-
-#### many2one
-
-| **Property**   | **Description**                                                                            |
-| -------------- | ------------------------------------------------------------------------------------------ |
-| foreign_object | Full name of the target class.                                                             |
-| ondelete       | Behavior when parent is deleted: `'null'` (void pointer) or `'cascade'` (delete children). |
-
-#### one2many
-
-| **Property**   | **Description**                                                                |
-| -------------- | ------------------------------------------------------------------------------ |
-| foreign_object | Target class name.                                                             |
-| foreign_field  | Name of the field pointing back to current class.                              |
-| foreign_key    | Field serving as identifier (default: `'id'`).                                 |
-| order          | Field to sort pointed objects on.                                              |
-| sort           | Sort direction: `'asc'` or `'desc'`.                                           |
-| ondetach       | Behavior when relation is removed: `'null'` or `'delete'` (default: `'null'`). |
-
-#### many2many
-
-| **Property**    | **Description**                                                     |
-| --------------- | ------------------------------------------------------------------- |
-| foreign_object  | Full name of the target class.                                      |
-| foreign_field   | Name of the field pointing back to current class.                   |
-| rel_table       | Name of the pivot table (recommended: `package_rel_class1_class2`). |
-| rel_local_key   | Column in pivot table for current object's identifier.              |
-| rel_foreign_key | Column in pivot table for target object's identifier.               |
 
 ---
 
@@ -241,13 +376,6 @@ The `usage` property is complementary to `type` and refines how the field is han
 - **Storage allocation**: Determines appropriate database column types
 - **Format validation**: Ensures data conforms to expected patterns
 - **UI rendering**: Guides how fields are displayed and edited
-
-### Syntax
-
-Usages follow this general pattern:
-```
-content-type/subtype:precision.scale
-```
 
 ### Common Usages
 
@@ -293,6 +421,13 @@ content-type/subtype:precision.scale
 
 The `Field` class provides a `getConstraints()` method to retrieve constraints specific to the field's type and usage. When values are associated with a usage, their validity is checked via the usage's constraint definitions.
 
+### Syntax
+
+Usages follow this general pattern:
+```
+content-type/subtype:precision.scale
+```
+
 ---
 
 ## Data Adaptation
@@ -301,6 +436,7 @@ Objects manipulated in controllers and classes contain values using PHP types. C
 
 ```php
 $adapter->adaptOut($value, $field->getUsage())
+
 ```
 
 This ensures proper format conversion between PHP, SQL, and JSON representations.
@@ -308,3 +444,7 @@ This ensures proper format conversion between PHP, SQL, and JSON representations
 
 ---
 
+## Notes
+
+- The `dependencies` attribute is deprecated in favor of `dependents`.
+- Some attributes are only meaningful for specific types (e.g., `foreign_object` for relational fields, `selection` for string/integer/float/computed).
