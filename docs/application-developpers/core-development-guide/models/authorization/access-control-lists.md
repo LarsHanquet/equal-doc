@@ -11,20 +11,22 @@ eQual defines the following permission levels, which can be combined using a bin
 
 - **CREATE**: Permission to create new objects.
 - **READ**: Permission to view objects.
-- **WRITE**: Permission to modify objects.
+- **UPDATE**: Permission to modify objects.
 - **DELETE**: Permission to remove objects.
 - **MANAGE**: Permission to manage rights and permissions.
+- **ALL**: Grants all permissions.
 
 ### Rights Values
 
 The rights values are defined in [`eq.lib.php`](TODO):
 
 ```php
-define('R_CREATE',  1);
-define('R_READ',    2);
-define('R_WRITE',   4);
-define('R_DELETE',  8);
-define('R_MANAGE',  16);
+define('EQ_R_CREATE',  1);
+define('EQ_R_READ',    2);
+define('EQ_R_UPDATE',   4);
+define('EQ_R_DELETE',  8);
+define('EQ_R_MANAGE',  16);
+define('EQ_R_ALL',      31);
 ```
 
 !!! note "Default Rights"

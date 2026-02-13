@@ -22,7 +22,7 @@ eQual supports a variety of Access Control strategies to meet diverse security r
 
 ### Users
 
-Users are defined in the `core\User` class ([`packages/core/classes/User.class.php`](../../../../packages/core/classes/User.class.php)). Each user belongs to one or more groups, with the default group being "users" (see `DEFAULT_GROUP_ID` in [`eq.lib.php`](../../../../eq.lib.php)).
+Users are defined in the `core\User` class ([`packages/core/classes/User.class.php`](TODO)). Each user belongs to one or more groups, with the default group being "users" (see `DEFAULT_GROUP_ID` in [`eq.lib.php`](TODO)).
 
 ```php
 public static function getColumns() {
