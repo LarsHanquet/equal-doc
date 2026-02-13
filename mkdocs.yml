@@ -67,25 +67,58 @@ nav:
                - 'Actions': 'application-developpers/core-development-guide/models/actions.md'
                - 'Entities': 'application-developpers/core-development-guide/models/entities.md'
                - 'Workflows': 'application-developpers/core-development-guide/models/workflows.md'
+               - 'Authorization':
+                     - 'Authorization Concepts': 'application-developpers/core-development-guide/models/authorization/authorization-overview.md'
+                     - 'Authentication': 'application-developpers/core-development-guide/models/authorization/authentication.md'
+                     - 'Access Control Lists': 'application-developpers/core-development-guide/models/authorization/access-control-lists.md'
+                     - 'Passkeys': 'application-developpers/core-development-guide/models/authorization/passkeys.md'
+               - 'Collections':
+                     - 'Collections Overview': 'application-developpers/core-development-guide/models/collections/collections-overview.md'
+                     - 'Collection Special Architectures': 'application-developpers/core-development-guide/models/collections/collections-special-architectures.md'
+                     - 'Collection Usage': 'application-developpers/core-development-guide/models/collections/collections-usage.md'
+                     - 'Collection Best Practices': 'application-developpers/core-development-guide/models/collections/collections-best-practices.md'
+               - 'Data Anonymization': 'application-developpers/core-development-guide/models/data-anonymization.md'
+               - 'Data Import': 'application-developpers/core-development-guide/models/data-import.md'
                - 'Domains': 'application-developpers/core-development-guide/models/domains.md'
+               - 'Entities':
+                     - 'Entities Overview': 'application-developpers/core-development-guide/models/entities/entities.md'
+                     - 'Fields': 'application-developpers/core-development-guide/models/entities/fields.md'
+                     - 'Computed Fields': 'application-developpers/core-development-guide/models/entities/computed-fields.md'
+                     - 'Seeding': 'application-developpers/core-development-guide/models/entities/seeding.md'
+               - 'Model Factory': 'application-developpers/core-development-guide/models/model-factory.md'
+               - 'Operations': 'application-developpers/core-development-guide/models/operations.md'
                - 'ORM': 'application-developpers/core-development-guide/models/orm.md'
+               - 'Programming Paradigm': 'application-developpers/core-development-guide/models/programming-paradigm.md'
+               - 'Workflows': 
+                     - 'Workflows Overview': 'application-developpers/core-development-guide/models/workflows/workflows.md'
+                     - 'Tasks': 'application-developpers/core-development-guide/models/workflows/tasks.md'
+               - 'Services': 'application-developpers/core-development-guide/models/services.md'
           - 'Views & UI': 
                - 'Views':
-                     - 'Common Structures': 'application-developpers/core-development-guide/views-ui/views/common-structures.md'
+                     - 'Common Structures': 
+                        - 'Common Structures Overview': 'application-developpers/core-development-guide/views-ui/views/common-structures/common-structures.md'
+                        - 'Views & Actions' : 'application-developpers/core-development-guide/views-ui/views/common-structures/views-actions.md'
                      - 'Forms' : 'application-developpers/core-development-guide/views-ui/views/forms.md'
                      - 'Lists' : 'application-developpers/core-development-guide/views-ui/views/lists.md'
                      - 'Widgets' : 'application-developpers/core-development-guide/views-ui/views/widgets.md'
+                     - 'Charts' : 'application-developpers/core-development-guide/views-ui/views/charts.md'
+                     - 'Dashboards' : 'application-developpers/core-development-guide/views-ui/views/dashboards.md'
                - 'Inheritence' : 'application-developpers/core-development-guide/views-ui/inheritence.md'
                - 'Frontend logic': 'application-developpers/core-development-guide/views-ui/frontend-logic.md'
                - 'Menus' : 'application-developpers/core-development-guide/views-ui/menus.md'
-               - 'Charts' : 'application-developpers/core-development-guide/views-ui/charts.md'
-               - 'Dashboards' : 'application-developpers/core-development-guide/views-ui/dashboards.md'
-               - 'Contexts ??' : ''
                - 'Contexts': 'application-developpers/core-development-guide/views-ui/contexts.md'
                - 'Low-Code Overview': 'application-developpers/core-development-guide/views-ui/low-code-overview.md'
-          - 'Validation & Searching': 'application-developpers/core-development-guide/validation-searching.md'
-          - 'i18n': 'application-developpers/core-development-guide/i18n.md'
-          - 'Controllers & Routing': 'application-developpers/core-development-guide/controllers-routing.md'
+          - 'Validation & Searching': 
+                - 'Validation': 'application-developpers/core-development-guide/validation-searching/validation.md'
+                - 'Searching': 'application-developpers/core-development-guide/validation-searching/searching.md'
+                - 'JSON Schemas': 'application-developpers/core-development-guide/validation-searching/json-schemas.md'
+          - 'Internationalization':
+                - 'Internationalization Overview': 'application-developpers/core-development-guide/i18n/i18n-overview.md'
+                - 'Interface': 'application-developpers/core-development-guide/i18n/i18n-interface.md'
+                - 'Model Data': 'application-developpers/core-development-guide/i18n/i18n-model-data.md'
+          - 'Controllers & Routing':
+                - 'Controllers': 'application-developpers/core-development-guide/controllers-routing/controllers.md'
+                - 'Routing': 'application-developpers/core-development-guide/controllers-routing/routing.md'
       - 'How-Tos & Reference':
           - 'Tutorials / Examples': 
                 - 'Tutorial: Using the Workbench': 'application-developpers/howtos-references/tutorials-examples/tutorial-building-simple-app.md'
