@@ -308,6 +308,11 @@ Some well-known fields are associated with specific methods:
 | `firstname` | `self::firstname($lang)` |
 | `lastname`  | `self::lastname($lang)`  |
 | `fullname`  | `self::fullname($lang)`  |
+| `legal_name` | `self::legalName($lang)` |
+| `adress_street` | `self::adressStreet()`         |
+| `adress_zip` | `self::adressZip()`           |
+| `adress_city` | `self::adressCity()`           |
+| `adress_country` | `self::adressCountry()`       |
 
 #### Based on Field Type
 
