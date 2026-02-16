@@ -182,11 +182,12 @@ $users = ModelFactory::create('core\User', [
 ]
 ```
 
-If the `sequences` array is shorter than `qty`, sequences will loop from the beginning.
+!!! note "Using Sequences"
+    If the `sequences` array is shorter than `qty`, sequences will loop from the beginning.
 
 ### Ignoring Unique Constraints
 
-By default, the `ModelFactory` respects [unique constraints](TODO). Set the `unique` option to `false` to override this behavior.
+By default, the `ModelFactory` respects `unique` constraints. Set the `unique` option to `false` to override this behavior.
 
 ```php
 <?php
@@ -197,6 +198,21 @@ $groups = ModelFactory::create('core\Group', [
     'values' => ['name' => 'Group 1'],
     'unique' => false
 ]);
+```
+**Example Output**:
+```json
+[
+    {
+        "name": "Group 1",
+        "display_name": "Ad veniam tempor",
+        "description": "Nisi consectetur ad ut exercitation labore ut ut ut. Incididunt dolor sit ea minim sed amet sit. Nostrud adipiscing"
+    },
+    {
+        "name": "Group 1",
+        "display_name": "Ex consectetur sit do do",
+        "description": "Adipiscing ipsum ut eiusmod laboris dolor aliquip consectetur minim lorem dolor elit. E"
+    }
+]
 ```
 
 ### Generating Related Entities
@@ -212,6 +228,36 @@ $group = ModelFactory::create('core\Group', [
         'users_ids' => ['qty' => 2]
     ]
 ]);
+```
+**Example Output**:
+```json
+{
+    "name": "Aliquip dolo",
+    "display_name": "Ipsum sed nostrud adipiscing...",
+    "description": "Magna sed minim enim aliqua...",
+    "users_ids": [
+        {
+            "login": "5ow55engy@inbox.net",
+            "username": "happyCamper6100",
+            "password": "ingB2tK9xS",
+            "firstname": "William",
+            "lastname": "Gautier",
+            "language": "nd",
+            "validated": true,
+            "status": "created"
+        },
+        {
+            "login": "oae1e@mail.com",
+            "username": "stellar-voyager5379",
+            "password": "udSpMEk2NM",
+            "firstname": "Ella",
+            "lastname": "Marechal",
+            "language": "ja",
+            "validated": false,
+            "status": "created"
+        }
+    ]
+}
 ```
 
 This creates a group with two randomly generated users attached to it. For more details on relationship types, see [relations](TODO).
