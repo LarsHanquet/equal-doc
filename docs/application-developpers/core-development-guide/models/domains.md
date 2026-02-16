@@ -11,7 +11,7 @@ A **Domain** is a structure that defines a set of conditions used to filter obje
 - **Views**: To control visibility.
 - **Models and Controllers**: To filter data.
 
-Domains are represented as a logical structure of conditions, which can be incrementally built and manipulated. The eQual framework provides a [`Domain`](TODO) class to facilitate this process.
+Domains are represented as a logical structure of conditions, which can be incrementally built and manipulated. The eQual framework provides a [`Domain`](TODO link to php class) class to facilitate this process.
 
 ---
 
@@ -27,15 +27,35 @@ A **condition** is represented as an array with three elements:
 [ operand, operator, value ]
 ```
 
-| **Part**   | **Description**                                                                                                                             |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `operand`  | The field on which the condition is applied. It matches a property from `Model::getColumns()`.                                              |
-| `operator` | The operator for the condition. Supported operators: `=`, `<`, `>`, `<=`, `>=`, `<>`, `like`, `ilike` (case-insensitive), `in`, `contains`. |
-| `value`    | The value against which the operator is applied.                                                                                            |
+| **Part**   | **Description**                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------- |
+| `operand`  | The field on which the condition is applied. It matches a property from `Model::getColumns()`. |
+| `operator` | The operator for the condition. Supported operators vary based on the operand type.            |
+| `value`    | The value against which the operator is applied.                                               |
 
-**Note**: The operator determines the type of the value. For example, the `in` operator requires the value to be an array.
+> **Note**: The operator determines the type of the value. For example, the `in` operator requires the value to be an array.
 
-#### Example: Condition
+#### Supported Operand/Operators
+
+| **Operand Type**                | **Valid Operators**                                                         |
+| ------------------------------- | --------------------------------------------------------------------------- |
+| `boolean`                       | `=`, `<>`, `<`, `>`, `is`, `in`, `is not`                                   |
+| `integer`                       | `=`, `<>`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `is`, `is not`             |
+| `float`                         | `=`, `<>`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `is`, `is not`             |
+| `string`                        | `=`, `<>`, `like`, `ilike`, `in`, `not in`, `is`, `is not`                  |
+| `text`                          | `is`, `is not`                                                              |
+| `date`                          | `=`, `<>`, `<`, `>`, `<=`, `>=`, `like`, `is`, `is not`                     |
+| `time`                          | `=`, `<>`, `<`, `>`, `<=`, `>=`, `is`, `is not`                             |
+| `datetime`                      | `=`, `<>`, `<`, `>`, `<=`, `>=`, `is`, `is not`                             |
+| `file` (deprecated, use binary) | `is`, `is not`, `=`, `like`, `ilike`                                        |
+| `binary`                        | `is`, `is not`, `=`, `like`, `ilike`                                        |
+| `one2many`                      | `contains`                                                                  |
+| `many2one`                      | `=`, `<>`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `is`, `is not`, `contains` |
+| `many2many`                     | `contains`                                                                  |
+
+> **Note**: The `ilike` operator performs a case-insensitive search, while `like` is case-sensitive. The `contains` operator checks for the presence of a value in a relation.
+
+**Example: Condition**
 
 ```php
 ["field1", "=", 1]
@@ -80,7 +100,7 @@ eQual supports shortcut notations for simpler domains:
 - `[operand, operator, value]`: Interpreted as a domain with one clause and one condition.
 - `[[operand, operator, value]]`: Interpreted as a domain with one clause containing one condition.
 
-#### Example: Shortcut Notations
+**Example: Shortcut Notations**
 
 ```php
 ["field1", "=", 1] // Single condition
@@ -93,8 +113,7 @@ eQual supports shortcut notations for simpler domains:
 
 Domains can be defined in both PHP and JSON, making them versatile for use in controllers and views.
 
-### PHP Example
-
+**PHP Example**
 ```php
 $domain = [
     ["login", "like", "%@equal.run"],
@@ -102,8 +121,7 @@ $domain = [
 ];
 ```
 
-### JSON Example
-
+**JSON Example**
 ```json
 {
     "domain": [
@@ -113,7 +131,7 @@ $domain = [
 }
 ```
 
-### URL Example
+**URL Example**
 
 Domains can also be used in URLs (must be URL-encoded):
 
@@ -131,8 +149,14 @@ eQual supports references to dynamic values in domains, such as the current obje
 
 Domains can refer to the current object in a model or view. This is useful for filtering objects based on their relationship to the current object.
 
-#### Example: Object Reference
+**Example: Object Reference**
 
+Let's say we have two entities: `Project` and `Techie`.
+
+* A **Project** depends on the company but is assigned to a specific department.
+* One or more **Techies** can be assigned to a project, but only amongts those who belong to the same department as the project.
+  
+Here is how the domain might look in eQual:
 ```json
 {
     "techies_ids": {
@@ -150,12 +174,14 @@ This domain filters **Techies** to only include those in the same department as 
 
 Domains can reference the current user, enabling user-specific filtering. Available fields are:
 
-- `id`: User ID.
-- `login`: User login.
-- `validated`: Whether the user is validated.
-- `language`: User's language.
-- `groups_ids`: List of group IDs.
-- `groups`: List of group names.
+| **Field**    | **Description**                                     |
+| ------------ | --------------------------------------------------- |
+| `id`         | The unique identifier of the user.                  |
+| `login`      | The login name of the user.                         |
+| `validated`  | A boolean indicating whether the user is validated. |
+| `language`   | The language preference of the user.                |
+| `groups_ids` | A list of group IDs that the user belongs to.       |
+| `groups`     | A list of group names that the user belongs to.     |
 
 #### Example: User Reference
 
@@ -175,9 +201,51 @@ eQual provides a structured way to reference dates dynamically. Date references 
 
 ```text
 date.<origin>(<offset>).<interval>.<method>(<arguments>)
+
+or
+
+date.{this|prev|next}[(<offset>)].{day|week|month|quarter|semester|year}.{first|last|get(reference:index)}
 ```
 
-#### Example: Date Reference
+#### 1. Origin
+
+| Method  | Description                                                | Offset | Possible Values   |
+| ------- | ---------------------------------------------------------- | ------ | ----------------- |
+| prev(n) | First day of previous period with an offset of n intervals | n > 0  | `prev`, `prev(n)` |
+| next(n) | First day of next period with an offset of n intervals     | n > 0  | `next`, `next(n)` |
+| this()  | First day of current period                                | n = 0  | `this`, `this(0)` |
+
+#### 2. Interval
+
+| Interval | Description |
+| -------- | ----------- |
+| day      | Day         |
+| week     | Week        |
+| month    | Month       |
+| quarter  | Quarter     |
+| semester | Semester    |
+| year     | Year        |
+
+#### 3. Method
+
+| Method  | Description                        |
+| ------- | ---------------------------------- |
+| first() | First day of the interval          |
+| last()  | Last day of the interval           |
+| get()   | Get a specific date with arguments |
+
+
+##### Arguments for the `get()` Method
+
+| Argument (reference:index) | Concerned Interval             | Possible Values                                                                                                                                                      |
+| -------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| day:<number>               | month, quarter, semester, year | Month: `day:1` to `day:31`<br>Year: `day:1` to `day:365`                                                                                                             |
+| week:<number>              | month, quarter, semester, year | `week:1` to `week:52` (or `week:53`)                                                                                                                                 |
+| <day_of_week>:first        | month, quarter, semester, year | `monday:first` to `sunday:first`                                                                                                                                     |
+| <day_of_week>:last         | month, quarter, semester, year | `monday:last` to `sunday:last`                                                                                                                                       |
+| <day_of_week>:<number>     | month, quarter, semester, year | `monday:1` to `monday:5` (month)<br>`monday:1` to `monday:14` (quarter)<br>`monday:1` to `monday:26` (semester)<br>`monday:1` to `monday:52` (or `monday:53`) (year) |
+
+**Example: Date Reference**
 
 ```php
 ["date_from", "=", "date.this.year.first"]
@@ -195,7 +263,7 @@ In eQual, **roles** define permissions and access levels for users interacting w
 
 Roles are defined in the `getRoles` method and can include rights such as `create`, `read`, `update`, `delete`, and `manage`.
 
-#### Example: Role Definition
+**Example: Role Definition**
 
 ```php
 public static function getRoles() {
@@ -213,11 +281,36 @@ public static function getRoles() {
 }
 ```
 
+**Example: Extended Role Definition**
+```php
+public static function getRoles() {
+    return [
+        "owner" => [
+            "description" => "",
+            "rights" => EQ_R_READ | EQ_R_UPDATE | EQ_R_DELETE | EQ_R_MANAGE
+        ],
+        "admin" => [
+            "description" => "",
+            "implied_by" => ['owner'],
+            "rights" => EQ_R_READ | EQ_R_UPDATE | EQ_R_DELETE 
+        ],
+        "editor" => [
+            "description" => "",
+            "implied_by" => ['admin'],
+            "rights" => EQ_R_READ | EQ_R_UPDATE
+        ],
+        "viewer" => [
+            "description" => "",
+            "implied_by" => ['editor'],
+            "rights" => EQ_R_READ
+        ]
+    ];
+}
+```
+
 ### Role Assignment
 
 Roles are assigned using `Assignment` objects, which maps users to roles for specific objects.
-
-#### Example: Role Assignment
 
 ```sql
 Assignment
