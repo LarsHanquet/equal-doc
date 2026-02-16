@@ -52,6 +52,12 @@ EntityMapping:
 
 - **`value`**: Sets a predefined value.
 - **`cast`**: Casts the value to a specific type.
+- **`round`**: Rounds a number to a specified number of decimal places.
+- **`multiply`**: Multiplies a number by a specified factor.
+- **`divide`**: Divides a number by a specified factor.
+- **`field-contains`**: Checks if a field contains a specific value.
+- **`field-does-not-contain`**: Checks if a field does not contain a specific value.
+- **`replace`**: Replaces occurrences of a specified value with another value.
 - **`trim`**: Removes leading and trailing spaces.
 - **`phone`**: Sanitizes phone numbers and adds a prefix.
 
@@ -111,7 +117,7 @@ equal.run --do=core_model_import-json-file --entity_mapping_id=1 --data="$(base6
 
 ## Entity Relationship Diagram (ERD)
 
-The following diagram illustrates the relationships between entities, mappings, and transformers in the import process:
+The following diagram illustrates the relationships between mappings and transformers in the import process:
 
 <center><img src="/_assets/img/erd_import.png" alt="Entity Relationship Diagram for Data Import" /></center>
 
