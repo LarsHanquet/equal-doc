@@ -43,7 +43,7 @@ Most field types support these attributes:
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | Must be `'boolean'`.                                         |
+| type          | (*mandatory*) Must be `'boolean'`.                                         |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -62,7 +62,7 @@ Most field types support these attributes:
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | Must be `'integer'`.                                         |
+| type          | (*mandatory*) Must be `'integer'`.                                         |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -86,7 +86,7 @@ Signed numeric value (negative or positive). By default, integers are stored in 
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | Must be `'float'`.                                           |
+| type          | (*mandatory*) Must be `'float'`.                                           |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -106,7 +106,7 @@ Floating-point numeric value. By default, floats are stored using `DECIMAL(10,2)
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | Must be `'string'`.                                          |
+| type          | (*mandatory*) Must be `'string'`.                                          |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -150,7 +150,7 @@ Strings can be longer and include formatting when combined with specific [usages
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | Must be `'text'`.                                            |
+| type          | (*mandatory*) Must be `'text'`.                                            |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -167,7 +167,7 @@ Strings can be longer and include formatting when combined with specific [usages
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | Must be `'date'`, `'time'`, or `'datetime'`.                 |
+| type          | (*mandatory*) Must be `'date'`, `'time'`, or `'datetime'`.                 |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -192,7 +192,7 @@ When stored in the DBMS, these types follow standard SQL formats:
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | Must be `'file'` or `'binary'`.                              |
+| type          | (*mandatory*) Must be `'file'` or `'binary'`.                              |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -217,7 +217,7 @@ A file value stored in the database as `LONGBLOB`.
 
 | **Attribute**  | **Description**                                              |
 | -------------- | ------------------------------------------------------------ |
-| type           | Must be `'many2one'`.                                        |
+| type           | (*mandatory*) Must be `'many2one'`.                                        |
 | description    | Field description.                                           |
 | help           | Help text.                                                   |
 | visible        | UI visibility.                                               |
@@ -226,7 +226,7 @@ A file value stored in the database as `LONGBLOB`.
 | readonly       | Non-editable.                                                |
 | required       | Mandatory field.                                             |
 | deprecated     | Deprecated field.                                            |
-| foreign_object | (required) Full name of the target class.                    |
+| foreign_object | (*mandatory*) Full name of the target class.                    |
 | domain         | Additional conditions for relational field targets.          |
 | onupdate       | Method to call on update.                                    |
 | ondelete       | Behavior when parent is deleted: `'null'` or `'cascade'`.    |
@@ -247,7 +247,7 @@ Relational field for N-1 relationships. The stored value is an integer holding t
 
 | **Attribute**  | **Description**                                              |
 | -------------- | ------------------------------------------------------------ |
-| type           | Must be `'one2many'`.                                        |
+| type           | (*mandatory*) Must be `'one2many'`.                                        |
 | description    | Field description.                                           |
 | help           | Help text.                                                   |
 | visible        | UI visibility.                                               |
@@ -255,8 +255,8 @@ Relational field for N-1 relationships. The stored value is an integer holding t
 | dependents     | List of computed fields to reset when this field is updated. |
 | readonly       | Non-editable.                                                |
 | deprecated     | Deprecated field.                                            |
-| foreign_object | (required) Target class name.                                |
-| foreign_field  | (required) Name of the field pointing back to current class. |
+| foreign_object | (*mandatory*) Full name of the target class.                    |
+| foreign_field  | (*mandatory*) Name of the field pointing back to current class. |
 | domain         | Additional conditions for relational field targets.          |
 | onupdate       | Method to call on update.                                    |
 | ondetach       | Behavior when relation is removed: `'null'` or `'delete'`.   |
@@ -279,7 +279,7 @@ Relational field for 1-N relationships, linked to a `many2one` field on the rela
 
 | **Attribute**   | **Description**                                                   |
 | --------------- | ----------------------------------------------------------------- |
-| type            | Must be `'many2many'`.                                            |
+| type            | (*mandatory*) Must be `'many2many'`.                                            |
 | description     | Field description.                                                |
 | help            | Help text.                                                        |
 | visible         | UI visibility.                                                    |
@@ -287,11 +287,11 @@ Relational field for 1-N relationships, linked to a `many2one` field on the rela
 | dependents      | List of computed fields to reset when this field is updated.      |
 | readonly        | Non-editable.                                                     |
 | deprecated      | Deprecated field.                                                 |
-| foreign_object  | (required) Full name of the target class.                         |
-| foreign_field   | (required) Name of the field pointing back to current class.      |
-| rel_table       | (required) Name of the pivot table.                               |
-| rel_local_key   | (required) Column in pivot table for current object's identifier. |
-| rel_foreign_key | (required) Column in pivot table for target object's identifier.  |
+| foreign_object  | (*mandatory*) Full name of the target class.                         |
+| foreign_field   | (*mandatory*) Name of the field pointing back to current class.      |
+| rel_table       | (*mandatory*) Name of the pivot table.                               |
+| rel_local_key   | (*mandatory*) Column in pivot table for current object's identifier. |
+| rel_foreign_key | (*mandatory*) Column in pivot table for target object's identifier.  |
 | domain          | Additional conditions for relational field targets.               |
 | onupdate        | Method to call on update.                                         |
 
@@ -318,13 +318,13 @@ Relational field for M-N relationships, requiring a pivot table.
 
 | **Attribute** | **Description**                                    |
 | ------------- | -------------------------------------------------- |
-| type          | Must be `'alias'`.                                 |
+| type          | (*mandatory*) Must be `'alias'`.                                 |
 | description   | Field description.                                 |
 | help          | Help text.                                         |
 | visible       | UI visibility.                                     |
 | default       | Default value.                                     |
 | usage         | Format information.                                |
-| alias         | (required) Name of the field this is an alias for. |
+| alias         | (*mandatory*) Name of the field this is an alias for. |
 | required      | Mandatory field.                                   |
 | deprecated    | Deprecated field.                                  |
 
@@ -342,7 +342,7 @@ Targets another field whose value is returned when fetching the field. By defaul
 
 | **Attribute**  | **Description**                                              |
 | -------------- | ------------------------------------------------------------ |
-| type           | Must be `'computed'`.                                        |
+| type           | (*mandatory*) Must be `'computed'`.                                        |
 | description    | Field description.                                           |
 | help           | Help text.                                                   |
 | visible        | UI visibility.                                               |
@@ -350,10 +350,10 @@ Targets another field whose value is returned when fetching the field. By defaul
 | dependents     | List of computed fields to reset when this field is updated. |
 | readonly       | Non-editable.                                                |
 | deprecated     | Deprecated field.                                            |
-| result_type    | (required) Type of the computed result.                      |
+| result_type    | (*mandatory*) Type of the computed result.                      |
 | usage          | Format information.                                          |
-| function       | (required) Callable for computation.                         |
-| relation       | (required) Relation information.                             |
+| function       | (*mandatory*) Callable for computation.                         |
+| relation       | (*mandatory*) Relation information.                             |
 | onupdate       | Method to call on update.                                    |
 | onrevert       | Method to call on revert.                                    |
 | store          | Whether the computed value is stored.                        |
