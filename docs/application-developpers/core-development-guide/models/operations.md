@@ -1,65 +1,73 @@
 # Operations
 
-**Operations** in eQual allow defining **aggregation or computation logic** to be applied on one or more fields of the records being displayed (typically in a [list view](TODO)). 
-
-These operations are useful for **displaying totals, averages, counts, or custom calculations** on a dataset.
+**Operations** in eQual define aggregation or computation logic to be applied to one or more fields of a dataset—typically in a [list view](TODO). They are essential for displaying totals, averages, counts, or custom calculations directly in the UI.
 
 ---
 
-## Operation Types
+## Overview
 
-There are two types of operators:
+Operations allow you to perform calculations on your data, such as summing amounts, counting records, or computing averages. These are especially useful for dashboards, reports, and summary views.
+
+Operations are defined using a functional-style array syntax, and can reference fields using the `object.` prefix.
+
+---
+
+## Types of Operators
+
+There are two main types of operators:
 
 ### Unary Operators
 
-Unary operators take a single operand (either a single value or a field reference representing an array of values).
+Unary operators take a single operand, which can be a value or a field reference (often representing an array of values).
 
-```php
-<?php
-private static $unary_operators = ['ABS', 'AVG', 'COUNT', 'DIFF', 'MAX', 'MIN', 'SUM'];
-```
+Supported unary operators:
+
+* **ABS**: Absolute value
+* **AVG**: Average
+* **COUNT**: Count of values
+* **DIFF**: Difference (single operand, context-specific)
+* **MAX**: Maximum value
+* **MIN**: Minimum value
+* **SUM**: Sum of values
 
 ### Binary Operators
 
-Binary operators take two operands. Each operand can be another operation, a single value, or a field reference.
+Binary operators take two operands. Each operand can be another operation, a value, or a field reference.
 
-```php
-<?php
-private static $binary_operators = [
-    '+',            // addition
-    '-',            // subtraction
-    '*',            // multiplication
-    '/',            // division
-    '%',            // modulo
-    '^'             // exponentiation
-];
-```
+Supported binary operators:
+
+* `'+': Addition
+* `'-': Subtraction
+* `'*': Multiplication
+* `'/': Division
+* `'%': Modulo
+* `'^': Exponentiation
 
 ---
 
-## Operation Syntax
+## Syntax
 
-Operations follow a functional-style array syntax. Field references use the `object.` prefix followed by the field name.
+Operations use a functional array syntax. Field references use the `object.` prefix followed by the field name.
 
-**Unary operator example:**
+* **Unary operator example:**
 
-```json
-["SUM", "object.qty"]
-```
+    ```json
+    ["SUM", "object.qty"]
+    ```
 
-**Binary operator example (nested):**
+* **Binary operator example (nested):**
 
-```json
-["/", ["SUM", "object.total"], ["COUNT", "object.id"]]
-```
+    ```json
+    ["/", ["SUM", "object.total"], ["COUNT", "object.id"]]
+    ```
 
-This example divides the sum of `total` by the count of `id`, effectively calculating an average.
+    This divides the sum of `total` by the count of `id`, effectively calculating an average.
 
 ---
 
 ## Operation Object Format
 
-Each operation object supports the following properties:
+Each operation object can define the following properties:
 
 | Property    | Description                                                         |
 | ----------- | ------------------------------------------------------------------- |
@@ -69,11 +77,13 @@ Each operation object supports the following properties:
 | `id`        | Translation key for [translation](TODO) support (optional)          |
 | `suffix`    | Text appended after the result (optional)                           |
 
+For more on output formatting, see [Field Usages](TODO).
+
 ---
 
 ## Examples
 
-### Summing monetary values
+### Summing Monetary Values
 
 ```json
 "operations": {
@@ -92,7 +102,7 @@ Each operation object supports the following properties:
 }
 ```
 
-### Counting records with a suffix
+### Counting Records with a Suffix
 
 ```json
 "operations": {
@@ -105,3 +115,8 @@ Each operation object supports the following properties:
     }
 }
 ```
+
+!!! note "More examples"
+    For more examples of operations, see the [eQual Cheat Sheet](TODO).
+
+---
