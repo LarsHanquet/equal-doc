@@ -40,7 +40,7 @@ See the [action flow diagram](/_assets/img/eq_confirm_diagram.png) for a visual 
 | `label`       | `string`       | Button label displayed to the user                                                                                                                 |
 | `description` | `string`       | Description shown on hover, explaining what the action does                                                                                        |
 | `controller`  | `string`       | [ORM/Entity controller](TODO) invoked when the action is triggered. The current object's `id` is sent as a parameter by default                    |
-| `visible`     | `array`        | (optional) [Domain](TODO) conditions to determine if the action button is shown                                                                    |
+| `visible`     | `array`        | (optional) [Domain](TODO) conditions to determine if the action button is shown (Example: `"visible": ["status", "=", "active"]`)                  |
 | `confirm`     | `boolean`      | (optional) If `true`, displays a confirmation dialog before execution                                                                              |
 | `params`      | object         | (optional) Associative array mapping field names to values. Values can reference user properties (`user.login`) or object properties (`object.id`) |
 | `access`      | [Access](TODO) | (optional) Access control to restrict visibility and invocation                                                                                    |
@@ -107,14 +107,27 @@ Header actions customize the standard buttons available in a view's header. Thes
 
 The following predefined action IDs are supported. Each corresponds to a button type available in the view header:
 
-| **ACTION ID**        | **DESCRIPTION**                                             | **DEFAULT CONTEXT**                               |
-| -------------------- | ----------------------------------------------------------- | ------------------------------------------------- |
-| `ACTION.EDIT`        | Switch form from view mode to edit mode                     | Forms                                             |
-| `ACTION.SAVE`        | Save changes (appears as split-button with variants)        | Forms in edit mode                                |
-| `ACTION.CREATE`      | Create a new object (appears as split-button with variants) | List and form views                               |
-| `ACTION.CANCEL`      | Discard unsaved changes                                     | Forms in edit mode                                |
-| `ACTION.SELECT`      | Select objects for many-to-many or relational fields        | Relational field lists                            |
-| `ACTION.OPEN`        | Open a form view for a selected object                      | List views                                        |
+| **ACTION**       | **DESCRIPTION**                                                                                           | **ID**                                                 |
+| ---------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `ACTION.EDIT`    | For forms in view mode, allows to edit the current object                                                 | `EDIT`, `EDIT_BULK`, `EDIT_INLINE`                     |
+| `ACTION.SAVE	`   | For forms in edit mode, ACTION.SAVE is the action used for storing the changes made to the current object | `SAVE_AND_CLOSE`, `SAVE_AND_VIEW`, `SAVE_AND_CONTINUE` |
+| `ACTION.CREATE`  | For list views, ACTION.CREATE is the action used for creating a new object of the current entity.         | `CREATE`, `ADD`                                        |
+| `ACTION.CANCEL`  | For forms in edit mode, allows to cancel the current operation and return to view mode.                   | `CANCEL_AND_CLOSE`, `CANCEL_AND_VIEW`                  |
+| `ACTION.SELECT`  | For relational fields, allows to select or add one or many objects and relay selection to parent View     | `SELECT`                                               |
+| `ACTION.OPEN`    | For relational fields, allows to open the related object in a new context                                 | `OPEN`                                                 |
+| `ACTION.CLONE`   | For forms in view mode, allows to clone the current object and open the clone in edit mode.               | `CLONE`                                                |
+| `ACTION.ARCHIVE` | For list views, allows to archive the current object and hide it from active lists.                       | `ARCHIVE`                                              |
+| `ACTION.DELETE`  | For list views, allows to delete the current object.                                                      | `DELETE`                                               |
+
+### Edit Action Variants
+
+The `ACTION.EDIT` action supports multiple variants controlling how the edit mode is triggered:
+
+| **VARIANT**   | **BEHAVIOR**                                                      |
+| ------------- | ----------------------------------------------------------------- |
+| `EDIT`        | Open the form in edit mode, replacing the current view            |
+| `EDIT_BULK`   | Open a bulk edit context to edit multiple selected items          |
+| `EDIT_INLINE` | Enable inline editing directly in the list without opening a form |
 
 ### Save Action Variants
 
@@ -150,13 +163,13 @@ The `ACTION.CANCEL` action supports these variants:
 
 **Structure:**
 
-| **PROPERTY**  | **TYPE** | **DESCRIPTION**                                                              |
-| ------------- | -------- | ---------------------------------------------------------------------------- |
-| `id`          | `string` | Predefined action identifier (required for variants)                         |
-| `description` | `string` | (optional) Custom description overriding the default                         |
-| `domain`      | `array`  | (optional) [Domain](TODO) conditions for action visibility                   |
-| `view`        | `string` | (optional) ID of the view to display when the action requires a view         |
-| `controller`  | `string` | (optional) Custom [ORM/Entity controller](TODO) to override default behavior |
+| **PROPERTY**  | **TYPE** | **DESCRIPTION**                                                                      |
+| ------------- | -------- | ------------------------------------------------------------------------------------ |
+| `id`          | `string` | Predefined action identifier (required for variants)                                 |
+| `description` | `string` | (optional) Custom description overriding the default                                 |
+| `domain`      | `array`  | (optional) [Domain](TODO) conditions for action (Example: `"visibility": ["admin"]`) |
+| `view`        | `string` | (optional) ID of the view to display when the action requires a view                 |
+| `controller`  | `string` | (optional) Custom [ORM/Entity controller](TODO) to override default behavior         |
 
 ### Configuration Rules
 
@@ -245,8 +258,6 @@ These defaults can be customized or hidden using the `header.actions` configurat
 
 ---
 
-
-TODO: CHECK VALIDITY:
 ## Action Access Control
 
 Both root-level actions and header actions support an `access` property to control visibility and invocation permissions.
@@ -256,7 +267,6 @@ Both root-level actions and header actions support an `access` property to contr
 | **PROPERTY** | **DESCRIPTION**                                           |
 | ------------ | --------------------------------------------------------- |
 | `groups`     | Array of group names whose members can see/use the action |
-| `users`      | Array of user logins that can see/use the action          |
 
 **Note:** The `access` property controls UI visibility. Actual permission checks for controller invocation must be configured in the [controller](TODO) itself.
 

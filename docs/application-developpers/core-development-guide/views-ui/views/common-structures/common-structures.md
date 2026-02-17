@@ -74,29 +74,7 @@ The `header` section allows customization of the view's header behavior and layo
 
 #### Header Actions
 
-##### Redefining Default Header Actions
-
-| **PROPERTY**    | **TYPE**                           | **DESCRIPTION**                                                                                                                                                                                                                                                           |
-| --------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ACTION.CREATE` | `boolean` or array of action items | Controls the "Create" button in list view headers. Set to `true` to show the default create action, or provide an array of action items for a split-button with multiple options.                                                                                         |
-| `ACTION.EDIT`   | `boolean` or array of action items | Controls the "Edit" button in list view headers. Set to `true` to show the default edit action, or provide an array of action items for a split-button with multiple options.                                                                                             |
-| `ACTION.DELETE` | `boolean` or array of action items | Controls the "Delete" button in list view headers. Set to `true` to show the default delete action, or provide an array of action items for a split-button with multiple options.                                                                                         |
-| `ACTION.SAVE`   | `boolean` or array of action items | Controls the "Save" button in form view headers. Set to `true` to show the default save action, or provide an array of action items for a split-button with multiple options. Prossibilities are `SAVE_AND_CONTINUE`, `SAVE_AND_CLOSE`, `SAVE_AND_VIEW`, `SAVE_AND_EDIT`. |
-| `ACTION.CANCEL` | `boolean` or array of action items | Controls the "Cancel" button in form view headers. Set to `true` to show the default cancel action, or provide an array of action items for a split-button with multiple options. Possibilities are `CANCEL_AND_VIEW`, `CANCEL_AND_CLOSE`                                 |
-| `ACTION.SELECT` | `boolean` or array of action items | Controls the "Select" button in list view headers when `purpose` is set to `select`. Set to `true` to show the default select action, or provide an array of action items for a split-button with multiple options.                                                       |
-
-##### Header Action Properties
-
-| **PROPERTY**  | **TYPE**  | **DESCRIPTION**                                                                                                                    |
-| ------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `mode`        | `string`  | Display mode for the view, affecting how actions are presented ('view' or 'edit')                                                  |
-| `view`        | `string`  | View ID to load when the action is triggered (e.g., `form.create`, `list.default`) for `SAVE_AND_VIEW` and `SAVE_AND_EDIT`         |
-| `id`          | `string`  | Identifier for translation and reference purposes                                                                                  |
-| `controller`  | `string`  | [ORM/Entity controller](TODO) invoked when the action is triggered. The current object's `id` is sent as a parameter by default    |
-| `description` | `string`  | Description shown when the user hovers over the header actions area, providing guidance on the available actions or their effects. |
-| `confirm`     | `boolean` | If `true`, a confirmation dialog appears before executing any header action. This applies to all actions defined in the header.    |  |
-
-Header actions control predefined buttons (like Create, Save, Cancel) and their behavior. Unlike root-level actions, header actions apply to interactions with selected objects in list views.
+Make sure not to mix up the "actions" section with the header "actions" subsection. The former lists the actions that are available for the whole view (genrally form views) while the latter can be used to allow or prevent specific actions on selected objects (generally list views).
 
 **Note:** Predefined action IDs must be used; custom IDs are not supported for header actions.
 
