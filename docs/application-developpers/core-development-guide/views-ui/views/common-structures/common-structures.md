@@ -4,60 +4,175 @@ Views in eQual share a common set of properties that define their behavior, appe
 
 ---
 
+## View-Type-Specific Properties
+
+For View-Type Specific properties, see the following documentation:
+
+* [List Views](lists.md)
+* [Form Views](forms.md)
+* [Menu Views](menus.md)
+* [Dashboard Views](dashboards.md)
+* [Search Views](search.md)
+
+---
+
 ## Common Properties
 
 All view types support the following core properties:
 
-| **PROPERTY**  | **TYPE**                    | **DESCRIPTION**                                                                            |
-| ------------- | --------------------------- | ------------------------------------------------------------------------------------------ |
-| `name`        | `string`                    | Name of the view displayed in the application                                              |
-| `description` | `string`                    | Description of the view and its purpose                                                    |
-| `domain`      | `array`                     | [Domain](TODO) to filter which items from the input collection will be displayed           |
-| `filters`     | array of [Filter](#filters) | Associative array of filters with name and clauses                                         |
-| `controller`  | `string`                    | Data controller used to fetch objects from the database (defaults to `core_model_collect`) |
-| `header`      | [Header](#header)           | Configuration to override the default header behavior                                      |
-| `actions`     | array of [Action](#actions) | Custom actions applicable to the view context (typically for form views)                   |
-| `routes`      | array of [Route](#routes)   | Contextual links to other parts of the application                                         |
-| `access`      | [Access](#access)           | Access control rules to restrict view visibility by user group or login                    |
+| **PROPERTY**  | **TYPE**                          | **DESCRIPTION**                                                                                |
+| ------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `name`        | `string`                          | Name of the view displayed in the application                                                  |
+| `description` | `string`                          | Description of the view and its purpose                                                        |
+| `controller`  | `string`                          | Data controller used to fetch objects from the database (defaults to `core_model_collect`)     |
+| `mode`        | `string`                          | Display mode for the view                                                                      |
+| `layout`      | `Layout`                          | Layout containing items for rendering the view (see [Layout](TODO) documentation)              |
+| `order`       | `string`                          | Default field(s) to order by for list views (defaults to `id`): for lists                      |
+| `sort`        | `string`                          | Default sort direction for list views: `asc` or `desc` (defaults to `asc`): for lists          |
+| `start`       | `integer`                         | Pagination start index for list and search views (default to `0`)                              |
+| `limit`       | `integer`                         | Number of items fetched per page in list and search views (default to `25`)                    |
+| `header`      | array of [Header](#header)        | Configuration to override the default header behavior                                          |
+| `filters`     | array of [Filter](#filters)       | Associative array of filters with name and clauses                                             |
+| `actions`     | array of [Action](#actions)       | Custom actions applicable to the view context (typically for form views)                       |
+| `routes`      | array of [Route](#routes)         | Contextual links to other parts of the application                                             |
+| `access`      | array of [Access](#access)        | Access control rules to restrict view visibility by user group or login                        |
+| `group_by`    | array of [GroupBy](#group-by)     | Fields to group by in list views (default is empty array) for lists                            |
+| `exports`     | array of [Export](#exports)       | Export/print configurations                                                                    |
+| `domain`      | array of [Domain](#domain)        | Domainto filter which items from the input collection will be displayed                        |
+| `layout`      | array of [Layout](#layout)        | Layout configuration for the view, defining how items are arranged on the screen               |
+| `operations`  | array of [Operation](#operations) | (for list views) Definitions of operations to apply on columns or groups, like SUM, COUNT, AVG |
 
-## View-Type-Specific Properties
+### Header
 
-### List
+The `header` section allows customization of the view's header behavior and layout.
 
-| **PROPERTY** | **TYPE**                    | **DESCRIPTION**                                     |
-| ------------ | --------------------------- | --------------------------------------------------- |
-| `order`      | `string`                    | (optional) Sort direction: `asc` or `desc`          |
-| `sort`       | `string`                    | (optional) Field name(s) to sort by default         |
-| `limit`      | `integer`                   | (optional) Number of items fetched per page         |
-| `exports`    | array of [Export](#exports) | (optional) Export/print configurations for the list |
+**Structure:**
 
-### Menu
+| **PROPERTY**      | **TYPE**                             | **DESCRIPTION**                                                                                                                                            |
+| ----------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `actions`         | [Header Action](#header-actions)     | Configuration of action buttons shown in the header (see [Header Actions](#header-actions))                                                                |
+| `selection`       | [Selection](#selection) or `boolean` | Descriptor for the actions that can be applied when one or more items are selected in the list                                                             |
+| `filters`         | `boolean`                            | Flag to display or hide the default filtering input                                                                                                        |
+| `layout`          | `string`                             | `full` (default) or `inline`. The [`inline`](TODO) mode displays a compact list with minimal navigation and icon-based actions, ideal for embedded layouts |
+| `advanced_search` | `boolean`                            | Flag to display or hide the advanced search button in the header, which opens a sidebar for building complex queries (only for list views)                 |
+| `mode`            | `string`                             | For chart views only (`chart` or `grid`)                                                                                                                   |
 
-| **PROPERTY** | **TYPE** | **DESCRIPTION**                                                                    |
-| ------------ | -------- | ---------------------------------------------------------------------------------- |
-| `type`       | `string` | (mandatory) Either `entry` or `parent`. Parent items include a `children` property |
+**Example - Inline layout:**
 
-### Dashboard
-
-| **PROPERTY** | **TYPE** | **DESCRIPTION**                         |
-| ------------ | -------- | --------------------------------------- |
-| `width`      | `string` | Width of the item as a percentage value |
+```json
+{
+  "header": {
+    "layout": "inline",
+    "actions": {
+      "ACTION.CREATE_INLINE": true
+    }
+  }
+}
+```
 
 ---
 
-## Detailed Configuration
+#### Header Actions
 
-### Domain
+##### Redefining Default Header Actions
 
-The `domain` property conditionally filters which data is displayed in the view. It uses the [domain](TODO) syntax to define filter criteria.
+| **PROPERTY**    | **TYPE**                           | **DESCRIPTION**                                                                                                                                                                                                                                                           |
+| --------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ACTION.CREATE` | `boolean` or array of action items | Controls the "Create" button in list view headers. Set to `true` to show the default create action, or provide an array of action items for a split-button with multiple options.                                                                                         |
+| `ACTION.EDIT`   | `boolean` or array of action items | Controls the "Edit" button in list view headers. Set to `true` to show the default edit action, or provide an array of action items for a split-button with multiple options.                                                                                             |
+| `ACTION.DELETE` | `boolean` or array of action items | Controls the "Delete" button in list view headers. Set to `true` to show the default delete action, or provide an array of action items for a split-button with multiple options.                                                                                         |
+| `ACTION.SAVE`   | `boolean` or array of action items | Controls the "Save" button in form view headers. Set to `true` to show the default save action, or provide an array of action items for a split-button with multiple options. Prossibilities are `SAVE_AND_CONTINUE`, `SAVE_AND_CLOSE`, `SAVE_AND_VIEW`, `SAVE_AND_EDIT`. |
+| `ACTION.CANCEL` | `boolean` or array of action items | Controls the "Cancel" button in form view headers. Set to `true` to show the default cancel action, or provide an array of action items for a split-button with multiple options. Possibilities are `CANCEL_AND_VIEW`, `CANCEL_AND_CLOSE`                                 |
+| `ACTION.SELECT` | `boolean` or array of action items | Controls the "Select" button in list view headers when `purpose` is set to `select`. Set to `true` to show the default select action, or provide an array of action items for a split-button with multiple options.                                                       |
+
+##### Header Action Properties
+
+| **PROPERTY**  | **TYPE**  | **DESCRIPTION**                                                                                                                    |
+| ------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `mode`        | `string`  | Display mode for the view, affecting how actions are presented ('view' or 'edit')                                                  |
+| `view`        | `string`  | View ID to load when the action is triggered (e.g., `form.create`, `list.default`) for `SAVE_AND_VIEW` and `SAVE_AND_EDIT`         |
+| `id`          | `string`  | Identifier for translation and reference purposes                                                                                  |
+| `controller`  | `string`  | [ORM/Entity controller](TODO) invoked when the action is triggered. The current object's `id` is sent as a parameter by default    |
+| `description` | `string`  | Description shown when the user hovers over the header actions area, providing guidance on the available actions or their effects. |
+| `confirm`     | `boolean` | If `true`, a confirmation dialog appears before executing any header action. This applies to all actions defined in the header.    |  |
+
+Header actions control predefined buttons (like Create, Save, Cancel) and their behavior. Unlike root-level actions, header actions apply to interactions with selected objects in list views.
+
+**Note:** Predefined action IDs must be used; custom IDs are not supported for header actions.
+
+Default actions can be hidden by setting `visible` to `false`. To define a split-button (multiple action variants), use an array of action items.
+
+For a complete list of predefined action IDs and their default behaviors, see the [Header section: Views & Actions](TODO) documentation.
 
 **Example:**
 
 ```json
 {
-  "domain": ["type", "<>", "I"]
+  "header": {
+    "actions": {
+      "ACTION.CREATE": [
+        {
+          "view": "form.create",
+          "description": "Custom form for object creation.",
+          "domain": ["parent_status", "=", "object.status"],
+          "access": {
+            "groups": ["admin"]
+          },
+          "controller": "custompackage_mode_update"
+        }
+      ],
+      "ACTION.SELECT": false,
+      "ACTION.SAVE": [
+        {"id": "SAVE_AND_CONTINUE"},
+        {"id": "SAVE_AND_CLOSE"}
+      ],
+      "ACTION.CANCEL": [
+        {"id": "CANCEL_AND_VIEW"}
+      ]
+    }
+  }
 }
 ```
+
+#### Selection
+
+The `selection` property allows to customize the list of bulk actions that are available when one or more items are selected.
+
+| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                                                                                             |
+| ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default`    | `boolean` | Flag telling if the default actions have to be present in the available action to apply on current selection                                |
+| `actions`    | `array`   | An array of action items that can be applied on current selection                                                                           |
+| `id`         | `string`  | Identifier for translation and reference purposes                                                                                           |
+| `primary`    | `boolean` | If `true`, this action is the default selection action triggered when clicking on an item without choosing a specific action from the menu. |
+| `visible`    | `array`   | (optional) [Domain](TODO) conditions to determine if the selection action is shown for a given item                                         |
+
+**Example: Allow only `ACTION.CLONE` and a custom action**
+
+```json
+"header": {
+    "filters": {
+        "custom": true,
+        "quicksearch": false
+    },
+    "selection": {
+        "default" : false,
+        "actions" : [
+            {
+                "id": "ACTION.CLONE"
+            },
+            {
+                "id": "header.selection.actions.mark_ignored",
+                "label": "Mark as ignored",
+                "icon": "",
+                "controller": "lodging_sale_booking_bankstatementline_bulk-ignore"
+            }
+        ]
+    }
+}
+
+```
+
+---
 
 ### Filters
 
@@ -65,12 +180,13 @@ The `filters` property customizes the filtering features available in the view h
 
 **Structure:**
 
-| **PROPERTY**  | **TYPE** | **DESCRIPTION**                                                            |
-| ------------- | -------- | -------------------------------------------------------------------------- |
-| `id`          | `string` | Unique identifier for translation purposes                                 |
-| `label`       | `string` | Default display name if no translation is set                              |
-| `description` | `string` | (optional) Description explaining the filter's purpose                     |
-| `clause`      | `array`  | [Clause](TODO) that will be added to the domain when the filter is applied |
+| **PROPERTY**  | **TYPE**  | **DESCRIPTION**                                                                                                                  |
+| ------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string`  | Unique identifier for translation purposes                                                                                       |
+| `label`       | `string`  | Default display name if no translation is set                                                                                    |
+| `description` | `string`  | Description explaining the filter's purpose                                                                                      |
+| `clause`      | `array`   | [Clause](TODO) that will be added to the domain when the filter is applied                                                       |
+| `quicksearch` | `boolean` | If `true`, the filter is applied as the user types in the quicksearch input, allowing for dynamic filtering based on the clause. |
 
 **Example:**
 
@@ -87,42 +203,7 @@ The `filters` property customizes the filtering features available in the view h
 }
 ```
 
-### Controller
-
-The `controller` property specifies which data controller retrieves objects for the view. The controller must be a data-controller extending `core_model_collect` (the default).
-
-**Example:**
-
-```json
-{
-  "controller": "core_model_collect"
-}
-```
-
-### Header
-
-The `header` section allows customization of the view's header behavior and layout.
-
-**Structure:**
-
-| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                                                                                                            |
-| ------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `actions`    | object    | Configuration of action buttons shown in the header (see [Header Actions](#header-actions))                                                                |
-| `filters`    | `boolean` | Flag to display or hide the default filtering input                                                                                                        |
-| `layout`     | `string`  | `full` (default) or `inline`. The [`inline`](TODO) mode displays a compact list with minimal navigation and icon-based actions, ideal for embedded layouts |
-
-**Example - Inline layout:**
-
-```json
-{
-  "header": {
-    "layout": "inline",
-    "actions": {
-      "ACTION.CREATE_INLINE": true
-    }
-  }
-}
-```
+---
 
 ### Actions
 
@@ -172,45 +253,7 @@ The `actions` property defines custom actions for the view. Each action correspo
 
 If the target controller requires parameters, a dialog prompts the user for values. If no parameters are required but `confirm` is `true`, a confirmation dialog appears instead. See the [action flow diagram](/_assets/img/eq_confirm_diagram.png) for details.
 
-### Header Actions
-
-Header actions control predefined buttons (like Create, Save, Cancel) and their behavior. Unlike root-level actions, header actions apply to interactions with selected objects in list views.
-
-**Note:** Predefined action IDs must be used; custom IDs are not supported for header actions.
-
-Default actions can be hidden by setting `visible` to `false`. To define a split-button (multiple action variants), use an array of action items.
-
-For a complete list of predefined action IDs and their default behaviors, see the [Header section: Views & Actions](TODO) documentation.
-
-**Example:**
-
-```json
-{
-  "header": {
-    "actions": {
-      "ACTION.CREATE": [
-        {
-          "view": "form.create",
-          "description": "Custom form for object creation.",
-          "domain": ["parent_status", "=", "object.status"],
-          "access": {
-            "groups": ["admin"]
-          },
-          "controller": "custompackage_mode_update"
-        }
-      ],
-      "ACTION.SELECT": false,
-      "ACTION.SAVE": [
-        {"id": "SAVE_AND_CONTINUE"},
-        {"id": "SAVE_AND_CLOSE"}
-      ],
-      "ACTION.CANCEL": [
-        {"id": "CANCEL_AND_VIEW"}
-      ]
-    }
-  }
-}
-```
+---
 
 ### Routes
 
@@ -221,6 +264,8 @@ Routes define contextual links to other parts of the application, displayed with
 | **PROPERTY** | **TYPE** | **DESCRIPTION**                               |
 | ------------ | -------- | --------------------------------------------- |
 | `package`    | `string` | Target package of the route (e.g., `lodging`) |
+
+---
 
 ### Access
 
@@ -243,24 +288,28 @@ Access control restricts view visibility to specific users and groups.
 }
 ```
 
-### Operations
+---
 
-Operations apply calculations (like SUM, COUNT, AVG) to columns in list views, displaying aggregate results. Operations can be defined at three levels:
+### GroupBy
 
-#### 1. In `group_by` (Simple Field)
+The `group_by` property defines fields to group by in list views, allowing for aggregated displays of data. Groupings can be defined as simple field names or as objects with additional configuration for operations and sorting.
 
-Group results by a field without additional operations:
+| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                                                                                   |
+| ------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `field`      | `string`  | Name of the field to group by                                                                                                     |
+| `operation`  | `array`   | Operation to apply on the grouped field (e.g., `SUM`, `COUNT`, `AVG`) and the target field for the operation (e.g., `object.qty`) |
+| `order`      | `string`  | Sort order for the grouped results: `asc` or `desc` (defaults to `asc`)                                                           |
+| `open`       | `boolean` | If `true`, the group is expanded by default in the view                                                                           |
+| `operations` | `array`   | Array of operations to apply to specific fields, allowing for multiple calculations (e.g., total count, average)                  |
 
+**Example 1: Simple group by field**
 ```json
 {
   "group_by": ["date"]
 }
 ```
 
-#### 2. In `group_by` (As Object)
-
-Apply an operation while grouping, with options like sort order:
-
+**Example 2: Group by field with operation and sort order**
 ```json
 {
   "group_by": [
@@ -273,39 +322,7 @@ Apply an operation while grouping, with options like sort order:
 }
 ```
 
-#### 3. In `operations` (Global)
-
-Define named calculation rows independent from groupings. Each row can contain multiple named operations:
-
-**Structure:**
-
-| **PROPERTY** | **TYPE** | **DESCRIPTION**                                                                          |
-| ------------ | -------- | ---------------------------------------------------------------------------------------- |
-| `operation`  | `string` | The operation to apply (e.g., `SUM`, `COUNT`, `AVG`)                                     |
-| `usage`      | `string` | [Usage](TODO) hint for displaying the result (e.g., `amount/money:2`, `numeric/integer`) |
-| `prefix`     | `string` | (optional) String prepended to the result                                                |
-| `suffix`     | `string` | (optional) String appended to the result                                                 |
-
-**Example:**
-
-```json
-{
-  "operations": {
-    "total": {
-      "total_paid": {
-        "id": "operations.total.total_paid",
-        "label": "Total received",
-        "operation": "SUM",
-        "usage": "amount/money:2"
-      },
-      "total_due": {
-        "operation": "SUM",
-        "usage": "amount/money:2"
-      }
-    }
-  }
-}
-```
+---
 
 ### Exports
 
@@ -338,6 +355,124 @@ The `exports` property defines document export/print configurations for list vie
       "visible": ["status", "=", "quote"]
     }
   ]
+}
+```
+
+---
+
+### Domain
+
+The `domain` property conditionally filters which data is displayed in the view. It uses the [domain](TODO) syntax to define filter criteria.
+
+| **PROPERTY** | **TYPE** | **DESCRIPTION**                                                                |
+| ------------ | -------- | ------------------------------------------------------------------------------ |
+| `clause`     | `array`  | [Clause](TODO) that will be added to the domain when the filter is applied     |
+| `domain`     | `array`  | (optional) Additional [domain](TODO) conditions to determine filter visibility |
+
+
+**Example:**
+
+```json
+{
+  "domain": ["type", "<>", "I"]
+}
+```
+
+---
+
+### Layout
+
+Layout holds the structure of the view and defines how items are arranged on the screen. The main layout types are:
+
+* `items` : defining a flat list of items to display
+* `groups`, `sections`, `rows`, `columns` : defining nested structures (dependent on the view type) to organize items in more complex arrangements
+
+
+#### Items
+
+| **PROPERTY**  | **TYPE**          | **DESCRIPTION**                                                                |
+| ------------- | ----------------- | ------------------------------------------------------------------------------ |
+| `description` | `string`          | Description of the item, shown in a tooltip or details view                    |
+| `type`        | `string`          | (required) Type of the item (`field` (interactive) or `label` (static text))   |
+| `id`          | `string`          | Unique identifier, used for translations (overrides label and value)           |
+| `label`       | `string`          | Custom title to override the field's default label                             |
+| `value`       | `string`          | Static text content for labels, or field name for fields                       |
+| `width`       | `percentage`      | Width of the item as a percentage of its parent (0-100%)                       |
+| `readonly`    | `boolean`         | If `true`, the field cannot be edited in creation/edit contexts                |
+| `visible`     | `boolean`         | If `false`, the item is not displayed                                          |
+| `help`        | `string`          | Help text displayed for the field, guiding the user on what to enter           |
+| `align`       | `string`          | Alignment of the item: `left`, `center`, `right`                               |
+| `widget`      | [Widget](#widget) | Configuration properties for the item's display and behavior                   |
+| `usage`       | `string`          | Usage hint for displaying the item (e.g., `amount/money:2`, `numeric/integer`) |
+
+| `foreign_object` | `string`             | (for fields) Reference to a related object property                              |
+| `foreign_field`  | `string`             | (for fields) Reference to a related field to display                             |
+| `selection`      | [Selection](#selection) | (for fields) Configuration for selection behavior and available options |
+| ``               |
+
+---
+
+### Operations
+
+Operations apply calculations (like SUM, COUNT, AVG) to columns in list views, displaying aggregate results. Operations can be defined at three levels:
+
+#### In `group_by` (Simple Field)
+
+Group results by a field without additional operations:
+
+```json
+{
+  "group_by": ["date"]
+}
+```
+
+#### In `group_by` (As Object)
+
+Apply an operation while grouping, with options like sort order:
+
+```json
+{
+  "group_by": [
+    {
+      "field": "time_slot_id",
+      "operation": ["SUM", "object.qty"],
+      "order": "asc"
+    }
+  ]
+}
+```
+
+#### In `operations` (Global)
+
+Define named calculation rows independent from groupings. Each row can contain multiple named operations:
+
+**Structure:**
+
+| **PROPERTY** | **TYPE** | **DESCRIPTION**                                                                          |
+| ------------ | -------- | ---------------------------------------------------------------------------------------- |
+| `operation`  | `string` | The operation to apply (e.g., `SUM`, `COUNT`, `AVG`)                                     |
+| `usage`      | `string` | [Usage](TODO) hint for displaying the result (e.g., `amount/money:2`, `numeric/integer`) |
+| `prefix`     | `string` | (optional) String prepended to the result                                                |
+| `suffix`     | `string` | (optional) String appended to the result                                                 |
+
+**Example:**
+
+```json
+{
+  "operations": {
+    "total": {
+      "total_paid": {
+        "id": "operations.total.total_paid",
+        "label": "Total received",
+        "operation": "SUM",
+        "usage": "amount/money:2"
+      },
+      "total_due": {
+        "operation": "SUM",
+        "usage": "amount/money:2"
+      }
+    }
+  }
 }
 ```
 
