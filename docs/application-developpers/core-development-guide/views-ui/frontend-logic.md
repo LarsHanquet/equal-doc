@@ -14,7 +14,7 @@ As a convention, a default view for `list` and `form` types should be defined fo
 **The generic filename format** is: `{class_name}.{view_type}.{view_name}.json`
 
 * `class_name`: the class name of the entity the view relates to (e.g. default form view for  `core\User` is stored as `packages/core/views/User.form.default.json`)
-* `view_type`: Possible values are :'*list*', '*form*','*chart*','*dashboard*'
+* `view_type`: Possible values are :'*list*', '*form*','*chart*','*dashboard*', '*search*'.
 * `view_name`: As a convention, classes should always have a 'default' view for types 'list' and 'view'.
 
 Within a view file, a layout defines the way in which the Items are linked to the model. The view is synchronized with the model during modifications.
@@ -288,7 +288,7 @@ As other views, a menu has a `name` property and a `layout` property, that descr
 
 In the example shown below, one parent menu item is present named "New Booking" and it contains two children, "New Booking" to create a new booking and "All Bookings" that displays the list of all the bookings ordered by id and sorted in descending order.
 
-??? example "Example Form view "
+??? example "Example Menu With Nested Items "
     ```json
     {
         "name": "Booking menu",
