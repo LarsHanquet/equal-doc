@@ -27,13 +27,9 @@ Widgets are specified within an item's configuration and support three customiza
 
 The `type` property overrides the default widget type determined by the field's data type.
 
-**Universal Types (work with most field types):**
+### Widget Types
 
-* `date` - Display datetime fields as simple dates
-* `string` - Render as a text input
-* `text` - Render as a textarea
-* `link` - Display as a clickable link
-* `file` - Display as a file input
+Widgets come in various types that control the basic display and interaction mode of a field. For a complete list of available widget types, refer to the [Widget Types documentation](TODO).
 
 **Example - Display datetime as date:**
 
@@ -76,9 +72,30 @@ Different field types support additional widget variants:
 
 ---
 
+## Widget Properties
+
+Widgets support a variety of properties that control their behavior and appearance. These properties can be combined to create rich, interactive field displays.
+
+### Common Widget Properties
+| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                                             |
+| ------------ | --------- | ------------------------------------------------------------------------------------------- |
+| `value`      | `string`  | The field name or value to display (e.g., `created`, `total_amount`)                        |
+| `link`       | `boolean` | If `true`, the item content is displayed as a clickable link                                |
+| `type`       | `string`  | Overrides the default display type based on the field type (e.g., `text`, `select`, `date`) |
+| `usage`      | `string`  | Overrides the field's [usage](TODO) to change display formatting                            |
+
+#### Relational Field Widgets
+
+For one2many and many2many fields, additional properties customize how related objects are displayed:
+
+For many2one fields, since the display involves the name, an object is requested (instead of simply the id). Additional sub-fields can be specified using dot notation for nested properties (e.g., `object.target_id.target_field`).
+
+For further documentation, since most fields depend on the view type, see the [forms](TODO) and [lists](TODO) documentation for relational field widget examples and specific properties.
+TODO add mentions to other view types if they also support relational fields
+
 ## Usage Formatting
 
-The `usage` property applies formatting rules to field values based on predefined or custom [usage specifications](TODO). This is useful for displaying dates in specific formats, currencies with proper symbols, or other specialized representations.
+The `usage` property applies formatting rules to field values based on predefined or custom usage specifications. This is useful for displaying dates in specific formats, currencies with proper symbols, or other specialized representations.
 
 **Common Usages:**
 
@@ -132,20 +149,13 @@ Widgets support simple, built-in styling properties that control visual appearan
 | ------------------ | -------- | -------------------------------------------------------------------- |
 | `text_color`       | `string` | Text color (CSS color name or hex code)                              |
 | `text_weight`      | `string` | Font weight (e.g., `bold`, `500`, `700`)                             |
+| `text_width`       | `string` | Text width (CSS syntax, e.g., `100%`, `200px`)                      |
 | `text_align`       | `string` | Horizontal text alignment (`left`, `center`, `right`)                |
+| `text_padding`     | `string` | Inner spacing around text (CSS syntax, e.g., `4px`, `0.25rem`)       |
 | `text_decoration`  | `string` | Text decoration (e.g., `underline`, `overline`, `line-through`)      |
 | `background_color` | `string` | Background color (CSS color name or hex code)                        |
 | `border_color`     | `string` | Border color (CSS color name or hex code)                            |
 | `border_radius`    | `string` | Border corner radius (CSS syntax, e.g., `4px`, `0.25rem`)            |
-| `padding`          | `string` | Inner spacing (CSS syntax, e.g., `8px`, `0.5rem`)                    |
-| `margin`           | `string` | Outer spacing (CSS syntax, e.g., `0 auto`, `10px 5px`)               |
-| `icon`             | `string` | Icon to display by name or emoji (e.g., `info`, `⚠️`, `check_circle`) |
-| `icon_position`    | `string` | Icon placement relative to text (`left`, `right`)                    |
-| `icon_color`       | `string` | Icon color (falls back to `text_color` if unspecified)               |
-
-### Icon Naming
-
-TODO: Provide reference to icon library or naming conventions used for the `icon` property.
 
 ### Color Values
 
@@ -153,44 +163,8 @@ Colors can be specified as:
 
 * CSS color names: `red`, `blue`, `orange`, `lightgray`
 * Hexadecimal codes: `#333`, `#b30000`, `#fff3cd`
-* RGB notation: `rgb(255, 0, 0)`
-
-### Spacing Values
-
-Spacing properties accept CSS syntax:
-
-* Single value: `8px` (all sides)
-* Horizontal/Vertical: `10px 5px` (top/bottom, left/right)
-* Four sides: `10px 5px 10px 5px` (top, right, bottom, left)
-* Relative units: `0.5rem`, `1em`
-
-### Styling Example
-
-TODO: Test Example - Styled Label Widget
-```json
-{
-  "type": "label",
-  "value": "Important Notice",
-  "widget": {
-    "type": "text",
-    "text_color": "#b30000",
-    "text_weight": "bold",
-    "text_align": "center",
-    "background_color": "#fff3cd",
-    "border_color": "#f5c6cb",
-    "border_radius": "4px",
-    "padding": "12px",
-    "margin": "0 0 10px 0",
-    "icon": "⚠️",
-    "icon_position": "left",
-    "icon_color": "orange"
-  }
-}
-```
-
-**Rendered Result:**
-
-A centered, bold red text saying "Important Notice" with a warning emoji on the left, displayed on a light yellow background with an orange emoji, rounded corners, and custom padding/margins.
+* RGB/RGBA notation: `rgb(255, 0, 0)`, `rgba(255, 0, 0, 0.5)`
+* HSL/HSLA notation: `hsl(0, 100%, 50%)`, `hsla(0, 100%, 50%, 0.5)`
 
 ---
 
@@ -215,62 +189,15 @@ Widgets can combine multiple configuration layers:
 }
 ```
 
-**Date Field with Custom Formatting:**
-
-```json
-{
-  "type": "field",
-  "value": "deadline",
-  "width": 15,
-  "widget": {
-    "type": "date",
-    "usage": "date/short",
-    "text_align": "center"
-  }
-}
-```
-
-**Linked Text with Styling:**
-
-```json
-{
-  "type": "field",
-  "value": "documentation_url",
-  "widget": {
-    "type": "link",
-    "text_color": "#0066cc",
-    "text_decoration": "underline"
-  }
-}
-```
-
-**Relational Field with Custom Display:**
-
-```json
-{
-  "type": "field",
-  "value": "assigned_to",
-  "widget": {
-    "type": "select",
-    "text_weight": "500",
-    "background_color": "#f0f0f0"
-  }
-}
-```
-
 ---
 
 ## Widget in Different View Contexts
 
 While the core widget configuration is consistent, the context in which widgets appear affects their behavior:
 
-**In Form Views:**
+**In Views:**
 
-Widgets render as interactive inputs (text boxes, date pickers, dropdowns, etc.) that users can modify during creation or editing.
-
-**In List Views:**
-
-Widgets render as display-only columns, though some styling and formatting still applies. Refer to the [lists documentation](TODO) for list-specific widget behavior.
+In views, widgets control the display of fields within forms, lists, and other view types. The available widget types and properties may vary based on the view context (e.g., some widgets may only be applicable in forms).
 
 **In Relational Fields:**
 
