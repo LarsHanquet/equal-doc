@@ -1,8 +1,22 @@
 # Menus
 
-Menus are specific [Views](TODO) used to define the navigational structure of an application. They organize access to different parts of the application—such as [Forms](TODO), [Lists](TODO), or [Dashboards](TODO)—into a hierarchical tree of action buttons.
+Menus are used to define the navigational structure of an application. They organize access to different parts of the application—such as [Forms](TODO), [Lists](TODO), or [Dashboards](TODO)—into a hierarchical tree of action buttons.
 
-While often defined within the `layout` property of a [View](TODO) file, the fundamental building block of a menu is the **Menu Item**.
+At the base the structure of a menu is as follows:
+
+```json
+{
+    "name": "Menu Name",
+    "access": {
+        "groups": ["group1", "group2"]
+    },
+    "layout": {
+        "items": [
+            // Menu items go here
+        ]
+    }
+}
+```
 
 ## Menu Item Structure
 
@@ -22,14 +36,7 @@ The following properties apply to all menu items, regardless of their type:
 | `label`       | `string` | The display name of the item in the UI (unless overridden by a [Translation](TODO)).                                     |
 | `description` | `string` | (Optional) A brief explanation of the item's purpose, often displayed as a tooltip or helper text.                       |
 | `icon`        | `string` | (Optional) The name of an icon to visualize the item (e.g., from [Material Icons](TODO)).                                |
-
-### Parent Items
-
-A **Parent** item is used to group related views (e.g., a "Sales" folder containing "Orders" and "Invoices"). It requires the `children` property.
-
-| Property   | Type    | Description                                                                               |
-| :--------- | :------ | :---------------------------------------------------------------------------------------- |
-| `children` | `array` | A list of nested Menu Item objects. These can be further `parent` items or `entry` items. |
+| `children`    | `array`  | (For `parent` type) A list of nested Menu Item objects.                                                                    |
 
 ### Entry Items
 
@@ -50,7 +57,7 @@ The `context` object determines the state of the application upon navigation. It
 | Property | Type     | Description                                                                                                    |
 | :------- | :------- | :------------------------------------------------------------------------------------------------------------- |
 | `entity` | `string` | The fully qualified name of the [Entity](TODO) to display (e.g., `core\User`, `lodging\sale\booking\Booking`). |
-| `view`   | `string` | The ID of the [View](TODO) to render (e.g., `list.default` for a list, `form.default` for a form).             |
+| `view`   | `string` | The ID of the [View](TODO) to render (e.g., `list.default` => it will always be: `[type].[name]`).             |
 | `domain` | `array`  | (Optional) A [Domain](TODO) array defining filters to apply to the data (e.g., `[['status', '=', 'active']]`). |
 | `order`  | `string` | (Optional) The name of the field by which to sort the results.                                                 |
 | `sort`   | `string` | (Optional) The direction of the sort: `asc` (ascending, default) or `desc` (descending).                       |
