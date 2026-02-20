@@ -5,10 +5,15 @@ The controllers are usually seperated in three different directories: **"Data, A
 - In the folder Data, we will be **Fetching**  the data, **method GET**.
 
 > Example :  `/core/data/model/search.php`.
->
-> The controller "Search" => "Returns a list of identifiers of a given entity, according to given domain (filter), start offset, limit and order."
 
-- In the folder Actions, we will be modifying the data, **method DO (Post, Put, Delete)**. 
+What it does:
+
+`announce()` will handle the values of our query:
+
+    - `description` tells what the controller does.
+    - `params` gives additional requirements and conditions.
+    - `response` defines the format of the server response.
+    - `providers` helps us to access useful services such as `context`, `orm`, `auth`.
 
 > Example : **`/core/actions/model/create.php`**.
 >
@@ -339,5 +344,47 @@ If we type in the browser :
 
 The response has the form of an **APP/UI**, where we can browse controllers and their definition amongst packages.
 
+## Using 'Setting' Examples
 
+```php
+// Get a setting value for user_id 1
+$value = Settings::get_value('billing', 'defaults', 'currency', 'EUR', ['user_id' => 1]);
+
+// Assert a default setting (global)
+Settings::assert_value('billing', 'defaults', 'currency', 'EUR');
+
+// Fetch and increment a sequence
+$nextNumber = Settings::fetch_and_add('invoicing', 'sequence', 'invoice_number', ['organization_id' => 5]);
+```
+
+### Example: Meal Preferences Assignment Check
+
+The controller `sale_booking_check-mealprefs-assignments` verifies consistency between the number of participants (`nb_pers`) and the quantity of assigned meal preferences (`meal_preferences_ids.qty`) for a `Booking`.
+
+#### Implementation
+
+1. **Booking is loaded** via its ID.
+2. Each `booking_lines_group` of type `sojourn` or `event` is evaluated.
+3. If a mismatch is detected, a `warning` alert is dispatched for the model `lodging.booking.mealprefs_assignment`:
+
+```php
+$dispatch->dispatch(
+    'sale.booking.mealprefs_assignment',
+    'sale\booking\Booking',
+    $params['id'],
+    'warning',
+    'sale_booking_check-mealprefs-assignments',
+    ['id' => $params['id']],
+    [],
+    null,
+    $booking['center_office_id']
+);
+```
+4. If everything matches, any existing alert is cancelled:
+
+```
+<?php
+$dispatch->cancel('lodging.booking.mealprefs_assignment', 'sale\booking\Booking', $params['id']);
+```
+This ensures that alerts are raised on inconsistency and removed on resolution.
 
