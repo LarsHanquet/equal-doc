@@ -1,15 +1,19 @@
-# A basic WebApp
+
+# A Basic WebApp
+
 
 This tutorial details the required steps for creating a webapp from scratch using eQual.
-As sample webapp, we are going to build a basic blog.
+As a sample webapp, we are going to build a basic blog.
 
-## Create a new package
-**(Estimated time : 2 minutes)**
+
+## Create a New Package
+**(Estimated time: 2 minutes.)**
+
 
 This part is quite easy: in the `packages` folder, we create a new folder named `blog`.
 In addition, inside this new folder, let's create a file named `manifest.json` and the following subdirectories (as they are mandatory): `classes` and `views`.
 
-Tree structure is now:
+The tree structure is now:
 ```
   /
   /packages
@@ -19,7 +23,7 @@ Tree structure is now:
       manifest.json
 ```
 
-Content of `manifest.json` :
+Content of `manifest.json`:
 
 ```json
 {
@@ -54,12 +58,16 @@ Content of `manifest.json` :
 
 ```
 
-## Write some classes
-**(Estimated time : 5 minutes)**
+
+## Write Some Classes
+**(Estimated time: 5 minutes.)**
+
 
 Now, we need to create a new kind of object. Let's call it "post".
 
-Each post consists of a title and some text (content). 
+
+Each post consists of a title and some text (content).
+
 
 Therefore, in the folder `packages/blog/classes`, we will add a new file named `Post.class.php`.
 
@@ -99,9 +107,10 @@ class Post extends Model {
 
 ```
 
-The `author_full_name` field is of type computed and its function for this is `calcAuthorFullName`. When a field is computed, we think a good practice is to prefix with `calc` the name of the function.   
 
-Post extends from Model which has the property :        
+The `author_full_name` field is of type computed and its function for this is `calcAuthorFullName`. When a field is computed, we think a good practice is to prefix the name of the function with `calc`.
+
+`Post` extends from `Model`, which has the property:
 ```php
 lib/equal/orm/Model.class.php
 
@@ -113,9 +122,9 @@ lib/equal/orm/Model.class.php
             
 ```
 
+
 The special field `creator` gives us the id of the user (`core\User`) who created the post.
-<!---TODO update link-->
-We can use `$self` (which is an instance of Post) and its method [read()](https://doc.equal.run/architecture-concepts/orm/#read) to get the creator of a post. We can call subproperties so we will get the creator['fullname'] entry.
+We can use `$self` (which is an instance of `Post`) and its method [read()](TODO) to get the creator of a post. We can call subproperties, so we will get the `creator['fullname']` entry.
 
 ```php
 
@@ -179,7 +188,7 @@ class Post extends Model {
 
 ```
 
-Tree structure is now:
+The tree structure is now:
 ```
   /
   /packages
@@ -190,14 +199,15 @@ Tree structure is now:
       manifest.json
 ```
 
-## Create some init data
 
-**(Estimated time : 1 minutes)**
+## Create Some Init Data
+**(Estimated time: 1 minute.)**
 
-in the `blog` folder, we create a new folder named `init` and its subdirectory `data`.
+
+In the `blog` folder, we create a new folder named `init` and its subdirectory `data`.
 Inside the `data` folder, we create a file named `blog_Post.json`.
 
-Tree structure is now:
+The tree structure is now:
 ```
   /
   /packages
@@ -211,7 +221,7 @@ Tree structure is now:
       manifest.json
 
 ```
-Content of `blog_Post.json` : 
+Content of `blog_Post.json`:
 
 ```json
 [
@@ -239,14 +249,17 @@ Content of `blog_Post.json` :
 
 ```
 
+
 This will create two posts when we initialize our application.
 
-## Create views
-**(Estimated time : 10 minutes)**
 
-In the `packages/blog/views`, we create three new files:
+## Create Views
+**(Estimated time: 10 minutes.)**
 
-Tree structure is now:
+
+In the `packages/blog/views` folder, we create three new files:
+
+The tree structure is now:
 ```
   /
   /packages
@@ -263,6 +276,7 @@ Tree structure is now:
       manifest.json
 ```
 ### `menu.app.left.json`
+
 A menu with posts and users entries.
 
 ```json
@@ -312,6 +326,7 @@ A menu with posts and users entries.
 ```
 
 ### `Post.form.default.json`
+
 
 A form view to create and update posts.
 
@@ -369,6 +384,7 @@ A form view to create and update posts.
 
 ### `Post.list.default.json`
 
+
 A list view to display a list of posts.
 
 ```json
@@ -413,36 +429,54 @@ A list view to display a list of posts.
 ```
 
 
-## Test package consistency and initialize the blog backend app 
-**(Estimated time : 1 minute)**
 
+## Test Package Consistency and Initialize the Blog Backend App
+**(Estimated time: 1 minute.)**
+
+Running the following command in your console will test the consistency of your package.
 ```bash
 ./equal.run --do=test_package-consistency --package=blog 
+```
 
+At this stage, you hsould end up with this error because we haven't initialized our package yet and the app is trying to access the views and data of the posts, which do not exist yet.
+
+```bash
+    "result": [
+        "ERROR - DBM - Class Post: Associated table (blog_post) does not exist in database (packages/blog/classes/Post.class.php)"
+    ]
+```
+
+To fix this, we need to initialize our package, which will create the table for the `Post` class and insert the initial data.
+
+```bash
 ./equal.run --do=init_package --package=blog --import=true
 
 ```
 
-## Overview of the application
 
-Go to [http://equal.local/apps/](http://equal.local/apps/)
+## Overview of the Application
+
+Go to [http://equal.local/apps/](http://equal.local/apps/).
 
 Login using the `core/init/data/core_User.json` or your own credentials.
 Then click on the `Blog` button to visit the app.
 
-At this stage you have a back end where users can connect and create blog posts.
+At this stage, you have a backend where users can connect and create blog posts.
 
-Now we want to create a front-end so that everybody can read our blog posts. 
+Now we want to create a front-end so that everybody can read our blog posts.
 
-## Create an application
-**(Estimated time : 15 minutes)**
 
-We will create a simple view in html and fetch the posts from back end in using vanilla javascript.
+## Create an Application
+**(Estimated time: 15 minutes.)**
 
-in the `blog` folder, we create a new folder named `apps` and its subdirectory `blog`.
+
+We will create a simple view in HTML and fetch the posts from the backend using vanilla JavaScript.
+
+
+In the `blog` folder, we create a new folder named `apps` and its subdirectory `blog`.
 Inside the `apps/blog` folder, we create three files.
 
-Tree structure is now:
+The tree structure is now:
 ```
   /
   /packages
@@ -456,6 +490,7 @@ Tree structure is now:
           Post.class.php      
       /init
         /data
+          blog_Post.json
       /views
         menu.app.left.json
         Post.form.default.json
@@ -556,7 +591,9 @@ Tree structure is now:
 }
 
 ```
-* Now in ``packages/blog/manifest.json` add `blog` in "apps"
+
+* Now in ``packages/blog/manifest.json` add `blog` in "apps":
+
 ```json 
 {
     "name": "blog",
@@ -593,7 +630,8 @@ Tree structure is now:
 
 ### `export.sh`
 
-With the index.html, we will create a zip file called `web.app`. You can run it directly in your console or you can make a script in export.sh.
+
+With the `index.html`, we will create a zip file called `web.app`. You can run it directly in your console or you can make a script in `export.sh`:
 
 ```bash
 
@@ -601,7 +639,8 @@ zip web.app index.html
 
 ```
 
-Running the export.sh script will create and zip the file into web.app in your console.  
+
+Running the `export.sh` script will create and zip the file into `web.app` in your console.
 
 ```bash
 
@@ -609,30 +648,33 @@ cd /var/www/html/packages/blog/apps/blog/
 sh export.sh
 ```
 
-Initialize your package in /var/www/html/:
+
+Initialize your package in `/var/www/html/`:
 
 ```bash
 cd /var/www/html/
-./equal.run --do=init_package --package=blog
+./equal.run --do=init_package --package=blog --force=true
 
 ```
 
-This will create the app in /var/www/html/public/blog. 
 
-Now if you got to [http://equal.local/blog/](http://equal.local/blog/), you should see the blog page. 
+This will create the app in `/var/www/html/public/blog`.
 
-## Create a controller
+Now if you go to [http://equal.local/blog/](http://equal.local/blog/), you should see the blog page.
 
-We have not created any controller in eQual. If you look at the apiUrl you see that we use the basic built in get=model_collect which will only return data if your user is logged in in eQual. What we want is for everyone to be able to access the blog and read the posts. So we are going to make a public controller and a custom route.
+---
+
+## Create a Controller
+
+We have not created any controller in eQual. If you look at the `apiUrl`, you see that we use the basic built-in `get=model_collect`, which will only return data if your user is logged in to eQual. What we want is for everyone to be able to access the blog and read the posts. So we are going to make a public controller and a custom route.
 
 Let's create a controller `packages/blog/data/post/collect.php` and a route `packages/blog/init/routes/98-blog.json`.
 
-Tree structure is now:
+The tree structure is now:
 ```
   /
   /packages
     /blog
-      /actions
       /apps
         /blog
           export.sh
@@ -671,22 +713,16 @@ list($params, $providers) = eQual::announce([
     ],
     'access'        => [
         'visibility'    => 'public',
-        'groups'        => ['users']
     ],
-    'providers'         => ['context', "auth"]
+    'providers'         => ['context']
 ]);
 /**
  * @var \equal\php\context  $context
- * @var \equal\auth\AuthenticationManager $auth
  */
-list($context,$auth) = [$providers['context'],$providers['auth']];
-
-$auth->su();
+list($context) = [$providers['context'] ];
 
 $params = [
     'fields' => [
-        'creator.name',
-        'author_full_name',
         'published',
         'title',
         'content'
@@ -704,7 +740,8 @@ $context->httpResponse()
 
 ### `98-blog.json`
 
-Let's create the route `/posts` which will use our collect controller to get all posts.
+
+Let's create the route `/posts`, which will use our collect controller to get all posts.
 
 ```json
 {"\/posts": {
@@ -716,21 +753,89 @@ Let's create the route `/posts` which will use our collect controller to get all
 
 ```
 
-We can now use the api URL in `packages/blog/apps/blog/index.html` :
+
+We can now use the API URL in `packages/blog/apps/blog/index.html`:
 
 ```javascript
-[...]
-<script type="module">
-    (async () => {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eQual Blog</title>
+    <link rel="icon" type="image/x-icon" href="https://doc.equal.run/_assets/img/favicon.png">
+    <style>
+      .list {
+          list-style: none;
+          display: grid;
+          gap : 1rem;
+      }
+      .post {
+          background-color: lightgray;
+          border-radius: 10px;
+          padding: 1rem;
+      }
+
+      h1,h2 {
+          text-align: center;
+      }
+  </style>
+</head>
+
+<body>
+    <main>
+        <h1>eQual Blog</h1>
+
+        <ul class="list"></ul>
+
+        <script type="module">
+            (async () => {
         const apiUrl = "http://equal.local/posts"
         let response = await fetch(apiUrl, {
             method: "GET",
             headers: { "Accept": "*/*" }
         });
-       [...]
-    })();
-</script>
+                let posts = await response.json();
+                let ul = document.querySelector(".list");
+                posts.forEach(post => {
+                    let blogPost = document.createElement("article");
+                    let newTitle = document.createElement("h2");
+                    let newContent = document.createElement("div");
+                    let newPublished = document.createElement('div');
+                    blogPost.classList.add("post")
+                    newTitle.textContent = post.title;
+                    newContent.innerHTML = post.content;
+                    newPublished.textContent = `On ${new Date(post.published).toLocaleDateString()}`;
+                    blogPost.appendChild(newTitle);
+                    blogPost.appendChild(newPublished);
+                    blogPost.appendChild(newContent);
+                    ul.appendChild(blogPost);
+                });
+            })();
+        </script>
+    </main>
+</body>
+
+</html>
+```
+
+Rerun the `export.sh` script :
+
+```bash
+cd /var/www/html/packages/blog/apps/blog/
+sh export.sh
 
 ```
 
-Rerun the export.sh script and initialize your package to apply the changes and your blog should be available for everyone to read now at [http://equal.local/blog/](http://equal.local/blog/).
+And then initialize your package to apply the changes:
+
+```bash
+cd /var/www/html/
+./equal.run --do=init_package --package=blog --force=true
+
+```
+
+Your blog should be available for everyone to read now at [http://equal.local/blog/](http://equal.local/blog/).
+
+---

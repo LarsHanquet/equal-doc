@@ -1,40 +1,63 @@
 
-This section will walk you through creating your first eQual application with the Workbench. The app can be found at [http://equal.local/workbench/#/](http://equal.local/workbench/#/) (this may change if you modified the docker-compose.yml).
 
-!!! note "The Worbench"
-    Is a tool intended to help you build your apps visually, without worrying about the code (as much as possible).
+This section will walk you through creating your first eQual application with the Workbench. The app can be found at [http://equal.local/workbench/#/](TODO). (This may change if you modified the docker-compose.yml.)
 
-### Creating your first component
 
-The first step to your application are packages. Note that you will have to respect the naming convention of each component to be able to create them.
+!!! note "The Workbench"
+  The Workbench is a tool intended to help you build your apps visually, without worrying about the code (as much as possible).
 
-Let's start by creating a package called `tutorial` and the Model `tutorial\Post` using the component creator :
+---
 
-<img src="/_assets/img/workbench_creator_package.png" style="width : 49%;">
-<img src="/_assets/img/workbench_creator_model.png" style="width : 49%;">
 
-### Using the base menu
+### Creating Your First Component
 
-<!---TODO update link-->
-By using the [base menu](#/docs/low-code/workbench/getting-started.md/#using-the-base-menu-to-find-precise-components) you can easily find the components you need. Let's look for our newly created Model :
-[base menu](/docs/application-developpers/howtos-references/tutorials-examples/tutorial-building-simple-app/#)
 
-<img src="/_assets/img/workbench_find_example.png" style="width : 30%">
+The first step to your application is packages. Note that you will have to respect the naming convention of each component to be able to create them.
 
-### Editing your components
 
-Let's add properties to our `Post` Model :
+Let's start by creating a package called `tutorial` and the Model `tutorial\Post` using the component creator:
 
-<img src="/_assets/img/workbench_field_title.png" style="width : 49%">
-<img src="/_assets/img/workbench_field_content.png" style="width : 49%">
-<img src="/_assets/img/workbench_field_published.png" style="width : 49%">
-<img src="/_assets/img/workbench_field_author_name.png" style="width : 49%">
 
-Once you have these fields you can save the model.
+<img src="/_assets/img/workbench_creator_package.png" style="width: 49%;">
+<img src="/_assets/img/workbench_creator_model.png" style="width: 49%;">
 
-<img src="/_assets/img/workbench_field_list.png" style="height : 400px;">
+---
 
-You will need to add the function for the `computed` in the php (you can find it at /packages/tutorial/classes/Post.class.php) file to make it work, Workbench does not allow logic edition for now.
+
+---
+
+### Using the Base Menu
+
+
+By using the [base menu](../workbench-overview.md/#creating-equal-components), you can easily find the components you need. Let's look for our newly created Model:
+
+
+<img src="/_assets/img/workbench_find_example.png" style="width: 30%;">
+
+---
+
+
+---
+
+### Editing Your Components
+
+
+Let's add properties to our `Post` Model:
+
+
+<img src="/_assets/img/workbench_field_title.png" style="width: 49%;">
+<img src="/_assets/img/workbench_field_content.png" style="width: 49%;">
+<img src="/_assets/img/workbench_field_published.png" style="width: 49%;">
+<img src="/_assets/img/workbench_field_author_name.png" style="width: 49%;">
+
+
+Once you have these fields, you can save the model:
+
+
+<center><img src="/_assets/img/workbench_field_list.png" style="height: 400px;"></center>
+
+
+You will need to add the function for the `computed` in the PHP file (you can find it at `/packages/tutorial/classes/Post.class.php`) to make it work. Workbench does not allow logic editing for now.
 
 ```php
 <?php
@@ -49,62 +72,105 @@ public static function calcAuthorName($self){
 }
 ```
 
+---
+
 ### Translations
 
-Let's translate our Model `Post` in english.
+
+Let's translate our Model `Post` into English.
+
 
 <img src="/_assets/img/workbench_translation_tuto.png">
 
+---
+
 ### Creating Workflows
 
-Let's create a workflow for Post. Set the name and icons as follows
 
-<img src="/_assets/img/workflow_tuto.png">
+Let's create a workflow for Post. Set the name and icons as follows.
+
+
+<center><img src="/_assets/img/workflow_tuto.png"></center>
+
+---
 
 ### Creating Views
 
-Let's create two views for Post using the view submenu : `form.default` and `list.default` (the basic view of a model). By clicking on the [component creator](#creating-equal-components) you can notice that the context is autofilled into the fields
 
-<img src="/_assets/img/workbench_view_creator.png">
+Let's create two views for Post using the view submenu: `form.default` and `list.default` (the basic view of a model). By clicking on the [component creator](#creating-equal-components), you can notice that the context is autofilled into the fields.
 
-You should end up with :
 
-<img src="/_assets/img/workbench_view_tuto.png">
+<center><img src="/_assets/img/workbench_view_creator.png"></center>
+
+
+You should end up with:
+
+
+<center><img src="/_assets/img/workbench_view_tuto.png"></center>
+
+---
 
 ### Editing Views
 
-Edit the views of post like that :
 
-##### `form.default` :
-
-<img src="/_assets/img/workbench_view_editor_tuto_form.png">
-
-Items have a width of 25%
+Edit the views of Post like this:
 
 
-#### `list.default` :
+##### `form.default`:
 
-<img src="/_assets/img/workbench_view_editor_tuto_list.png">
 
-### Creating menus
+<center><img src="/_assets/img/workbench_view_editor_tuto_form.png"></center>
 
-Start by filtering the elements by menus. Then create a menu of type `left` and of name app in the package `tutorial`
 
-<img src="/_assets/img/workbench_menu_create.png">
+Items have a width of 25%.
 
-Then, open the menu editor and edit the menu like so :
 
-<img src="/_assets/img/workbench_menu_tuto.png">
+---
 
-### Adding data
+#### `list.default`:
 
-Navigate to the package tutorial and create some posts for our blog by accessing the initial data button:
 
-<img src="/_assets/img/workbench_init_tuto.png">
+<center><img src="/_assets/img/workbench_view_editor_tuto_list.png"></center>
 
-### Initialize a package
+---
 
-First let's create the application for our package tutorial. Edit the `manifest.json` of the package as so :
+
+---
+
+### Creating Menus
+
+
+Start by filtering the elements by menus. Then create a menu of type `left` and of name `app` in the package `tutorial`.
+
+
+<center><img src="/_assets/img/workbench_menu_create.png"></center>
+
+
+Then, open the menu editor and edit the menu like so:
+
+
+<center><img src="/_assets/img/workbench_menu_tuto.png"></center>
+
+---
+
+
+---
+
+### Adding Data
+
+
+Navigate to the package `tutorial` and create some posts for our blog by accessing the initial data button:
+
+
+<center><img src="/_assets/img/workbench_init_tuto.png"></center>
+
+
+---
+
+### Initialize a Package
+
+
+First, let's create the application for our package `tutorial`. Edit the `manifest.json` of the package as follows:
 
 ```json
 {
@@ -139,23 +205,32 @@ First let's create the application for our package tutorial. Edit the `manifest.
 }
 ```
 
-<!---TODO update link-->
-Then, let's use the initialize button of the <a href="/docs/low-code/workbench/getting-started.md/#package-side-menu">package side menu</a>.
 
-<img src="/_assets/img/workbench_package_init.png">
+Then, let's use the initialize button of the [package side menu](../workbench-overview.md/#package-side-menu).
 
-1. These checkboxes allow you to ask eQual to initialize the package's (and choose if you want to import their initial data) dependencies before initializing it.
-2. This checkbox allow you to choose if you want to import the initial data of the package.
 
-You can initialize the package `tutorial` as so.
+<center><img src="/_assets/img/workbench_package_init.png"></center>
 
-<!---TODO update link-->
-if all gone well you see this message in your <a href="/docs/low-code/workbench/getting-started.md/#package-side-menu">package side menu</a>
 
-<img src="/_assets/img/workbench_package_initialized.png">
+1. These checkboxes allow you to ask eQual to initialize the package's dependencies (and choose if you want to import their initial data) before initializing it.
+2. This checkbox allows you to choose if you want to import the initial data of the package.
 
-now, if you return to the /apps of your instance, you should see the blog app appear :
 
-<img src="/_assets/img/workbench_apps_icons.png">
+You can initialize the package `tutorial` as follows.
 
-Congratulations ! you have created your first app using eQual Workbench.
+
+If all goes well, you will see this message in your [package side menu](TODO):
+
+
+<center><img src="/_assets/img/workbench_package_initialized.png"></center>
+
+
+Now, if you return to the /apps of your instance, you should see the blog app appear:
+
+
+<center><img src="/_assets/img/workbench_apps_icons.png"></center>
+
+
+Congratulations! You have created your first app using eQual Workbench.
+
+---
