@@ -127,7 +127,14 @@ This allows you to change the label of a generic field (e.g., changing "Name" to
 
 ## Documentation files (.md)
 
-In addition to `.json` files, you can place Markdown (`.md`) files in the `i18n` folder. These files should match the view ID (e.g., `Booking.list.default.md`) and are used to display rich help content contextually within the application (for example, in a "About this view" side panel).
+In addition to `.json` files, you can place Markdown (`.md`) files in the `i18n` folder. These files should match the view ID (e.g., `Booking.list.default.md`) and are used to display rich help content contextually within the application (accessible from the right-side navigation).
+
+**Example**: `packages/booking/i18n/fr/Booking.list.default.md`
+
+```markdown
+# Aide pour la liste des réservations
+Cette page affiche toutes les réservations. Vous pouvez filtrer, trier et exporter les données selon vos besoins.
+```
 
 ---
 
