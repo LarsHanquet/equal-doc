@@ -2,11 +2,11 @@
 
 Widgets are the building blocks of your views, allowing you to display data in various formats and styles. Understanding the different widget types and their styling capabilities is essential for creating engaging and informative user interfaces.
 
-## Boolean Widgets
+## Boolean
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
-***Edit Mode:**
+**Edit Mode:**
 
 * Render an interactive switch (toggle), which the user can change by clicking on it.
 * The switch in enable or disabled based on the `readonly` property.
@@ -17,13 +17,13 @@ Widgets are the building blocks of your views, allowing you to display data in v
 * Renders the same switch UI, but it is always set to `readonly` (disabled), preventing user interaction.
 * No event handlers for value changes are attached.
 
-## Date Widgets
+## Date
 
 | **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                         |
 | ------------ | --------- | ----------------------------------------------------------------------- |
 | `heading`    | `boolean` | If `true`, emphasizes the item with larger text (only for "form" views) |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -39,13 +39,13 @@ Widgets are the building blocks of your views, allowing you to display data in v
 * The date is formatted according to locale and usage, ensuring a user-friendly presentation.
 * Not interactive controls or event handlers are present.
 
-## Time Widgets
+## Time
 
 | **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                         |
 | ------------ | --------- | ----------------------------------------------------------------------- |
 | `heading`    | `boolean` | If `true`, emphasizes the item with larger text (only for "form" views) |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -61,13 +61,13 @@ Widgets are the building blocks of your views, allowing you to display data in v
 * In non-list layouts, the time is displayed using a styled input view for consistency with edit mode, but it is disabled to prevent interaction.
 * The value is adapted for display and a title attribute is set for tooltip.
 
-## Datetime Widgets
+## Datetime
 
 | **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                         |
 | ------------ | --------- | ----------------------------------------------------------------------- |
 | `heading`    | `boolean` | If `true`, emphasizes the item with larger text (only for "form" views) |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -85,11 +85,11 @@ Widgets are the building blocks of your views, allowing you to display data in v
 * If the field is the first column, it is rendered in a special div with the "is-first" class; otherwise, it uses a styled input view for display.
 * No interactive controls or event handlers are present.
 
-## One2Many Widgets
+## One2Many
 
 One2Many widgets are designed to provide a similar vizual representation as a [Many2Many](TODO) widget.
 
-## Many2One Widgets
+## Many2One
 
 The widget displays a field representing a many-to-one relationship. 
 
@@ -98,7 +98,7 @@ The widget displays a field representing a many-to-one relationship.
 | `domain`     | `array`   | [Domain](TODO) conditions affecting display.                |
 | `autoselect` | `boolean` | If `true`, automatically selects the only available option. |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -123,11 +123,11 @@ The widget displays a field representing a many-to-one relationship.
 * In both modes:
   * The widget's root element is decorated with classes and with classes and data attributes for type, mode, field, and usage.
 
-## Many2Many Widgets
+## Many2Many
 
 The WidgetMany2Many widget is rendered as a dynamic container (a div with a minimum height) that displays a related set of records, typically in a list or table format, allowing users to manage many-to-many relationships.
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -141,14 +141,14 @@ The WidgetMany2Many widget is rendered as a dynamic container (a div with a mini
 * The "remove" button is not abailable.
 * The iwdget is read-only; users can only view the related records.
 
-## Integer Widget
+## Integer
 
 | **PROPERTY** | **TYPE** | **DESCRIPTION**                                               |
 | ------------ | -------- | ------------------------------------------------------------- |
 | `min`        | `number` | Sets the minimum allowed value for the input (HTML attribute) |
 | `max`        | `number` | Sets the maximum allowed value for the input (HTML attribute) |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -159,9 +159,9 @@ The WidgetMany2Many widget is rendered as a dynamic container (a div with a mini
 
 * The value is displayed as non-editable text (inherited from the string widget).
 
-## Float Widget
+## Float
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -174,7 +174,7 @@ The WidgetMany2Many widget is rendered as a dynamic container (a div with a mini
 * In list layout, the value is rendered directly in the element (not in an input), right-aligned, and with no wrapping.
 * Otherwise, the value is set in a disavled input field.
 
-## Link Widget
+## Link
 
 Link widgets render a clickable hyperlink based on the provided value and configuration. The target URL is opened in a new tab.
 
@@ -183,7 +183,7 @@ Link widgets render a clickable hyperlink based on the provided value and config
 | `link`       | `boolean` | If `true`, the item content is displayed as a clickable link (inherited from string widget) |
 | `heading`    | `boolean` | If `true`, emphasizes the item with larger text (only for "form" views)                     |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -199,11 +199,11 @@ Link widgets render a clickable hyperlink based on the provided value and config
   * Otherwise, a clickable anchor tag is shown, opening the link in a new tab.
 * For other layouts, a read-only input displays the value, with the open-link button beside it. 
 
-## Signature Widget
+## Signature
 
 Signature widgets are currently in test.
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -216,17 +216,17 @@ Signature widgets are currently in test.
 * Renders a div showing the signature value (with line breaks).
 * No "Sign" button is displayed; the signature cannot be changed.
 
-## File Widget
+## File
 
 File widgets are deprecated and shouldn't be used. Use binary widgets instead.
 
-## Binary Widget
+## Binary
 
 Binary widgets are designed to handle file loads, images and signatures.
 
 ### File Handling
 
-#### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -245,7 +245,7 @@ Binary widgets are designed to handle file loads, images and signatures.
 
 You can set `usage` to `image` to display the binary data as an image and refine content type. Default is `image/jpeg`, but you can specify `image/png` or others as needed.
 
-#### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -261,7 +261,7 @@ You can set `usage` to `image` to display the binary data as an image and refine
 
 ### Signature Handling
 
-#### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -275,7 +275,7 @@ You can set `usage` to `image` to display the binary data as an image and refine
 * Renders a div with a background image showing the savec signature (as a PNG image).
 * The signature is display-only, with no editing or drawing possible.
 
-## PDF Widget
+## PDF
 
 PDF widgets don't have specific view or edit mode behaviors.
 
@@ -287,13 +287,13 @@ PDF widgets don't have specific view or edit mode behaviors.
 | ------------ | -------- | --------------------------------------------------------------------- |
 | `height`     | `string` | Sets the height of the PDF iframe as `px` in CSS value (e.g., `500`). |
 
-## Upload Widget
+## Upload
 
 | **PROPERTY** | **TYPE** | **DESCRIPTION**                                                        |
 | ------------ | -------- | ---------------------------------------------------------------------- |
 | `height`     | `string` | Sets the height of the upload area as `px` in CSS value (e.g., `150`). |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -309,7 +309,7 @@ PDF widgets don't have specific view or edit mode behaviors.
 
 * Renders a div containing the text "[binary data]" to indicate a file is present, but does not show file details or allow interaction.
 
-## Label Widget
+## Label
 
 In Label widgets, there are no differences in redereing between view and edit mode: 
 
@@ -317,13 +317,13 @@ In Label widgets, there are no differences in redereing between view and edit mo
 * No input, interaction, or mode-specific logic is present.
 * The same layout and styling are applied regardless of mode.
 
-## Text Widget
+## Text
 
 | **PROPERTY** | **TYPE** | **DESCRIPTION**                                                      |
 | ------------ | -------- | -------------------------------------------------------------------- |
 | `height`     | `string` | Sets the height of the text area as `px` in CSS value (e.g., `105`). |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -337,7 +337,7 @@ In Label widgets, there are no differences in redereing between view and edit mo
 * For other layouts: displays the text in a styled div, converting line breads to <br> for plain text, or rendering HTML as-is for rich text.
 * No editing or toolbar options are available.
 
-## Select Widgets
+## Select
 
 Select widgets render a dropdown menu for selecting a value from a predefined list of options.
 
@@ -345,7 +345,7 @@ Select widgets render a dropdown menu for selecting a value from a predefined li
 | ------------ | --------- | ----------------------------------------------------------------------- |
 | `heading`    | `boolean` | If `true`, emphasizes the item with larger text (only for "form" views) |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 **Edit Mode:**
 
@@ -362,7 +362,7 @@ Select widgets render a dropdown menu for selecting a value from a predefined li
 
 When the `usage` property contains `color`, the select widget includes color indicators next to the selected value and each option in the dropdown, or in the plain text.
 
-## String Widgets
+## String
 
 String-based widgets (e.g., `string`, `text`, `label`) support all styling properties, allowing for rich text formatting and visual customization. This is the default widget type. 
 
@@ -373,7 +373,7 @@ By default, using a `string` widget provides you with a customizable String Widg
 | `selection`  | `string`  | The initially selected value for the select dropdown.                   |
 | `heading`    | `boolean` | If `true`, emphasizes the item with larger text (only for "form" views) |
 
-### Edit Mode vs View Mode
+**Edit Mode vs View Mode**
 
 String widgets' vizual representation change wether the view is in edit mode or not.
 

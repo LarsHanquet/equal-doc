@@ -145,17 +145,17 @@ Widgets support simple, built-in styling properties that control visual appearan
 
 ### Supported Style Properties
 
-| **PROPERTY**       | **TYPE** | **DESCRIPTION**                                                      |
-| ------------------ | -------- | -------------------------------------------------------------------- |
-| `text_color`       | `string` | Text color (CSS color name or hex code)                              |
-| `text_weight`      | `string` | Font weight (e.g., `bold`, `500`, `700`)                             |
-| `text_width`       | `string` | Text width (CSS syntax, e.g., `100%`, `200px`)                      |
-| `text_align`       | `string` | Horizontal text alignment (`left`, `center`, `right`)                |
-| `text_padding`     | `string` | Inner spacing around text (CSS syntax, e.g., `4px`, `0.25rem`)       |
-| `text_decoration`  | `string` | Text decoration (e.g., `underline`, `overline`, `line-through`)      |
-| `background_color` | `string` | Background color (CSS color name or hex code)                        |
-| `border_color`     | `string` | Border color (CSS color name or hex code)                            |
-| `border_radius`    | `string` | Border corner radius (CSS syntax, e.g., `4px`, `0.25rem`)            |
+| **PROPERTY**       | **TYPE** | **DESCRIPTION**                                                 |
+| ------------------ | -------- | --------------------------------------------------------------- |
+| `text_color`       | `string` | Text color (CSS color name or hex code)                         |
+| `text_weight`      | `string` | Font weight (e.g., `bold`, `500`, `700`)                        |
+| `text_width`       | `string` | Text width (CSS syntax, e.g., `100%`, `200px`)                  |
+| `text_align`       | `string` | Horizontal text alignment (`left`, `center`, `right`)           |
+| `text_padding`     | `string` | Inner spacing around text (CSS syntax, e.g., `4px`, `0.25rem`)  |
+| `text_decoration`  | `string` | Text decoration (e.g., `underline`, `overline`, `line-through`) |
+| `background_color` | `string` | Background color (CSS color name or hex code)                   |
+| `border_color`     | `string` | Border color (CSS color name or hex code)                       |
+| `border_radius`    | `string` | Border corner radius (CSS syntax, e.g., `4px`, `0.25rem`)       |
 
 ### Color Values
 
@@ -166,28 +166,58 @@ Colors can be specified as:
 * RGB/RGBA notation: `rgb(255, 0, 0)`, `rgba(255, 0, 0, 0.5)`
 * HSL/HSLA notation: `hsl(0, 100%, 50%)`, `hsla(0, 100%, 50%, 0.5)`
 
----
+### Conditional Styling
 
-## Widget Configuration Patterns
+Styling supports two modes of application:
 
-### Combining Type, Usage, and Styling
+1.  **Static Styling**: Apply fixed styles that do not change based on field values or context.
+2.  **Dynamic Styling**: Use conditional logic in the view configuration to apply different styles based on field values or other conditions (e.g., highlight overdue tasks in red).
 
-Widgets can combine multiple configuration layers:
+This allows for resolution of styles directly in the view configuration. This way, widgets never need to be aware of:
 
-**Formatted Currency with Styling:**
+* The domain
+* The user
+* The object state
+
+Furthermore, this allows a default style to be applied, which can then be overloaded by a more specific style when certain conditions are met.
+
+**Static Styling:**
 
 ```json
-{
-  "type": "field",
-  "value": "total_amount",
-  "width": 20,
-  "widget": {
-    "usage": "amount/money:2",
-    "text_color": "#155724",
-    "text_weight": "bold"
+"widget": {
+  "styles": {
+    "text_align": "center",
+    "background_color": "#dcfce7",
+    "border_radius": "5px"
   }
 }
 ```
+
+Here the widget will always have centered text, a light green background, and rounded corners regardless of any conditions.
+
+**Dynamic Styling:**
+
+```json
+"widget": {
+  "styles": [
+    {
+      "apply": {
+        "background_color": "#dcfce7"
+      }
+    },
+    {
+      "visible": ["status", "=", "cancelled"],
+      "apply": {
+        "background_color": "#f5b5b5"
+      }
+    }
+  ]
+}
+```
+
+Here the widget will have a default light green background, but if the `status` field equals `cancelled`, the background will change to light red.
+
+
 
 ---
 
@@ -223,55 +253,38 @@ For one2many and many2many fields, widget configuration affects how the related 
                   {
                     "items": [
                       {
-                        "type": "field",
-                        "label": "Order Reference",
-                        "value": "reference",
-                        "readonly": true,
-                        "widget": {
-                          "text_color": "#666",
-                          "text_weight": "bold"
-                        }
-                      },
-                      {
-                        "type": "field",
-                        "label": "Order Date",
-                        "value": "created",
-                        "widget": {
-                          "usage": "datetime/short"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "items": [
-                      {
-                        "type": "field",
-                        "label": "Deadline",
-                        "value": "deadline",
-                        "widget": {
-                          "type": "date",
-                          "usage": "date/short",
-                          "icon": "calendar_today",
-                          "icon_position": "left"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "columns": [
-                  {
-                    "items": [
-                      {
-                        "type": "field",
-                        "label": "Total Amount",
-                        "value": "total_amount",
-                        "widget": {
-                          "usage": "amount/money:2",
-                          "text_color": "#155724",
-                          "text_weight": "bold",
-                          "text_align": "right"
+                      "type": "field",
+                      "value": "status",
+                      "width": "10%",
+                      "readonly": true,
+                      "widget": {
+                      "styles": [
+                        {
+                            "apply": {
+                                "text_weight": "500",
+                                "text_align": "center",
+                                "text_padding": "4px",
+                                "border_radius": "5px"
+                                }
+                        },
+                        {
+                            "visible": ["integrated", "=", "object.status"],
+                            "apply": {
+                                "background_color": "#dcfce7"
+                            }
+                        },
+                        {
+                            "visible": [["assigned", "completed", "validated"], "contains", "object.status"],
+                            "apply": {
+                                "background_color": "#f5e4b5"
+                            }
+                        },
+                        {
+                            "visible": [["created", "cancelled"], "contains", "object.status"],
+                            "apply": {
+                                "background_color": "#f5b5b5"
+                            }
+                        }]
                         }
                       }
                     ]
