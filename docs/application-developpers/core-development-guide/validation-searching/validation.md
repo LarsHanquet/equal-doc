@@ -16,7 +16,7 @@ Field validation is based on two complementary concepts: **Type** and **Usage**.
 
 ### Type and Usage Relationship
 
-Every field has a usage assigned. If not explicitly defined, it defaults based on the type. Usage takes precedence during validation—the type and usage must be compatible.
+Every field has a [usage](TODO) assigned. If not explicitly defined, it defaults based on the type. Usage takes precedence during validation—the type and usage must be compatible.
 
 **Example:**
 
@@ -38,49 +38,51 @@ Here, the type is `string`, and the usage specifies that the string should be a 
 
 ## Constraint Types
 
-Constraints are either **explicit** (defined via `getConstraints()`) or **implicit** (derived from the Type or Usage definition).
+Constraints are either **explicit** (defined via Usage) or **implicit** (derived from the Type).
 
-### Constraints from Usage
+However, the way their constraints are checked is the same: each constraint function is called with the value. If any constraint fails, its error code and message are collected and returned:
 
-Usages define validation rules tailored to specific data formats. The `getConstraintFromUsage()` method in `DataValidator.class.php` returns constraints for each usage type.
+```php
+[
+    'message' => 'Descriptive error message if validation fails.',
+    'function' => function($value, $object) { /* validation logic */ }
+]
+```
 
-**Email Usage Example:**
+Usages define validation rules tailored to specific data formats. The `getConstraints(Field $field)` method in `DataValidator.class.php` returns constraints for field type based on usage. Therefore, the same field type can have different constraints depending on its usage. For full details on available usages and their constraints, refer to the [Usage documentation](TODO).
+
+**Example with Email Usage:**
 
 ```php
 <?php
-case 'email':
-    return [
-        'kind'  => 'function',
-        'rule'  => function($value) {
-            return (bool) preg_match(
-                '/^([_a-z0-9-]+)(\.[_a-z0-9+-]+)*@([a-z0-9-]+)(\.[a-z0-9-]+)*(\.[a-z]{2,13})$/',
-                $value
-            );
-        }
-    ];
+    public function getConstraints(): array {
+        return [
+            'invalid_email' => [
+                'message'   => 'Malformed email address.',
+                'function'  =>  function($value) {
+                    return (bool) (preg_match('/^([_a-z0-9-\.]+)(\+([_a-z0-9]+))?@(([a-z0-9-]+\.)*)([a-z0-9-]{1,63})(\.[a-z-]{2,24})$/i', $value));
+                }
+            ]
+        ];
+    }
 ```
 
-The rule validates that the field is a properly formatted email address using regex. If validation fails, an error is sent to the user.
+The rule validates that the field is a properly formatted email address using regex. If validation fails, returns `false`.
 
-### Constraints from Type
+### Handled Constraints Types
 
-Type-based constraints define format rules. For example, the `string` type enforces a maximum length:
+**Custom Function Constraints**: 
 
-```php
-<?php
-case 'string':
-    $constraints[$field]['size_overflow'] = [
-        'message'     => 'String length must be maximum 255 characters.',
-        'function'    => function($value) { return strlen($value) <= 255; }
-    ];
-    break;
-```
+* Any function that returns a `boolean`.
 
-**Common Type Constraints:**
+**Pattern Constraints**:
 
-- **String**: Maximum 255 characters
-- **Numeric**: Must be a valid number within a defined range
-- **Integer**: Must be a whole number
+* If the field descriptor has a `pattern` property, the value must match the provided regular expression.
+
+**Selection Constraints**:
+
+* If the field descriptor has a `selection` property, the value must be one of the allowed options.
+
 
 ---
 
@@ -106,20 +108,6 @@ foreach($schema as $field => $def) {
 
 If a required field is missing or null, validation fails with a `missing_mandatory` error.
 
-### Field Constraints via `getConstraints()`
-
-The Field class provides a `getConstraints()` method that retrieves all constraints applicable to a field based on its type and usage. This method returns a map of constraint items, each associating a constraint name with a validation function.
-
-**Example:**
-
-```php
-<?php
-$constraints = $field->getConstraints();
-// Returns: ['size_overflow' => [...], 'invalid_format' => [...], ...]
-```
-
-The validation function checks each constraint against the provided value. If any constraint fails, an error is recorded with a specific error code.
-
 ### Unique Constraints via `getUnique()`
 
 The `getUnique()` method provides a list of unique constraint rules—combinations of fields that must be unique across instances.
@@ -128,7 +116,9 @@ If a unique constraint is violated:
 
 ```php
 <?php
-trigger_error("EQ_DEBUG_ORM::field {$field} violates unique constraint with object {$oid}", EQ_REPORT_WARNING);
+ trigger_error("EQ_DEBUG_ORM::field {$field} violates unique constraint with 
+ object {$oid}", EQ_REPORT_WARNING);
+
 ```
 
 ---

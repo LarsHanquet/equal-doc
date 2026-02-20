@@ -145,3 +145,5 @@ The response includes a `valid` boolean and, if validation fails, an `errors` ar
 - The schema is resolved using the same logic described in the [Retrieving a Schema](#retrieving-a-schema) section.
 - Validation follows the [JSON Schema 2020-12](https://json-schema.org/) specification.
 - The `path` field uses [JSON Pointer](TODO) notation.
+
+---
