@@ -124,7 +124,7 @@ lib/equal/orm/Model.class.php
 
 
 The special field `creator` gives us the id of the user (`core\User`) who created the post.
-We can use `$self` (which is an instance of `Post`) and its method [read()](TODO) to get the creator of a post. We can call subproperties, so we will get the `creator['fullname']` entry.
+We can use `$self` (which is an instance of `Post`) and its method read() to get the creator of a post. We can call sub-properties, so we will get the `creator['fullname']` entry.
 
 ```php
 
@@ -438,7 +438,7 @@ Running the following command in your console will test the consistency of your 
 ./equal.run --do=test_package-consistency --package=blog 
 ```
 
-At this stage, you hsould end up with this error because we haven't initialized our package yet and the app is trying to access the views and data of the posts, which do not exist yet.
+At this stage, you should end up with this error because we haven't initialized our package yet and the app is trying to access the views and data of the posts, which do not exist yet.
 
 ```bash
     "result": [

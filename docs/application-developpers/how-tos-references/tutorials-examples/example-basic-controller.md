@@ -1,6 +1,6 @@
 # Controllers
 
-The controllers are usually seperated in three different directories: **"Data, Actions, Apps"**.
+The controllers are usually separated in three different directories: **"Data, Actions, Apps"**.
 
 - In the folder Data, we will be **Fetching**  the data, **method GET**.
 
@@ -60,8 +60,8 @@ list($params, $providers) = announce([
             // the request to go through
         ],
         'domain' => [
-            'description'   => 'Criterias that results have to match 
-            (serie of conjunctions)',
+            'description'   => 'Criteria that results have to match 
+            (series of conjunctions)',
             'type'          => 'array',
             'default'       => []
         ],
@@ -135,7 +135,7 @@ We use ``` list($context) = [$providers['context']] ``` to implement the service
 
 In the above example (*search controller*) the `$collection` variable is where we receive the data from our query :
 
-- `$params['entity']::search([$params])`  searchs for data associated with a specific **Entity or Class** and that matches the `params` given
+- `$params['entity']::search([$params])`  searches for data associated with a specific **Entity or Class** and that matches the `params` given
 
   > Example: If we use the entity **User**, we will do a research amongst all the Users from our database.
   >
@@ -168,7 +168,7 @@ $> php run.php --do=init_package --package=todolist
 related to the specified package.
 ```
 
-Open your browser, and in the localhost page you defined for eQual, add this (or simply clicke here: [http://equal.local/apps/](http://equal.local/apps/)):
+Open your browser, and in the localhost page you defined for eQual, add this (or simply click here: [http://equal.local/apps/](http://equal.local/apps/)):
 
 ```bash
 ?get=core_model_search 

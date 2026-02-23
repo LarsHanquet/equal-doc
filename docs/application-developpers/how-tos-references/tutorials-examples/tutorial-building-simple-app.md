@@ -1,6 +1,6 @@
 
 
-This section will walk you through creating your first eQual application with the Workbench. The app can be found at [http://equal.local/workbench/#/](TODO). (This may change if you modified the docker-compose.yml.)
+This section will walk you through creating your first eQual application with the Workbench. The app can be found at [http://equal.local/workbench/](http://equal.local/workbench/). (This may change if you modified the docker-compose.yml.)
 
 
 !!! note "The Workbench"
@@ -97,7 +97,7 @@ Let's create a workflow for Post. Set the name and icons as follows.
 ### Creating Views
 
 
-Let's create two views for Post using the view submenu: `form.default` and `list.default` (the basic view of a model). By clicking on the [component creator](#creating-equal-components), you can notice that the context is autofilled into the fields.
+Let's create two views for Post using the view submenu: `form.default` and `list.default` (the basic view of a model). By clicking on the [component creator](#creating-equal-components), you can notice that the context is auto-filled into the fields.
 
 
 <center><img src="/_assets/img/workbench_view_creator.png"></center>
@@ -219,7 +219,7 @@ Then, let's use the initialize button of the [package side menu](../workbench-ov
 You can initialize the package `tutorial` as follows.
 
 
-If all goes well, you will see this message in your [package side menu](TODO):
+If all goes well, you will see this message in your [package side menu](../workbench-overview.md#package-side-menu)):
 
 
 <center><img src="/_assets/img/workbench_package_initialized.png"></center>
