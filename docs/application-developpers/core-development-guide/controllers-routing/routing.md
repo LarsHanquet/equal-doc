@@ -8,7 +8,7 @@ Fundamentally, a route maps a **URI** to an **Operation**.
 
 ## Structure of a Route
 
-Routes are defined in [JSON](TODO) files located in the `config/routing` directory.
+Routes are defined in JSON files located in the `config/routing` directory.
 
 ### Route definition
 | **PROPERTY**    | **TYPE** | **DESCRIPTION**                                                                                  |
@@ -57,7 +57,7 @@ The routing folder can contain sub-folders for different languages (e.g., `fr`, 
 
 ## HTTP Request Handling
 
-eQual complies with HTTP standards. It analyzes the HTTP message to route the request and negotatiates the response format (Content-Type) based on the Controller's announcement.
+eQual complies with HTTP standards. It analyzes the HTTP message to route the request and negotiates the response format (Content-Type) based on the Controller's announcement.
 
 **Processing Flow:**
 
@@ -116,3 +116,5 @@ Returned when input parameters do not satisfy the `params` contract defined in t
     }
 }
 ```
+
+---

@@ -2,11 +2,11 @@
 
 ## Introduction
 
-Controllers are the backbone of the eQual framework's backend logic. They are regular PHP scripts that follow the [CQRS](TODO) (Command-Query Responsibility Separation) architectural pattern.
+Controllers are the backbone of the eQual framework's backend logic. They are regular PHP scripts that follow the CQRS (Command-Query Responsibility Separation) architectural pattern.
 
-eQual allows attaching URIs to any operation defined in these controllers, making them accessible via HTTP, [CLI](TODO), or internal PHP calls.
+eQual allows attaching URIs to any operation defined in these controllers, making them accessible via HTTP, [CLI](../../how-tos-references/api-cli.md), or internal PHP calls.
 
-Controllers are organized into three specific directories within a [Package](TODO):
+Controllers are organized into three specific directories within a [Package](../../how-tos-references/package.md):
 
 | **FOLDER** | **TYPE**                  | **METHOD** | **DESCRIPTION**                                                                              |
 | :--------- | :------------------------ | :--------- | :------------------------------------------------------------------------------------------- |
@@ -29,13 +29,13 @@ The announcement array defines the controller's contract:
 
 *   **description**: What the controller does.
 *   **params**: Expected input parameters, their types, and constraints.
-*   **response**: Output format (content-type) and [CORS](TODO) settings.
+*   **response**: Output format (content-type) and CORS settings.
 *   **access**: Access control configuration.
 *   **providers**: Required services to be injected.
 *   **constants**: Package-specific constants used by the script.
 
 ### `description`
-A simple string describing the controller's purpose. This is used for documentation and by the [Workbench](TODO).
+A simple string describing the controller's purpose. This is used for documentation and by the [Workbench](../../how-tos-references/workbench-overview.md).
 
 ### `params`
 An associative array defining the input API. Each key is a parameter name, and its value is a definition array.
