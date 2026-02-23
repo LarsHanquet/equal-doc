@@ -7,7 +7,7 @@ Two distinct mechanisms are involved in i18n within the eQual framework:
 
 ## Naming Conventions
 
-Language identification uses the [ISO 639-1](TODO) code for the language and optionally the [ISO 3166-1](TODO) code for the country, separated by a dash.
+Language identification uses the [ISO 639-1](https://www.iso.org/iso-639-language-code) code for the language and optionally the [ISO 3166-1](https://www.iso.org/iso-3166-country-codes.html) code for the country, separated by a dash.
 
 **Syntax**: `{ISO639-1 lang}[-{ISO-3166-1 country}]`
 

@@ -1,12 +1,12 @@
 # Interface Translation
 
-Interface translation involves localizing static elements such as field labels, descriptions, menu items, and view titles. This is handled via JSON files located within [Packages](TODO).
+Interface translation involves localizing static elements such as field labels, descriptions, menu items, and view titles. This is handled via JSON files located within [Packages](../../how-tos-references/package.md).
 
 ---
 
 ## Directory Structure
 
-Each package contains an optional `i18n` folder. This folder must contain subfolders for each supported language code. Inside these folders, translations are stored in `.json` files named after the class they translate.
+Each package contains an optional `i18n` folder. This folder must contain subfolder for each supported language code. Inside these folders, translations are stored in `.json` files named after the class they translate.
 
 **Generic Path**: `packages/{package_name}/i18n/{lang}/{class_name}.json`
 
@@ -35,7 +35,7 @@ This section maps field names to their translated attributes.
 
 ### The `view` Section
 
-This section translates specific [Views](TODO) and their internal layout sections (tabs, groups). The keys correspond to the view types (e.g., `form.default`, `list.default`).
+This section translates specific [Views](../views-ui/frontend-logic.md) and their internal layout sections (tabs, groups). The keys correspond to the view types (e.g., `form.default`, `list.default`).
 
 *   `name`: The title of the view.
 *   `layout`: An object mapping section IDs (e.g., `section.identity_info`) to their translated `label`.
@@ -145,3 +145,5 @@ The frontend retrieves these translations using the `config_i18n` controller.
 ```bash
 $ ./equal.run --get=config_i18n --entity=core\\User --lang=fr
 ```
+
+---
