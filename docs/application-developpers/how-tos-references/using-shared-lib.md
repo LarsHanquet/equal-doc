@@ -31,3 +31,7 @@ import { SharedLibModule } from 'sb-shared-lib';
 })
 export class MyAppModule { }
 ```
+
+More examples of using the library can be found in these [examples](./shared-lib-code-snippets.md).
+
+---

@@ -22,12 +22,10 @@ Install the Workbench by initializing the `core` package:
 The Workbench allows you to create and manage various components of your application, including:
 
 - **Models**: Define the structure and behavior of your data.
-
 - **Views**: Design user interfaces for forms, lists, and dashboards.
-
 - **Controllers**: Manage data flow and application logic.
-
 - **Workflows**: Define state transitions and business processes.
+- **Translations**: Define multilingual support for your application.
 
 For detailed instructions, see [Creating eQual Components](#creating-equal-components).
 
@@ -36,9 +34,7 @@ For detailed instructions, see [Creating eQual Components](#creating-equal-compo
 The Workbench provides visual editors for:
 
 - **Model Fields**: Add, edit, and configure fields with type-specific options.
-
 - **View Layouts**: Drag-and-drop interface for designing forms, lists, and other views.
-
 - **Workflows**: Graphical editor for defining state transitions.
 
 Learn more in the [Model Field Editor](#model-field-editor), [Editing Views](#editing-views) and [Workflow editor](#workflow-editor) sections.
@@ -78,6 +74,16 @@ The component creator allows you to create various type of components in eQual u
 The component creator is context aware and will autofill the fields with your current context.
 You will have to respect the naming convention of each components to be able to create them.
 
+You can find precise components in eQual Workbench by using the base menu to search in all the component of the instance :
+
+<img src="../../../_assets/img/workbench_find_explanation.png" style="height : 500px;">
+
+To search for a component, you can use the **search bar (1)** to filter the component using this syntax :
+
+`[component_type]:[package]>[keywords...]`
+
+You can also use the **drop down menu (2)** to select the type (it will change it in the search bar and vice versa).
+
 ### Model Field Editor
 
 After choosing a component, the right side of the screen will render the model's side menu :
@@ -94,12 +100,12 @@ This side menu give a lot of information about the Model :
 Then, there are buttons to interact with the Model :
 
 * **Fields (5)** leads to the field editor of the Model [see](#model-field-edition)
-<!--TODO check links-->
-* **Views (6)** leads to the submenu of the views of the Model [see](#submenus)
 
-* **Translations (7)** leads to the translations editor of the Model [see](#translate-a-component)
+* **Views (6)** leads to the submenu of the views of the Model [see](#editing-views)
 
-* **Workflows (8)** leads to the workflow editor of the Model [see](#creating-a-workflow)
+* **Translations (7)** leads to the translations editor of the Model [see](#translation-editor)
+
+* **Workflows (8)** leads to the workflow editor of the Model [see](#workflow-editor)
 
 
 The other buttons are currently work in progress.
@@ -119,13 +125,13 @@ The **icon (6)** on the left of the name  gives two information about the field 
 
 - The icon represent the type of the field :
 
-| Icon                                                 | type       | Icon                                                 | type       | Icon                                                 | type       |
-|------------------------------------------------------|------------|------------------------------------------------------|------------|------------------------------------------------------|------------|
-| <span class="material-icons">format_quote</span>     | string     | <span class="material-icons">today</span>            | date       | <span class="material-icons">looks_one</span>        | binary     |
-| <span class="material-icons">123</span>              | integer    | <span class="material-icons">event</span>            | datetime   | <span class="material-icons">height</span>           | many2many  |
-| <span class="material-icons">data_array</span>       | array      | <span class="material-icons">access_time</span>      | time       | <span class="material-icons">type_specimen</span>    | alias      |
-| <span class="material-icons">money</span>            | float      | <span class="material-icons">article</span>          | text       | <span class="material-icons">call_split</span>       | one2many   |
-| <span class="material-icons">question_mark</span>    | boolean    | <span class="material-icons">call_merge</span>       | many2one   | <span class="material-icons">functions</span>        | computed   |
+| Icon                                              | type    | Icon                                            | type     | Icon                                              | type      |
+| ------------------------------------------------- | ------- | ----------------------------------------------- | -------- | ------------------------------------------------- | --------- |
+| <span class="material-icons">format_quote</span>  | string  | <span class="material-icons">today</span>       | date     | <span class="material-icons">looks_one</span>     | binary    |
+| <span class="material-icons">123</span>           | integer | <span class="material-icons">event</span>       | datetime | <span class="material-icons">height</span>        | many2many |
+| <span class="material-icons">data_array</span>    | array   | <span class="material-icons">access_time</span> | time     | <span class="material-icons">type_specimen</span> | alias     |
+| <span class="material-icons">money</span>         | float   | <span class="material-icons">article</span>     | text     | <span class="material-icons">call_split</span>    | one2many  |
+| <span class="material-icons">question_mark</span> | boolean | <span class="material-icons">call_merge</span>  | many2one | <span class="material-icons">functions</span>     | computed  |
 
 - The background color represents the state of the field :
     - **Gray** is inherited from `equal\orm\Model`. It can't be edited or deleted because it is required by eQual to manage it in DB
@@ -144,7 +150,7 @@ The view side menu give information about the selected view and access to its ed
 * **Name and the description (1)** of the view
 * **Information (2)** about the layout of the view
 * Leads to the **view editor (3)**[see](#editing-views)
-* Leads to the **translation (4)** of the Model/controller associated to the view [see](#translate-a-component)
+* Leads to the **translation (4)** of the Model/controller associated to the view [see](#translation-editor)
 
 #### Editing Views
 
@@ -154,12 +160,11 @@ View are huge JSON file that are hard to read. Workbench give the user a simpler
 
 In the editor, view are segmented in 5 categories **(2)**. The content of these part may vary depending on the type of view you are editing.
 
-<!--TODO update links-->
-**1. Layout** : This is the part that vary the most. The [layout](/usage/views#layout) is the part of the view that will display the object of a Model.
+**1. Layout** : This is the part that vary the most. The [layout](../core-development-guide/views-ui/views/common-structures/common-structures.md#layout) is the part of the view that will display the object of a Model.
 
-**2. Header** : Refers to the [header part](/usage/views#header) of a view. You can edit header actions and selection actions in this tab.
+**2. Header** : Refers to the [header part](../core-development-guide/views-ui/views/common-structures/common-structures.md#header) of a view. You can edit header actions and selection actions in this tab.
 
-**3. Actions** : You can edit the custom [actions](/usage/views#action) of the view here
+**3. Actions** : You can edit the custom [actions](../core-development-guide/views-ui/views/common-structures/common-structures.md#actions) of the view here
 
 **4. Routes** : You can edit the routes of the contextual menu of the view here
 
@@ -204,8 +209,7 @@ This list represents input parameters of the controller and can be filled to cal
 
 **3.** Allows you to **copy the http request** to call the controller with the parameter you entered in workbench.
 
-<!--TODO update link-->
-**4.** Give you all the **custom [routes](#route)** enabled in the instance that uses this controller.
+**4.** Give you all the **custom [routes](../core-development-guide/controllers-routing/routing.md)** enabled in the instance that uses this controller.
 
 **5.** Leads to the input **parameters editor** [see](#controller-editor)
 
@@ -255,8 +259,7 @@ The menu editor allows you to create/edit/delete menu items whilst having a prev
 
 **4. Edition of the properties** of the selected menu item
 
-<!--TODO update link-->
-All the editable properties of the view in workbench are properties findable in the [original menu structure](/usage/views/#menu-views).
+All the editable properties of the view in workbench are properties findable in the [original menu structure](../core-development-guide/views-ui/menus.md).
 
 ### Package Side Menu
 
@@ -392,3 +395,33 @@ To delete a model from the representation, you can use the list of model, or sel
 Route edition is not currently supported by Workbench but you can view them in the main menu and they have a side menu :
 
 <img src="../../../_assets/img/workbench_routes.png">
+
+### Pipeline Editor
+
+The Pipeline Editor, part of the Workbench App, allows developers to build pipelines using a graphical interface. This eliminates the need for writing boilerplate code manually, simplifies development, and enhances accuracy.
+
+#### What is a Pipeline?
+
+A **pipeline** is a sequence of connected operations used to process and transform data step by step. Each operation is represented by a **Controller** or **Router**.
+
+#### Creating a Pipeline
+
+1. Open the Workbench and navigate to the Pipeline Editor.
+2. Drag and drop controllers and routers to create nodes.
+3. Define input parameters for each controller.
+4. Link the output of one node to the input of another.
+5. Save and test your pipeline.
+
+#### Example Pipeline
+
+```php
+"schema" => [
+  "type" => "entity",
+  "qty"  => "many",
+  "entity" => "core\User"
+]
+```
+
+This pipeline fetches multiple User entities and passes them to the next node.
+
+---
