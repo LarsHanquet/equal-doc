@@ -1,6 +1,6 @@
 # Menus
 
-Menus are used to define the navigational structure of an application. They organize access to different parts of the application—such as [Forms](TODO), [Lists](TODO), or [Dashboards](TODO)—into a hierarchical tree of action buttons.
+Menus are used to define the navigational structure of an application. They organize access to different parts of the application—such as [Forms](./views/forms.md), [Lists](./views/lists.md), or [Dashboards](./views/dashboards.md)—into a hierarchical tree of action buttons.
 
 At the base the structure of a menu is as follows:
 
@@ -52,13 +52,13 @@ An **Entry** item serves as a link. It defines a `context` that tells the framew
 
 #### Context Object configuration
 
-The `context` object determines the state of the application upon navigation. It links the menu item to a specific [Entity](TODO).
+The `context` object determines the state of the application upon navigation. It links the menu item to a specific [Entity](../models/entities/entities.md).
 
 | Property | Type     | Description                                                                                                    |
 | :------- | :------- | :------------------------------------------------------------------------------------------------------------- |
-| `entity` | `string` | The fully qualified name of the [Entity](TODO) to display (e.g., `core\User`, `lodging\sale\booking\Booking`). |
-| `view`   | `string` | The ID of the [View](TODO) to render (e.g., `list.default` => it will always be: `[type].[name]`).             |
-| `domain` | `array`  | (Optional) A [Domain](TODO) array defining filters to apply to the data (e.g., `[['status', '=', 'active']]`). |
+| `entity` | `string` | The fully qualified name of the [Entity](../models/entities/entities.md) to display (e.g., `core\User`, `lodging\sale\booking\Booking`). |
+| `view`   | `string` | The ID of the [View](./views/common-structures/common-structures.md) to render (e.g., `list.default` => it will always be: `[type].[name]`).             |
+| `domain` | `array`  | (Optional) A [Domain](../models/domains.md) array defining filters to apply to the data (e.g., `[['status', '=', 'active']]`). |
 | `order`  | `string` | (Optional) The name of the field by which to sort the results.                                                 |
 | `sort`   | `string` | (Optional) The direction of the sort: `asc` (ascending, default) or `desc` (descending).                       |
 
