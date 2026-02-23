@@ -336,7 +336,7 @@ In the example shown below, one parent menu item is present named "New Booking" 
 
 Dashboards are used for aggregating and displaying data overviews, such as key metrics, charts, and widgets, enabling users to monitor and interact with application data at a glance.
 
-The following example displays 4 different views to simplify the management of informations.
+The following example displays 4 different views to simplify the management of information.
 
 ??? example "Example Dashboard "
     ```json
@@ -421,7 +421,7 @@ The following example displays 4 different views to simplify the management of i
 
 Charts enable us to visually compare multiple sets of data. It can be very helpful to display statistics.
 
-Below is an example of a chart view, the proprerties are very similar to the ones we can find in menus.
+Below is an example of a chart view, the properties are very similar to the ones we can find in menus.
 
 ??? example "Example Chart view "
     ``` json title="Booking.chart.default.json" linenums="1"
