@@ -75,7 +75,6 @@ A **Setting** is a configurable parameter, uniquely identified by its `package`,
 * **SettingValues**: Hold the actual value of a setting. Values can be scoped to specific contexts using a **selector** (fields like `user_id`, `organization_id`, etc.).
 * **SettingSequences**: Special settings that manage numeric counters (e.g., invoice numbers). These also support contextual scoping via selectors, allowing separate counters per organization.
 
-For more information about contextual configuration and selectors, see [Configuration Concepts](TODO).
 
 ---
 
@@ -92,7 +91,7 @@ The `MessageModel` entity defines the semantics of an alert type:
 * `type`: Optional tag for logical grouping.
 * `messages_ids`: References all alert instances for this model.
 
-This registry of alert types ensures consistency across the system. For more on multilingual support, see [Internationalization](TODO).
+This registry of alert types ensures consistency across the system. For more on multilingual support, see [Internationalization](../i18n/i18n-overview.md).
 
 ### Message (`core\alert\Message`)
 
@@ -107,6 +106,6 @@ The `Message` entity represents an emitted alert linked to a specific object. It
 
 Alerts are persisted through the ORM, and a uniqueness constraint ensures only one alert per `(object_class, object_id, message_model_id)` tuple.
 
-For more on ORM and persistence, see [Object Management](TODO).
+For more on ORM and persistence, see [Object Management](./orm/#object-definition).
 
 ---
