@@ -1,6 +1,6 @@
 # Operations
 
-**Operations** in eQual define aggregation or computation logic to be applied to one or more fields of a dataset—typically in a [list view](TODO). They are essential for displaying totals, averages, counts, or custom calculations directly in the UI.
+**Operations** in eQual define aggregation or computation logic to be applied to one or more fields of a dataset—typically in a [list view](../views-ui/views/lists.md). They are essential for displaying totals, averages, counts, or custom calculations directly in the UI.
 
 ---
 
@@ -74,10 +74,10 @@ Each operation object can define the following properties:
 | `operation` | The operator (e.g., `SUM`, `COUNT`) or a nested operation array     |
 | `usage`     | Output format (e.g., `amount/money:2` for currency with 2 decimals) |
 | `label`     | Display label shown in the UI (optional)                            |
-| `id`        | Translation key for [translation](TODO) support (optional)          |
+| `id`        | Translation key for [translation](../i18n/i18n-overview.md) support (optional)          |
 | `suffix`    | Text appended after the result (optional)                           |
 
-For more on output formatting, see [Field Usages](TODO).
+For more on output formatting, see [Field Usages](./entities/fields/#usages).
 
 ---
 
@@ -117,6 +117,6 @@ For more on output formatting, see [Field Usages](TODO).
 ```
 
 !!! note "More examples"
-    For more examples of operations, see the [eQual Cheat Sheet](TODO).
+    For more examples of operations, see the [eQual Cheat Sheet](../../how-tos-references/cheat-sheet.md).
 
 ---
