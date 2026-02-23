@@ -14,7 +14,7 @@ Entities are created with random values by default but can be customized as need
 
 ## Features Overview
 
-- **Randomized Data**: Entities are generated with random attributes based on field [usages](TODO).
+- **Randomized Data**: Entities are generated with random attributes based on field [usages](./entities/fields/#usages).
 - **Customizable Values**: Specific fields can be forced to predefined values.
 - **Batch Creation**: Supports generating multiple entities at once.
 - **Sequence Control**: Allows defining custom sequences for multiple entities.
@@ -260,7 +260,7 @@ $group = ModelFactory::create('core\Group', [
 }
 ```
 
-This creates a group with two randomly generated users attached to it. For more details on relationship types, see [relations](TODO).
+This creates a group with two randomly generated users attached to it.
 
 ---
 
