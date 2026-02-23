@@ -66,7 +66,7 @@ Context stacking manages **nested or hierarchical contexts** for interacting wit
 
 1. **Initial Context**: Application-specific context related to the initial view.
 
-2. **Subcontexts**: Nested contexts for related entities or actions.
+2. **Sub-contexts**: Nested contexts for related entities or actions.
 
     
 
@@ -167,3 +167,5 @@ Automatically redirects to a list view when the main object is missing or delete
     }
 }
 ```
+
+---
