@@ -24,7 +24,7 @@ Most field types support these attributes:
 | type          | The field type (see below). Required for all fields.                            |
 | description   | Brief description of the field (max 65 characters).                             |
 | help          | Additional help text for the field.                                             |
-| visible       | [Domain](domains.md) holding conditions for field visibility in UI.             |
+| visible       | [Domain](../domains.md) holding conditions for field visibility in UI.             |
 | default       | Default value or callable returning the default.                                |
 | usage         | Additional format information (see [Usages](#usages)).                          |
 | dependents    | List of computed fields to reset when this field is updated.                    |
@@ -32,8 +32,8 @@ Most field types support these attributes:
 | required      | Marks the field as mandatory (default: `false`).                                |
 | deprecated    | Marks the field as deprecated.                                                  |
 | onupdate      | Method to invoke when field is updated.                                         |
-| multilang     | Marks the field as [translatable](TODO) (default: `false`).                     |
-| domain        | Additional conditions for relational field targets (see [Domains](domains.md)). |
+| multilang     | Marks the field as [translatable](../../i18n/i18n-overview.md) (default: `false`).                     |
+| domain        | Additional conditions for relational field targets (see [Domains](../domains.md)). |
 
 ---
 
@@ -43,7 +43,7 @@ Most field types support these attributes:
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | (*mandatory*) Must be `'boolean'`.                                         |
+| type          | (*mandatory*) Must be `'boolean'`.                           |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -62,7 +62,7 @@ Most field types support these attributes:
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | (*mandatory*) Must be `'integer'`.                                         |
+| type          | (*mandatory*) Must be `'integer'`.                           |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -86,7 +86,7 @@ Signed numeric value (negative or positive). By default, integers are stored in 
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | (*mandatory*) Must be `'float'`.                                           |
+| type          | (*mandatory*) Must be `'float'`.                             |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -106,7 +106,7 @@ Floating-point numeric value. By default, floats are stored using `DECIMAL(10,2)
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | (*mandatory*) Must be `'string'`.                                          |
+| type          | (*mandatory*) Must be `'string'`.                            |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -150,7 +150,7 @@ Strings can be longer and include formatting when combined with specific [usages
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | (*mandatory*) Must be `'text'`.                                            |
+| type          | (*mandatory*) Must be `'text'`.                              |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -167,7 +167,7 @@ Strings can be longer and include formatting when combined with specific [usages
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | (*mandatory*) Must be `'date'`, `'time'`, or `'datetime'`.                 |
+| type          | (*mandatory*) Must be `'date'`, `'time'`, or `'datetime'`.   |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -186,13 +186,13 @@ When stored in the DBMS, these types follow standard SQL formats:
 - **datetime**: `YYYY-mm-dd HH:mm:ss`
 
 !!! tip "Datetime Manipulations"
-    Within PHP scripts, eQual handles dates, times, and datetimes as UTC timestamps. These are adapted to SQL or JSON format when needed.
+    Within PHP scripts, eQual handles `date`, `time`, and `datetime` as UTC timestamps. These are adapted to SQL or JSON format when needed.
 
 #### file, binary
 
 | **Attribute** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| type          | (*mandatory*) Must be `'file'` or `'binary'`.                              |
+| type          | (*mandatory*) Must be `'file'` or `'binary'`.                |
 | description   | Field description.                                           |
 | help          | Help text.                                                   |
 | visible       | UI visibility.                                               |
@@ -217,7 +217,7 @@ A file value stored in the database as `LONGBLOB`.
 
 | **Attribute**  | **Description**                                              |
 | -------------- | ------------------------------------------------------------ |
-| type           | (*mandatory*) Must be `'many2one'`.                                        |
+| type           | (*mandatory*) Must be `'many2one'`.                          |
 | description    | Field description.                                           |
 | help           | Help text.                                                   |
 | visible        | UI visibility.                                               |
@@ -226,7 +226,7 @@ A file value stored in the database as `LONGBLOB`.
 | readonly       | Non-editable.                                                |
 | required       | Mandatory field.                                             |
 | deprecated     | Deprecated field.                                            |
-| foreign_object | (*mandatory*) Full name of the target class.                    |
+| foreign_object | (*mandatory*) Full name of the target class.                 |
 | domain         | Additional conditions for relational field targets.          |
 | onupdate       | Method to call on update.                                    |
 | ondelete       | Behavior when parent is deleted: `'null'` or `'cascade'`.    |
@@ -245,23 +245,23 @@ Relational field for N-1 relationships. The stored value is an integer holding t
 
 #### one2many
 
-| **Attribute**  | **Description**                                              |
-| -------------- | ------------------------------------------------------------ |
-| type           | (*mandatory*) Must be `'one2many'`.                                        |
-| description    | Field description.                                           |
-| help           | Help text.                                                   |
-| visible        | UI visibility.                                               |
-| default        | Default value.                                               |
-| dependents     | List of computed fields to reset when this field is updated. |
-| readonly       | Non-editable.                                                |
-| deprecated     | Deprecated field.                                            |
+| **Attribute**  | **Description**                                                 |
+| -------------- | --------------------------------------------------------------- |
+| type           | (*mandatory*) Must be `'one2many'`.                             |
+| description    | Field description.                                              |
+| help           | Help text.                                                      |
+| visible        | UI visibility.                                                  |
+| default        | Default value.                                                  |
+| dependents     | List of computed fields to reset when this field is updated.    |
+| readonly       | Non-editable.                                                   |
+| deprecated     | Deprecated field.                                               |
 | foreign_object | (*mandatory*) Full name of the target class.                    |
 | foreign_field  | (*mandatory*) Name of the field pointing back to current class. |
-| domain         | Additional conditions for relational field targets.          |
-| onupdate       | Method to call on update.                                    |
-| ondetach       | Behavior when relation is removed: `'null'` or `'delete'`.   |
-| order          | Field to sort pointed objects on.                            |
-| sort           | Sort direction: `'asc'` or `'desc'`.                         |
+| domain         | Additional conditions for relational field targets.             |
+| onupdate       | Method to call on update.                                       |
+| ondetach       | Behavior when relation is removed: `'null'` or `'delete'`.      |
+| order          | Field to sort pointed objects on.                               |
+| sort           | Sort direction: `'asc'` or `'desc'`.                            |
 
 Relational field for 1-N relationships, linked to a `many2one` field on the related object.
 
@@ -277,23 +277,23 @@ Relational field for 1-N relationships, linked to a `many2one` field on the rela
 
 #### many2many
 
-| **Attribute**   | **Description**                                                   |
-| --------------- | ----------------------------------------------------------------- |
-| type            | (*mandatory*) Must be `'many2many'`.                                            |
-| description     | Field description.                                                |
-| help            | Help text.                                                        |
-| visible         | UI visibility.                                                    |
-| default         | Default value.                                                    |
-| dependents      | List of computed fields to reset when this field is updated.      |
-| readonly        | Non-editable.                                                     |
-| deprecated      | Deprecated field.                                                 |
+| **Attribute**   | **Description**                                                      |
+| --------------- | -------------------------------------------------------------------- |
+| type            | (*mandatory*) Must be `'many2many'`.                                 |
+| description     | Field description.                                                   |
+| help            | Help text.                                                           |
+| visible         | UI visibility.                                                       |
+| default         | Default value.                                                       |
+| dependents      | List of computed fields to reset when this field is updated.         |
+| readonly        | Non-editable.                                                        |
+| deprecated      | Deprecated field.                                                    |
 | foreign_object  | (*mandatory*) Full name of the target class.                         |
 | foreign_field   | (*mandatory*) Name of the field pointing back to current class.      |
 | rel_table       | (*mandatory*) Name of the pivot table.                               |
 | rel_local_key   | (*mandatory*) Column in pivot table for current object's identifier. |
 | rel_foreign_key | (*mandatory*) Column in pivot table for target object's identifier.  |
-| domain          | Additional conditions for relational field targets.               |
-| onupdate        | Method to call on update.                                         |
+| domain          | Additional conditions for relational field targets.                  |
+| onupdate        | Method to call on update.                                            |
 
 Relational field for M-N relationships, requiring a pivot table.
 
@@ -316,17 +316,17 @@ Relational field for M-N relationships, requiring a pivot table.
 
 #### alias
 
-| **Attribute** | **Description**                                    |
-| ------------- | -------------------------------------------------- |
-| type          | (*mandatory*) Must be `'alias'`.                                 |
-| description   | Field description.                                 |
-| help          | Help text.                                         |
-| visible       | UI visibility.                                     |
-| default       | Default value.                                     |
-| usage         | Format information.                                |
+| **Attribute** | **Description**                                       |
+| ------------- | ----------------------------------------------------- |
+| type          | (*mandatory*) Must be `'alias'`.                      |
+| description   | Field description.                                    |
+| help          | Help text.                                            |
+| visible       | UI visibility.                                        |
+| default       | Default value.                                        |
+| usage         | Format information.                                   |
 | alias         | (*mandatory*) Name of the field this is an alias for. |
-| required      | Mandatory field.                                   |
-| deprecated    | Deprecated field.                                  |
+| required      | Mandatory field.                                      |
+| deprecated    | Deprecated field.                                     |
 
 Targets another field whose value is returned when fetching the field. By default, the `name` field is an alias for `id`.
 
@@ -342,7 +342,7 @@ Targets another field whose value is returned when fetching the field. By defaul
 
 | **Attribute**  | **Description**                                              |
 | -------------- | ------------------------------------------------------------ |
-| type           | (*mandatory*) Must be `'computed'`.                                        |
+| type           | (*mandatory*) Must be `'computed'`.                          |
 | description    | Field description.                                           |
 | help           | Help text.                                                   |
 | visible        | UI visibility.                                               |
@@ -350,10 +350,10 @@ Targets another field whose value is returned when fetching the field. By defaul
 | dependents     | List of computed fields to reset when this field is updated. |
 | readonly       | Non-editable.                                                |
 | deprecated     | Deprecated field.                                            |
-| result_type    | (*mandatory*) Type of the computed result.                      |
+| result_type    | (*mandatory*) Type of the computed result.                   |
 | usage          | Format information.                                          |
-| function       | (*mandatory*) Callable for computation.                         |
-| relation       | (*mandatory*) Relation information.                             |
+| function       | (*mandatory*) Callable for computation.                      |
+| relation       | (*mandatory*) Relation information.                          |
 | onupdate       | Method to call on update.                                    |
 | onrevert       | Method to call on revert.                                    |
 | store          | Whether the computed value is stored.                        |
@@ -379,27 +379,77 @@ The `usage` property is complementary to `type` and refines how the field is han
 
 ### Common Usages
 
-| **Usage**             | **Description**          | **Example**             |
-| --------------------- | ------------------------ | ----------------------- |
-| `text/plain`          | Long text content        | `text/plain:65000`      |
-| `text/html`           | HTML formatted content   | -                       |
-| `amount/money`        | Monetary values          | `amount/money:4`        |
-| `amount/percent`      | Percentage values        | -                       |
-| `email`               | Email addresses          | -                       |
-| `phone`               | Phone numbers            | -                       |
-| `password`            | Password fields          | -                       |
-| `password/nist`       | NIST-compliant passwords | -                       |
-| `date/month`          | Month selection          | -                       |
-| `date/year`           | Year selection           | `date/year:4`           |
-| `country/iso-3166`    | Country codes            | `country/iso-3166:2`    |
-| `language/iso-639`    | Language codes           | `language/iso-639:3`    |
-| `uri/url`             | URL values               | -                       |
-| `uri/urn.iban`        | IBAN numbers             | -                       |
-| `uri/urn.ean`         | EAN barcodes             | -                       |
-| `image/jpeg`          | JPEG images              | -                       |
-| `numeric/integer`     | Integer with precision   | `numeric/integer:3`     |
-| `numeric/hexadecimal` | Hexadecimal values       | `numeric/hexadecimal:1` |
-| `number/real`         | Decimal numbers          | `number/real:5.2`       |
+The `usage` property refines how a field is stored, validated, and rendered. Usages are written as `content-type/subtype[:precision[.scale]]`.
+
+| **Usage**                   | **Description**                                                                                                                                   | **Example**                   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| `text/plain`                | Plain text, long or short                                                                                                                         | `text/plain:65000`            |
+| `text/html`                 | HTML formatted content                                                                                                                            | `text/html`                   |
+| `text/json`                 | JSON formatted content                                                                                                                            | `text/json`                   |
+| `text/xml`                  | XML formatted content                                                                                                                             | `text/xml`                    |
+| `amount`                    | Numeric amount (supports +, -, decimals)                                                                                                          | `amount:10.2`                 |
+| `amount/money`              | Monetary value, with decimals                                                                                                                     | `amount/money:2`              |
+| `amount/percent`            | Percentage value                                                                                                                                  | `amount/percent`              |
+| `amount/rate`               | Rate (e.g., tax)                                                                                                                                  | `amount/rate`                 |
+| `array`                     | List of values                                                                                                                                    | `array`                       |
+| `binary`                    | Binary data (files, images, etc.)                                                                                                                 | `binary`                      |
+| `country/numeric`           | Numeric country code ([ISO-3166](https://www.iso.org/iso-3166-country-codes.html))                                                                | `country/numeric:3`           |
+| `currency/iso-4217.numeric` | Numeric currency code ([ISO-4217](https://www.iso.org/iso-4217-currency-codes.html))                                                              | `currency/iso-4217.numeric:3` |
+| `email`                     | Email address                                                                                                                                     | `email`                       |
+| `language`                  | Language name or code ([iso-639-2 alpha-3](https://en.wikipedia.org/wiki/ISO_639-2)/[iso-639-1 alpha-2](https://en.wikipedia.org/wiki/ISO_639-1)) | `language:2`                  |
+| `locale`                    | Locale code (`lang[_COUNTRY]` or `lang`)                                                                                                          | `locale:aa`                   |
+| `number/boolean`            | Boolean value                                                                                                                                     | `number/boolean`              |
+| `number/integer`            | Integer value                                                                                                                                     | `number/integer:9`            |
+| `number/natural`            | Natural number (positive integer)                                                                                                                 | `number/natural`              |
+| `number/real`               | Decimal number                                                                                                                                    | `number/real:5.2`             |
+| `password/enisa`            | ENISA-compliant password                                                                                                                          | `password/enisa`              |
+| `password/nist`             | NIST-compliant password                                                                                                                           | `password/nist`               |
+| `phone`                     | Phone number (normalized format)                                                                                                                  | `phone`                       |
+| `date/plain`                | Date (YYYY-MM-DD)                                                                                                                                 | `date/plain`                  |
+| `date/time`                 | DateTime (YYYY-MM-DD HH:MM:SS)                                                                                                                    | `date/time`                   |
+| `date/day`                  | Day of month (1-31)                                                                                                                               | `date/day`                    |
+| `date/month`                | Month (1-12)                                                                                                                                      | `date/month`                  |
+| `date/year`                 | Year (4 digits)                                                                                                                                   | `date/year:4`                 |
+| `date/yearweek`             | Year-week ([ISO-8601](https://www.iso.org/iso-8601-date-and-time-format.html))                                                                                                                      | `date/yearweek`               |
+| `date/yearday`              | Day of year (1-366)                                                                                                                               | `date/yearday`                |
+| `date/weekday.mon`          | Weekday (1=Monday, 7=Sunday, [ISO-8601](https://www.iso.org/iso-8601-date-and-time-format.html))                                                                                                    | `date/weekday.mon`            |
+| `date/weekday.sun`          | Weekday (0=Sunday, 6=Saturday)                                                                                                                    | `date/weekday.sun`            |
+| `time/plain`                | Time (HH:MM:SS)                                                                                                                                   | `time/plain`                  |
+| `uri/url`                   | URL                                                                                                                                               | `uri/url`                     |
+| `uri/url.relative`          | Relative URL                                                                                                                                      | `uri/url.relative`            |
+| `uri/url.tel`               | Telephone URL                                                                                                                                     | `uri/url.tel`                 |
+| `uri/url.mailto`            | Mailto URL                                                                                                                                        | `uri/url.mailto`              |
+| `uri/urn.iban`              | IBAN number                                                                                                                                       | `uri/urn.iban`                |
+| `uri/urn.ean`               | EAN barcode                                                                                                                                       | `uri/urn.ean`                 |
+| `image/jpeg`                | JPEG image                                                                                                                                        | `image/jpeg`                  |
+
+**Notes:**
+
+- Deprecated: Use `binary` instead of `file` for file storage.
+- For `email`, only standard email formats are accepted:
+
+*supports:*
+
+     -            c@a.com
+     -            c@a.b.com
+     -            c@a.b.c.com
+     -            a+c@a.b.c.com
+     -            a.c+d@a.b.c.com
+     -            ad@a.b.c.xn--vermgensberatung-pwb
+*does not support:*
+
+     -            a+c.d@a.b.c.com
+
+- For `phone`, only normalized formats are accepted (e.g., `+32478456789`, `0032478456789`, `0478456789`).
+- For `password/nist`, must be min. 8 chars, 1 digit, 1 uppercase, 1 lowercase, 1 special char (`#?!@$%^*-`).
+- For `locale`, allowed formats: `{iso-639}` or `{iso-639}_{iso-3166}` (e.g., `fr`, `fr_BE`).
+
+**Syntax:**  
+Usages follow this pattern:  
+```
+content-type/subtype[:precision[.scale]]
+```
+Example: `number/real:10.2` (decimal with 10 digits, 2 decimals)
 
 ### Type to Content-Type Mapping
 
@@ -440,11 +490,5 @@ $adapter->adaptOut($value, $field->getUsage())
 ```
 
 This ensures proper format conversion between PHP, SQL, and JSON representations.
-````
 
 ---
-
-## Notes
-
-- The `dependencies` attribute is deprecated in favor of `dependents`.
-- Some attributes are only meaningful for specific types (e.g., `foreign_object` for relational fields, `selection` for string/integer/float/computed).

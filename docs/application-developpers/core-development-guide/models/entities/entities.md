@@ -1,6 +1,6 @@
 # Entities
 
-Models are defined as PHP classes declared within related `.class.php` files. The model definitions are located in the `/packages/{package_name}/classes` folder of the package they relate to (see [Directory Structure](TODO)).
+Models are defined as PHP classes declared within related `.class.php` files. The model definitions are located in the `/packages/{package_name}/classes` folder of the package they relate to (see [Directory Structure](../../../../community/internal-architecture/framework-internals.md)).
 
 All classes inherit from a common `Model` ancestor declared in the `equal\orm` namespace and defined in `/lib/equal/orm/Model.class.php`. These base classes structure the data into various fields (`Field`).
 
@@ -93,7 +93,7 @@ Some fields are mandatory and defined in the `Model` base class:
 
 Some fields are reserved but optional, with established conventions:
 
-- **state**: Used when a [workflow](TODO) applies to an entity.
+- **state**: Used when a [workflow](../workflows/workflows.md) applies to an entity.
 - **alert**: Used in conjunction with `core\alert` entities. If defined, it is expected to be a computed field.
 
 ---
@@ -104,27 +104,27 @@ By convention, **getter methods** (`getSomething()`) are always declared with **
 
 This convention ensures a clear and controlled interface for exposing object data while maintaining strict encapsulation of internal logic.
 
-| **Method**           | **Description**                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------ |
-| getName()            | Get model readable name.                                                             |
-| getDescription()     | Get model description.                                                               |
-| getType()            | Provide the list of unique rules (array of field combinations).                      |
-| getLink()            | Get the URL associated with the class.                                               |
-| getColumns()         | Returns the user-defined part of the schema (fields list with types and attributes). |
-| getSpecialColumns()  | Returns the mandatory (system) fields for all models                                 |
-| getConstraints()     | Returns a map of constraint items associating fields with validation functions.      |
-| getUnique()          | Provide the list of unique rules (list of arrays of field combinations).             |
-| getFields()          | Returns all field names.                                                             |
-| getField($name)      | Returns the field descriptor for a given field name.                                 |
-| getValues()          | Returns values of static instance.                                                   |
-| getDefaults()        | Return default values.                                                               |
-| getTable()           | Return the name of the DB table for storing objects of current class.                |
-| getWorkflow()        | Returns the [workflow](TODO) associated with the entity.                             |
-| getRoles()           | Returns the list of [roles](TODO) explicitly associated with the entity.             |
-| getActions()         | Returns a list of available [actions](TODO) that can be triggered on the entity.     |
-| getPolicies()        | Returns the [access control policies](TODO) applicable to the entity.                |
-| getSchema()          | Returns the full schema of the entity, including system fields.                      |
-| getSettingDefaults() | Returns an associative array of setting defaults for fields.                         |
+| **Method**           | **Description**                                                                                           |
+| -------------------- | --------------------------------------------------------------------------------------------------------- |
+| getName()            | Get model readable name.                                                                                  |
+| getDescription()     | Get model description.                                                                                    |
+| getType()            | Provide the list of unique rules (array of field combinations).                                           |
+| getLink()            | Get the URL associated with the class.                                                                    |
+| getColumns()         | Returns the user-defined part of the schema (fields list with types and attributes).                      |
+| getSpecialColumns()  | Returns the mandatory (system) fields for all models                                                      |
+| getConstraints()     | Returns a map of constraint items associating fields with validation functions.                           |
+| getUnique()          | Provide the list of unique rules (list of arrays of field combinations).                                  |
+| getFields()          | Returns all field names.                                                                                  |
+| getField($name)      | Returns the field descriptor for a given field name.                                                      |
+| getValues()          | Returns values of static instance.                                                                        |
+| getDefaults()        | Return default values.                                                                                    |
+| getTable()           | Return the name of the DB table for storing objects of current class.                                     |
+| getWorkflow()        | Returns the [workflow](../workflows/workflows.md) associated with the entity.                             |
+| getRoles()           | Returns the list of [roles](../actions/#groups-vs-roles) explicitly associated with the entity.           |
+| getActions()         | Returns a list of available [actions](../actions.md) that can be triggered on the entity.                 |
+| getPolicies()        | Returns the [access control policies](../authorization/access-control-lists.md) applicable to the entity. |
+| getSchema()          | Returns the full schema of the entity, including system fields.                                           |
+| getSettingDefaults() | Returns an associative array of setting defaults for fields.                                              |
 
 ## Overridable Methods
 
@@ -165,7 +165,7 @@ If certain information involves distinct usage profiles, consider splitting the 
 **Field behavior modifiers:**
 
 - Fields can have specific behavior based on their descriptor (`readonly`, `required`, `visible`), which can be overridden based on the object's status.
-- Actions involving operations on certain fields can be conditioned by [policies](TODO).
+- Actions involving operations on certain fields can be conditioned by [policies](../authorization/authorization-overview/#policies).
 - CRUD (Create, Read, Update, Delete) operations execute `can[...]()` methods, which allow filtering operations based on specific criteria.
 
 ### The `policies` Attribute
