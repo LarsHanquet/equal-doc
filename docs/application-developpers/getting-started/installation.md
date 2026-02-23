@@ -1,6 +1,34 @@
 # Installation
 
+## System Requirements
+
+eQual requires the following dependencies:
+
+- **PHP 7.1+** with the following extensions: `mysqli` (mandatory), `gd`, `opcache`, `zip`, `tidy` (optional)
+- **Apache 2+** or **Nginx**
+- **MySQL 5+** compatible DBMS (MySQL or MariaDB)
+
+---
+
 ## 1. Install
+
+### Downloading eQual
+
+You can download eQual in one of the following ways:
+
+- **Download as ZIP:**
+  ```bash
+  wget https://github.com/equalframework/equal/archive/master.zip
+  ```
+- **Clone with Git:**
+    ```bash
+    git clone https://github.com/equalframework/equal.git
+    ```
+Copy the files to your web server's HTML directory. For example:
+
+```bash
+cp equal /var/www/html/
+```
 
 ### Option A - Using Docker
 
@@ -174,7 +202,7 @@ cp equal /var/www/html/
 
 #### B.3. Virtual host configuration
 
-Within the documentation pages, we refer to the installation that runs on a local web server using `equal.local`as servername  (accessible through http://equal.local).
+Within the documentation pages, we refer to the installation that runs on a local web server using `equal.local`as servername  (accessible through [http://equal.local](http://equal.local)).
 
 If this is the first time you install eQual, we suggest you use that domain name to make things easier.
 
@@ -220,6 +248,8 @@ All checks against mandatory folders and file permissions can be done using the 
 ```bash
 $ ./equal.run --do=test_fs-consistency
 ```
+
+---
 
 ## 2. Configure
 
@@ -291,10 +321,10 @@ Upon success this controller exits with no message (exit 0), and the database is
 
 The database can be created by using the `core_init_db controller`.
 
-| **PATH**        | `core\actions\init\db.php`                                   |
-| --------------- | ------------------------------------------------------------ |
-| **URL**         | `?do=init_db`                                                |
-| **CLI**         | `$ ./equal.run --do=init_db`                                 |
+| **PATH**        | `core\actions\init\db.php`                                                                                                                                                                                                   |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **URL**         | `?do=init_db`                                                                                                                                                                                                                |
+| **CLI**         | `$ ./equal.run --do=init_db`                                                                                                                                                                                                 |
 | **DESCRIPTION** | Creates a database using the details provided in config file. This controllers calls db-connectivity and if connection can be established with the host, it requests the creation of the database, if it does not exist yet. |
 
 
@@ -304,11 +334,11 @@ The database can be created by using the `core_init_db controller`.
 In order to be able to manipulate entities, the related package needs to be initialized (each package contains the class definition of its own entities).
 This can be done by using the `core_init_package` controller.
 
-|**PATH**|`core\actions\init\package.php`|
-| --------------- | ------------------------------------------------------------ |
-|**URL**|`?do=init_package&package=core`|
-|**CLI**|`$ ./equal.run --do=init_package --package=core --import=true`|
-|**DESCRIPTION**|Initialize database for given package. If no package is given, initialize core package.|
+| **PATH**        | `core\actions\init\package.php`                                                         |
+| --------------- | --------------------------------------------------------------------------------------- |
+| **URL**         | `?do=init_package&package=core`                                                         |
+| **CLI**         | `$ ./equal.run --do=init_package --package=core --import=true`                          |
+| **DESCRIPTION** | Initialize database for given package. If no package is given, initialize core package. |
 
 Now, you should be able to fetch data by using the controllers from the `core` package.
 
@@ -316,11 +346,11 @@ Now, you should be able to fetch data by using the controllers from the `core` p
 
 Example: 
 
-|**PATH**|`core\data\model\collect.php`|
-| --------------- | ------------------------------------------------------------ |
-|**URL**|`?get=model_collect&entity=core\User`|
-|**CLI**|`$ ./equal.run --get=model_collect --entity=core\\User`|
-|**DESCRIPTION**|Returns a list of entites according to given domain (filter), start offset, limit and order.|
+| **PATH**        | `core\data\model\collect.php`                                                                 |
+| --------------- | --------------------------------------------------------------------------------------------- |
+| **URL**         | `?get=model_collect&entity=core\User`                                                         |
+| **CLI**         | `$ ./equal.run --get=model_collect --entity=core\\User`                                       |
+| **DESCRIPTION** | Returns a list of entities according to given domain (filter), start offset, limit and order. |
 
 ## 3. Make first API requests
 
@@ -440,7 +470,7 @@ Note: The body request may be empty, but it is preferable to specify a name for 
 
 
 
-!!! note "id field"  
+!!! note "Id field"  
     All entities are identified with an id, which is an auto increment field and is generated automatically.
 
 
@@ -457,7 +487,7 @@ Note: The body request may be empty, but it is preferable to specify a name for 
 []
 ```
 
-
+---
 
 ## 4. More
 
@@ -468,3 +498,5 @@ To enable it, simply run :
 ```
 source autocomplete
 ```
+
+---
