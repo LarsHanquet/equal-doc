@@ -30,6 +30,9 @@ When an action is triggered:
 
 See the [action flow diagram](/_assets/img/eq_confirm_diagram.png) for a visual representation of this interaction.
 
+!!! note "Actions in Forms"
+    When several actions are defined in a form view, they appear in a dropdown menu. In contrast, in list views, actions are displayed as individual buttons in the header. 
+
 ### Configuration
 
 **Structure:**
@@ -39,11 +42,11 @@ See the [action flow diagram](/_assets/img/eq_confirm_diagram.png) for a visual 
 | `id`          | `string`       | Identifier for translation and reference purposes                                                                                                  |
 | `label`       | `string`       | Button label displayed to the user                                                                                                                 |
 | `description` | `string`       | Description shown on hover, explaining what the action does                                                                                        |
-| `controller`  | `string`       | [ORM/Entity controller](TODO) invoked when the action is triggered. The current object's `id` is sent as a parameter by default                    |
-| `visible`     | `array`        | (optional) [Domain](TODO) conditions to determine if the action button is shown (Example: `"visible": ["status", "=", "active"]`)                  |
+| `controller`  | `string`       | [ORM/Entity controller](../../../models/orm.md) invoked when the action is triggered. The current object's `id` is sent as a parameter by default                    |
+| `visible`     | `array`        | (optional) [Domain](../../../models/domains.md) conditions to determine if the action button is shown (Example: `"visible": ["status", "=", "active"]`)                  |
 | `confirm`     | `boolean`      | (optional) If `true`, displays a confirmation dialog before execution                                                                              |
 | `params`      | object         | (optional) Associative array mapping field names to values. Values can reference user properties (`user.login`) or object properties (`object.id`) |
-| `access`      | [Access](TODO) | (optional) Access control to restrict visibility and invocation                                                                                    |
+| `access`      | [Access](../../../models/authorization/access-control-lists.md) | (optional) Access control to restrict visibility and invocation                                                                                    |
 
 ### Example: Booking State Machine
 
@@ -167,9 +170,9 @@ The `ACTION.CANCEL` action supports these variants:
 | ------------- | -------- | ------------------------------------------------------------------------------------ |
 | `id`          | `string` | Predefined action identifier (required for variants)                                 |
 | `description` | `string` | (optional) Custom description overriding the default                                 |
-| `domain`      | `array`  | (optional) [Domain](TODO) conditions for action (Example: `"visibility": ["admin"]`) |
+| `domain`      | `array`  | (optional) [Domain](../../../models/domains.md) conditions for action (Example: `"visibility": ["admin"]`) |
 | `view`        | `string` | (optional) ID of the view to display when the action requires a view                 |
-| `controller`  | `string` | (optional) Custom [ORM/Entity controller](TODO) to override default behavior         |
+| `controller`  | `string` | (optional) Custom [ORM/Entity controller](../../../models/orm.md) to override default behavior         |
 
 ### Configuration Rules
 
@@ -268,7 +271,7 @@ Both root-level actions and header actions support an `access` property to contr
 | ------------ | --------------------------------------------------------- |
 | `groups`     | Array of group names whose members can see/use the action |
 
-**Note:** The `access` property controls UI visibility. Actual permission checks for controller invocation must be configured in the [controller](TODO) itself.
+**Note:** The `access` property controls UI visibility. Actual permission checks for controller invocation must be configured in the [controller](../../../controllers-routing/controllers.md) itself.
 
 **Example:**
 

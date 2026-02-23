@@ -26,7 +26,7 @@ All view types support the following core properties:
 | `description` | `string`                          | Description of the view and its purpose                                                        |
 | `controller`  | `string`                          | Data controller used to fetch objects from the database (defaults to `core_model_collect`)     |
 | `mode`        | `string`                          | Display mode for the view                                                                      |
-| `layout`      | `Layout`                          | Layout containing items for rendering the view (see [Layout](TODO) documentation)              |
+| `layout`      | `Layout`                          | Layout containing items for rendering the view (see [Layout](#layout) documentation)           |
 | `order`       | `string`                          | Default field(s) to order by for list views (defaults to `id`): for lists                      |
 | `sort`        | `string`                          | Default sort direction for list views: `asc` or `desc` (defaults to `asc`): for lists          |
 | `start`       | `integer`                         | Pagination start index for list and search views (default to `0`)                              |
@@ -38,7 +38,7 @@ All view types support the following core properties:
 | `access`      | array of [Access](#access)        | Access control rules to restrict view visibility by user group or login                        |
 | `group_by`    | array of [GroupBy](#group-by)     | Fields to group by in list views (default is empty array) for lists                            |
 | `exports`     | array of [Export](#exports)       | Export/print configurations                                                                    |
-| `domain`      | array of [Domain](#domain)        | Domainto filter which items from the input collection will be displayed                        |
+| `domain`      | array of [Domain](#domain)        | Domain to filter which items from the input collection will be displayed                       |
 | `layout`      | array of [Layout](#layout)        | Layout configuration for the view, defining how items are arranged on the screen               |
 | `operations`  | array of [Operation](#operations) | (for list views) Definitions of operations to apply on columns or groups, like SUM, COUNT, AVG |
 
@@ -48,14 +48,14 @@ The `header` section allows customization of the view's header behavior and layo
 
 **Structure:**
 
-| **PROPERTY**      | **TYPE**                             | **DESCRIPTION**                                                                                                                                            |
-| ----------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `actions`         | [Header Action](#header-actions)     | Configuration of action buttons shown in the header (see [Header Actions](#header-actions))                                                                |
-| `selection`       | [Selection](#selection) or `boolean` | Descriptor for the actions that can be applied when one or more items are selected in the list                                                             |
-| `filters`         | `boolean`                            | Flag to display or hide the default filtering input                                                                                                        |
-| `layout`          | `string`                             | `full` (default) or `inline`. The [`inline`](TODO) mode displays a compact list with minimal navigation and icon-based actions, ideal for embedded layouts |
-| `advanced_search` | `boolean`                            | Flag to display or hide the advanced search button in the header, which opens a sidebar for building complex queries (only for list views)                 |
-| `mode`            | `string`                             | For chart views only (`chart` or `grid`)                                                                                                                   |
+| **PROPERTY**      | **TYPE**                             | **DESCRIPTION**                                                                                                                                    |
+| ----------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `actions`         | [Header Action](#header-actions)     | Configuration of action buttons shown in the header (see [Header Actions](#header-actions))                                                        |
+| `selection`       | [Selection](#selection) or `boolean` | Descriptor for the actions that can be applied when one or more items are selected in the list                                                     |
+| `filters`         | `boolean`                            | Flag to display or hide the default filtering input                                                                                                |
+| `layout`          | `string`                             | `full` (default) or `inline`. The `inline` mode displays a compact list with minimal navigation and icon-based actions, ideal for embedded layouts |
+| `advanced_search` | `boolean`                            | Flag to display or hide the advanced search button in the header, which opens a sidebar for building complex queries (only for list views)         |
+| `mode`            | `string`                             | For chart views only (`chart` or `grid`)                                                                                                           |
 
 **Example - Inline layout:**
 
@@ -74,13 +74,13 @@ The `header` section allows customization of the view's header behavior and layo
 
 #### Header Actions
 
-Make sure not to mix up the "actions" section with the header "actions" subsection. The former lists the actions that are available for the whole view (genrally form views) while the latter can be used to allow or prevent specific actions on selected objects (generally list views).
+Make sure not to mix up the "actions" section with the header "actions" subsection. The former lists the actions that are available for the whole view (generally form views) while the latter can be used to allow or prevent specific actions on selected objects (generally list views).
 
 **Note:** Predefined action IDs must be used; custom IDs are not supported for header actions.
 
 Default actions can be hidden by setting `visible` to `false`. To define a split-button (multiple action variants), use an array of action items.
 
-For a complete list of predefined action IDs and their default behaviors, see the [Header section: Views & Actions](TODO) documentation.
+For a complete list of predefined action IDs and their default behaviors, see the [Header section: Views & Actions](#header) documentation.
 
 **Example:**
 
@@ -122,7 +122,7 @@ The `selection` property allows to customize the list of bulk actions that are a
 | `actions`    | `array`   | An array of action items that can be applied on current selection                                                                           |
 | `id`         | `string`  | Identifier for translation and reference purposes                                                                                           |
 | `primary`    | `boolean` | If `true`, this action is the default selection action triggered when clicking on an item without choosing a specific action from the menu. |
-| `visible`    | `array`   | (optional) [Domain](TODO) conditions to determine if the selection action is shown for a given item                                         |
+| `visible`    | `array`   | (optional) [Domain](../../../models/domains.md) conditions to determine if the selection action is shown for a given item                   |
 
 **Example: Allow only `ACTION.CLONE` and a custom action**
 
@@ -163,7 +163,7 @@ The `filters` property customizes the filtering features available in the view h
 | `id`          | `string`  | Unique identifier for translation purposes                                                                                       |
 | `label`       | `string`  | Default display name if no translation is set                                                                                    |
 | `description` | `string`  | Description explaining the filter's purpose                                                                                      |
-| `clause`      | `array`   | [Clause](TODO) that will be added to the domain when the filter is applied                                                       |
+| `clause`      | `array`   | [Clause](../../../models/domains.md#clauses) that will be added to the domain when the filter is applied                                                       |
 | `quicksearch` | `boolean` | If `true`, the filter is applied as the user types in the quicksearch input, allowing for dynamic filtering based on the clause. |
 
 **Example:**
@@ -196,8 +196,8 @@ The `actions` property defines custom actions for the view. Each action correspo
 | `id`          | `string`          | Identifier for translation and reference purposes                                                                                                         |
 | `label`       | `string`          | Button label displayed to the user                                                                                                                        |
 | `description` | `string`          | Description shown when the user hovers over the button                                                                                                    |
-| `controller`  | `string`          | [ORM/Entity controller](TODO) invoked when the action is triggered. The current object's `id` is sent as a parameter by default                           |
-| `visible`     | `array`           | (optional) [Domain](TODO) conditions to determine if the action button is shown                                                                           |
+| `controller`  | `string`          | [ORM/Entity controller](../../../controllers-routing/controllers.md) invoked when the action is triggered. The current object's `id` is sent as a parameter by default                           |
+| `visible`     | `array`           | (optional) [Domain](../../../models/domains.md) conditions to determine if the action button is shown                                                                           |
 | `confirm`     | `boolean`         | (optional) If `true`, a confirmation dialog appears before executing the action                                                                           |
 | `params`      | object            | (optional) Associative array mapping fields to values. Values can reference user properties (e.g., `user.login`) or object properties (e.g., `object.id`) |
 | `access`      | [Access](#access) | (optional) Access control to limit action visibility and invocation                                                                                       |
@@ -314,9 +314,9 @@ The `exports` property defines document export/print configurations for list vie
 | `label`       | `string` | Button label displayed to the user                                                             |
 | `icon`        | `string` | Icon identifier (e.g., `print`)                                                                |
 | `description` | `string` | Description of what the export generates                                                       |
-| `controller`  | `string` | [ORM/Entity controller](TODO) that handles the export (e.g., `lodging_booking_print-contract`) |
+| `controller`  | `string` | [ORM/Entity controller](../../../controllers-routing/controllers.md) that handles the export (e.g., `lodging_booking_print-contract`) |
 | `view`        | `string` | View ID for export display (typically `print.default`)                                         |
-| `visible`     | `array`  | (optional) [Domain](TODO) conditions to determine if the export button is displayed            |
+| `visible`     | `array`  | (optional) [Domain](../../../models/domains.md) conditions to determine if the export button is displayed            |
 
 **Example:**
 
@@ -340,12 +340,12 @@ The `exports` property defines document export/print configurations for list vie
 
 ### Domain
 
-The `domain` property conditionally filters which data is displayed in the view. It uses the [domain](TODO) syntax to define filter criteria.
+The `domain` property conditionally filters which data is displayed in the view. It uses the [domain](../../../models/domains.md) syntax to define filter criteria.
 
 | **PROPERTY** | **TYPE** | **DESCRIPTION**                                                                |
 | ------------ | -------- | ------------------------------------------------------------------------------ |
-| `clause`     | `array`  | [Clause](TODO) that will be added to the domain when the filter is applied     |
-| `domain`     | `array`  | (optional) Additional [domain](TODO) conditions to determine filter visibility |
+| `clause`     | `array`  | [Clause](../../../models/domains.md#clauses) that will be added to the domain when the filter is applied     |
+| `domain`     | `array`  | (optional) Additional [domain](../../../models/domains.md) conditions to determine filter visibility |
 
 
 **Example:**
@@ -380,13 +380,27 @@ Layout holds the structure of the view and defines how items are arranged on the
 | `visible`     | `boolean`         | If `false`, the item is not displayed                                          |
 | `help`        | `string`          | Help text displayed for the field, guiding the user on what to enter           |
 | `align`       | `string`          | Alignment of the item: `left`, `center`, `right`                               |
-| `widget`      | [Widget](#widget) | Configuration properties for the item's display and behavior                   |
 | `usage`       | `string`          | Usage hint for displaying the item (e.g., `amount/money:2`, `numeric/integer`) |
+| `widget`      | [Widget](#widget) | Configuration properties for the item's display and behavior                   |
 
 | `foreign_object` | `string`             | (for fields) Reference to a related object property                              |
 | `foreign_field`  | `string`             | (for fields) Reference to a related field to display                             |
 | `selection`      | [Selection](#selection) | (for fields) Configuration for selection behavior and available options |
 | ``               |
+
+---
+
+### Widget
+
+Widgets can be used to set properties that depend on the view type. For more details on available widget types and their specific properties, see the [Widgets](../widgets.md) documentation.
+
+| **PROPERTY** | **TYPE**  | **DESCRIPTION**                                                                 |
+| ------------ | --------- | ------------------------------------------------------------------------------- |
+| `link`       | `boolean` | If `true`, the item value displays as a clickable link                          |
+| `sortable`   | `boolean` | If `true`, users can sort the list by clicking this column header               |
+| `type`       | `string`  | Overrides the default display type (e.g., `text`, `select`, `date`, `one2many`) |
+| `usage`      | `string`  | Overrides the field's [usage](../../../models/entities/fields.md#usages) to customize formatting                     |
+| `domain`     | `array`   | [Domain](../../../models/domains.md) conditions affecting display                                     |
 
 ---
 
@@ -429,7 +443,7 @@ Define named calculation rows independent from groupings. Each row can contain m
 | **PROPERTY** | **TYPE** | **DESCRIPTION**                                                                          |
 | ------------ | -------- | ---------------------------------------------------------------------------------------- |
 | `operation`  | `string` | The operation to apply (e.g., `SUM`, `COUNT`, `AVG`)                                     |
-| `usage`      | `string` | [Usage](TODO) hint for displaying the result (e.g., `amount/money:2`, `numeric/integer`) |
+| `usage`      | `string` | [Usage](../../../models/entities/fields.md#usages) hint for displaying the result (e.g., `amount/money:2`, `numeric/integer`) |
 | `prefix`     | `string` | (optional) String prepended to the result                                                |
 | `suffix`     | `string` | (optional) String appended to the result                                                 |
 
