@@ -18,7 +18,7 @@ eQual defines the following permission levels, which can be combined using a bin
 
 ### Rights Values
 
-The rights values are defined in [`eq.lib.php`](TODO):
+The rights values are defined in [`eq.lib.php`](../../../../../../eq.lib.php) as follows:
 
 ```php
 define('EQ_R_CREATE',  1);

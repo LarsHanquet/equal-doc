@@ -22,7 +22,7 @@ eQual supports a variety of Access Control strategies to meet diverse security r
 
 ### Users
 
-Users are defined in the `core\User` class ([`packages/core/classes/User.class.php`](TODO)). Each user belongs to one or more groups, with the default group being "users" (see `DEFAULT_GROUP_ID` in [`eq.lib.php`](TODO)).
+Users are defined in the `core\User` class ([`packages/core/classes/User.class.php`](../../../../../../packages/core/classes/User.php.class)). Each user belongs to one or more groups, with the default group being "users" (see `DEFAULT_GROUP_ID` in [`eq.lib.php`](../../../../../../eq.lib.php)).
 
 ```php
 public static function getColumns() {
@@ -126,3 +126,5 @@ Policies can be defined to check if a given user can perform an operation (actio
 * Or a combination of these.
 
 The use of policies can be done directly by using the AccessController `isCompliant()` method, or indirectly by using entity actions or transitions (workflow).
+
+---

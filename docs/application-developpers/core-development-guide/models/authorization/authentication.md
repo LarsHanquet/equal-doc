@@ -7,7 +7,7 @@ Authentication in eQual ensures secure and scalable user identification. This se
 eQual uses **JWT (JSON Web Tokens)** for authentication. Tokens are exchanged as `HttpOnly` cookies and have a validity period defined by the `AUTH_ACCESS_TOKEN_VALIDITY` parameter. Each valid session token extends its validity upon user activity.
 
 !!! tip "CLI Authentication"
-    In the [Command-Line Interface (CLI)](TODO) context, the user is identified as `root` with full privileges, bypassing authentication mechanisms.
+    In the [Command-Line Interface (CLI)](../../../how-tos-references/api-cli.md) context, the user is identified as `root` with full privileges, bypassing authentication mechanisms.
 
 ### Token Example
 
@@ -54,7 +54,7 @@ The framework supports a variety of authentication methods to suit different sec
 | `eye`         | Biometric authentication using iris or eye scans.                    |
 | `voice`       | Biometric authentication using voice recognition.                    |
 | `sc`          | Smartcard-based authentication requiring a specific reader.          |
-| `passkey`     | Passwordless authentication using FIDO2/WebAuthn cryptographic keys. |
+| `passkey`     | Password-less authentication using FIDO2/WebAuthn cryptographic keys. |
 
 ## Multi-Factor Authentication (MFA)
 
@@ -62,7 +62,8 @@ The framework supports a variety of authentication methods to suit different sec
 
 * **Email Authentication**: Sends a validation email for session escalation.
   
-* **Passkeys**: Uses **FIDO2/WebAuthn** cryptographic keys for secure, passwordless authentication.
+* **Passkeys**: Uses **FIDO2/WebAuthn** cryptographic keys for secure, password-less authentication.
 
-For detailed information on configuring and using passkeys, please refer to the [Passkeys documentation](TODO).
+For detailed information on configuring and using passkeys, please refer to the [Passkeys documentation](./passkeys.md).
 
+---
