@@ -106,7 +106,7 @@ This controller runs some consistency checks and works with any package.
 | --------------- | -------------------------------------------------------------------------------------------------------------------- |
 | **URL**         | `?do=test_package&package=core`                                                                                      |
 | **CLI**         | `$ ./equal.run --do=test_package --package=core`                                                                     |
-| **DESCRIPTION** | The controller checks the presence of test units for a given package and runs them, if any. (Page: [Testing](TODO)). |
+| **DESCRIPTION** | The controller checks the presence of test units for a given package and runs them, if any. (Page: [Testing](../../community/contribution-guide/tests-coverage.md)). |
 
 
 ## Invoking Controllers
