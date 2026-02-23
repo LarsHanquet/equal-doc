@@ -41,7 +41,7 @@ Once you did this you only need to add equal.bundle.js to the library folder you
 
 ### eQUI (eQual UI)
 
-Finaly, you can clone and build eQualUI
+Finally, you can clone and build eQualUI
 
 ```
 git clone https://github.com/equalframework/equal-ui.git
@@ -49,3 +49,5 @@ cd equal-ui
 npm install
 sh export.sh
 ```
+
+---
