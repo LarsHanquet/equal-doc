@@ -176,7 +176,7 @@ The ORM automatically manages relationships between entities, with dynamic suppo
 
 #### Dynamic Entity Creation
 
-When eQual encounters a request for an entity that does not yet exist, but whose namespace corresponds to a parent entity, the framework dynamically generates an empty entity that extends this parent entity. This ensures that relationships between entities remain consistent, even without explicitly overriding the fields. The framework follows a standard naming convention by automatically subclassing entities under the schema `my\package\name\space\Class`.
+When eQual encounters a request for an entity that does not yet exist, but whose namespace corresponds to a parent entity, the framework dynamically generates an empty entity that extends this parent entity. This ensures that relationships between entities remain consistent, even without explicitly overriding the fields. The framework follows a standard naming convention by automatically subclassifying entities under the schema `my\package\name\space\Class`.
 
 ##### Direct Relationships
 
@@ -302,17 +302,17 @@ if (isset($field_descriptor['usage'])) {
 
 Some well-known fields are associated with specific methods:
 
-| Field Name  | Associated Method        |
-| ----------- | ------------------------ |
-| `username`  | `self::username()`       |
-| `firstname` | `self::firstname($lang)` |
-| `lastname`  | `self::lastname($lang)`  |
-| `fullname`  | `self::fullname($lang)`  |
-| `legal_name` | `self::legalName($lang)` |
-| `adress_street` | `self::adressStreet()`         |
-| `adress_zip` | `self::adressZip()`           |
-| `adress_city` | `self::adressCity()`           |
-| `adress_country` | `self::adressCountry()`       |
+| Field Name        | Associated Method        |
+| ----------------- | ------------------------ |
+| `username`        | `self::username()`       |
+| `firstname`       | `self::firstname($lang)` |
+| `lastname`        | `self::lastname($lang)`  |
+| `fullname`        | `self::fullname($lang)`  |
+| `legal_name`      | `self::legalName($lang)` |
+| `address_street`  | `self::addressStreet()`  |
+| `address_zip`     | `self::addressZip()`     |
+| `address_city`    | `self::addressCity()`    |
+| `address_country` | `self::addressCountry()` |
 
 #### Based on Field Type
 
@@ -324,3 +324,5 @@ If the field does not match a specific case, a random value is generated based o
 | `boolean`  | `self::boolean()`                | Randomly returns `true` or `false`                |
 | `integer`  | `self::integerByLength(9)`       | Generates a random integer (9 digits)             |
 | `float`    | `self::realNumberByLength(9, 2)` | Generates a floating-point number with 2 decimals |
+
+---
