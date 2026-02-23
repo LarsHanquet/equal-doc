@@ -1,6 +1,6 @@
 # Charts
 
-Charts are visual components for displaying data aggregations and trends. They enable no-code creation of data visualizations by defining datasets, operations, filters, and date ranges. Charts are typically integrated into [dashboards](TODO) to provide at-a-glance insights into data.
+Charts are visual components for displaying data aggregations and trends. They enable no-code creation of data visualizations by defining datasets, operations, filters, and date ranges. Charts are typically integrated into [dashboards](./dashboards.md) to provide at-a-glance insights into data.
 
 **Purpose:** Visualize aggregated data in charts and graphs.
 
@@ -27,9 +27,9 @@ Charts are defined as JSON objects with properties for layout, data aggregation,
 | -------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`                                 | `string` | Unique identifier for the chart (used in dashboard references)                                                                                                                                                            |
 | `description`                          | `string` | (optional) Text description of the chart                                                                                                                                                                                  |
-| `access`                               | object   | (optional) List of group IDs allowed to view the chart (e.g., `"groups" = ["group.default.admin", "group.default.manager"]`). If omitted, visible to all authenticated users. Refer to [access control](TODO) for details |
-| `controller`                           | string   | (optional) Custom controller for chart data processing. Defaults to `core_model_chart` if not specified. See [Custom Chart Controllers](TODO) for advanced use cases.                                                     |
-| [`header`](TODO: header configuration) | object   | (optional) Header configuration for chart view, including available modes (e.g., `grid`, `chart`) and default mode.                                                                                                       |
+| `access`                               | object   | (optional) List of group IDs allowed to view the chart (e.g., `"groups" = ["group.default.admin", "group.default.manager"]`). If omitted, visible to all authenticated users. Refer to [access control](../../models/authorization/access-control-lists.md) for details |
+| `controller`                           | string   | (optional) Custom controller for chart data processing. Defaults to `core_model_chart` if not specified. See [Custom Chart Controllers](../../controllers-routing/controllers.md) for advanced use cases.                                                     |
+| [`header`](#header-configuration) | object   | (optional) Header configuration for chart view, including available modes (e.g., `grid`, `chart`) and default mode.                                                                                                       |
 | [`layout`](#layout-configuration)      | object   | Chart display configuration, including type and axis definitions (structure varies by chart type)                                                                                                                         |
 
 ---
@@ -55,6 +55,8 @@ The `layout` property defines how the chart is visually rendered. Configuration 
 | **PROPERTY**     | **TYPE**  | **DESCRIPTION**                                                                                         |
 | ---------------- | --------- | ------------------------------------------------------------------------------------------------------- |
 | `entity`         | `string`  | (optional) Entity name for field references (e.g., `mypackage\\Model`)                                  |
+| `lang`           | `string`  | (optional) Language in which multilang field have to be returned (2 letters ISO 639-1)                  |
+| `domain`         | array     | (optional) Domain filters to apply to the data before aggregation (e.g., `[["status", "=", "active"]]`) |
 | `stacked`        | `boolean` | (for bar) If `true`, stacks bars on top of each other. Default is `false`                               |
 | `group_by`       | `string`  | (optional) Field to group data by (`field`: Polar, Doughnut or Pie charts, `range`: Line or Bar charts) |
 | `field`          | `string`  | (for date-based charts) Date field to use for grouping and filtering                                    |
@@ -62,6 +64,7 @@ The `layout` property defines how the chart is visually rendered. Configuration 
 | `range_from`     | `string`  | (for date-based charts) Start of range (e.g., `date.this.year.first`)                                   |
 | `range_to`       | `string`  | (for date-based charts) End of range (e.g., `date.this.year.last`)                                      |
 | `datasets`       | array     | List of datasets to display (structure varies by chart type)                                            |
+| `mode`           | `string`  | (optional) Mode defining to way data are to be returned                                                 |
 
 **Example Layout:**
 
@@ -176,7 +179,7 @@ This displays data from January 1st of the current year through the last day of 
 
 ## Filtering
 
-The `domain` property applies [domain](TODO) conditions to filter data before aggregation. This allows charts to visualize only relevant records.
+The `domain` property applies [domain](../../models/domains.md) conditions to filter data before aggregation. This allows charts to visualize only relevant records.
 
 **Single Condition:**
 
@@ -272,8 +275,8 @@ This chart displays a bar graph comparing revenue and costs side-by-side for eac
 
 ## Displaying Charts in Dashboards
 
-Charts are typically included in [dashboard](TODO) configurations through the `items` property. Each chart is rendered as a component within the dashboard layout.
+Charts are typically included in [dashboard](./dashboards.md) configurations through the `items` property. Each chart is rendered as a component within the dashboard layout.
 
-Refer to the [dashboard documentation](TODO) for details on integrating charts into dashboard layouts and configuring chart size and positioning.
+Refer to the [dashboard documentation](./dashboards.md) for details on integrating charts into dashboard layouts and configuring chart size and positioning.
 
 ---
