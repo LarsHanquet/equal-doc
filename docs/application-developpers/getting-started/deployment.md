@@ -6,6 +6,8 @@ The latest build of the eQual Docker image is available at [https://hub.docker.c
 
 Here are the steps for getting the Docker image from Docker Hub and running it.
 
+---
+
 ## A. Using Docker service
 
 
@@ -41,7 +43,7 @@ docker exec -ti equal.local /bin/bash
 ### 1. docker-compose.yml
 Create a file named `docker-compose.yml` with the content below:
 
-```
+```yaml
 version: '3'
 services:
   equal:
@@ -75,3 +77,5 @@ services:
 ```
 docker-compose up -d
 ```
+
+---
