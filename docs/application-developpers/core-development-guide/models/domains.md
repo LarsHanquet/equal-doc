@@ -11,13 +11,13 @@ A **Domain** is a structure that defines a set of conditions used to filter obje
 - **Views**: To control visibility.
 - **Models and Controllers**: To filter data.
 
-Domains are represented as a logical structure of conditions, which can be incrementally built and manipulated. The eQual framework provides a [`Domain`](TODO link to php class) class to facilitate this process.
+Domains are represented as a logical structure of conditions, which can be incrementally built and manipulated. The eQual framework provides a `Domain` class to facilitate this process.
 
 ---
 
 ## Domain Structure
 
-A domain is a list of one or more **clauses**, where each clause consists of one or more **conditions**. The minimal domain is a single clause with a single condition.
+A domain is a list of one or more **clauses**, where each clause consists of one or more **conditions**. The minimal domain is a single clause with a single condition. For examples refer to the [example domain tutorial](../../how-tos-references/tutorials-examples/example-domain.md).
 
 ### Condition
 
@@ -154,7 +154,7 @@ Domains can refer to the current object in a model or view. This is useful for f
 Let's say we have two entities: `Project` and `Techie`.
 
 * A **Project** depends on the company but is assigned to a specific department.
-* One or more **Techies** can be assigned to a project, but only amongts those who belong to the same department as the project.
+* One or more **Techies** can be assigned to a project, but only amongst those who belong to the same department as the project.
   
 Here is how the domain might look in eQual:
 ```json
