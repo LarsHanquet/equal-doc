@@ -2,7 +2,7 @@
 
 The task management system provides two distinct ways to handle tasks:
 
-- **Followup Tasks**: Track actionable items derived from entity [workflows](TODO), typically assigned to users and requiring completion. Tasks can be created manually or automatically based on task models that define when tasks should appear and their deadlines.
+- **Followup Tasks**: Track actionable items derived from entity [workflows](../workflows/workflows.md), typically assigned to users and requiring completion. Tasks can be created manually or automatically based on task models that define when tasks should appear and their deadlines.
 - **Scheduled Tasks**: Represent automated, system-level actions managed by the scheduler or CRON service, executed at specific times or intervals.
 
 Understanding the distinction between these two types is important for proper usage and integration.
