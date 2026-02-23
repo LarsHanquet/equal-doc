@@ -2,7 +2,7 @@
 
 Data anonymization is the process of transforming personal data to make it non-identifiable. This ensures that individuals or entities can no longer be identified, either directly or indirectly. 
 
-This process is crucial for compliance with modern [data protection regulations](Maybe TODO) such as GDPR, CCPA, LGPD, PIPEDA, and PDPA. It also ensures the protection of individuals' privacy while allowing the use of data for analytical or commercial purposes without violating privacy rules.
+This process is crucial for compliance with modern data protection regulations such as GDPR, CCPA, LGPD, PIPEDA, and PDPA. It also ensures the protection of individuals' privacy while allowing the use of data for analytical or commercial purposes without violating privacy rules.
 
 ---
 
@@ -30,7 +30,7 @@ eQual supports two main approaches to anonymization:
 
 ## Entity Schema for Anonymization
 
-At the level of field descriptors (as defined in [`getColumns()`](TODO)), certain attributes define the behavior of anonymization:
+At the level of field descriptors (as defined in [`getColumns()`](./entities/entities.md#defining-columns)), certain attributes define the behavior of anonymization:
 
 ### Key Attributes
 
@@ -77,7 +77,7 @@ An anonymization schema is a JSON array where each object specifies a model to b
 | **Attribute**   | **Description**                                                                      |
 | --------------- | ------------------------------------------------------------------------------------ |
 | **`name`**      | Specifies the fully qualified name of the model class to be anonymized. *(required)* |
-| **`fields`**    | Lists the [fields](TODO) that need to be anonymized.                                 |
+| **`fields`**    | Lists the [fields](./entities/entities.md#defining-fields) that need to be anonymized.                                 |
 | **`relations`** | Defines relationships to other models and how to handle them.                        |
 
 ---
@@ -95,6 +95,6 @@ An anonymization schema is a JSON array where each object specifies a model to b
 
 - Data anonymization in eQual is **irreversible**, meaning the original data cannot be restored once anonymized.
 - The `generation` attribute allows for custom anonymization logic, making the process flexible and adaptable to specific needs.
-- For more information on how to implement anonymization in your project, refer to the [eQual Documentation](TODO).
+- For more information on how to implement anonymization in your project, refer to the [anonymize your objects](./data-anonymization.md).
 
 ---
