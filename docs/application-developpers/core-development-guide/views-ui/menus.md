@@ -23,20 +23,20 @@ At the base the structure of a menu is as follows:
 A Menu represents a tree structure where every node is a **Menu Item**. An item can be one of two types:
 
 *   **Parent:** A container that holds other items (categories or groups).
-*   **Entry:** A leaf node that triggers an action, usually redirecting the user to a specific [Context](TODO).
+*   **Entry:** A leaf node that triggers an action, usually redirecting the user to a specific [Context](./contexts.md).
 
 ### Common Properties
 
 The following properties apply to all menu items, regardless of their type:
 
-| Property      | Type     | Description                                                                                                              |
-| :------------ | :------- | :----------------------------------------------------------------------------------------------------------------------- |
-| `id`          | `string` | A unique identifier for the item. This is essential for referencing the item in [Translations](TODO) and access control. |
-| `type`        | `string` | Defines the behavior of the item. Accepted values: `parent` (contains children) or `entry` (link/action).                |
-| `label`       | `string` | The display name of the item in the UI (unless overridden by a [Translation](TODO)).                                     |
-| `description` | `string` | (Optional) A brief explanation of the item's purpose, often displayed as a tooltip or helper text.                       |
-| `icon`        | `string` | (Optional) The name of an icon to visualize the item (e.g., from [Material Icons](TODO)).                                |
-| `children`    | `array`  | (For `parent` type) A list of nested Menu Item objects.                                                                    |
+| Property      | Type     | Description                                                                                                                                  |
+| :------------ | :------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string` | A unique identifier for the item. This is essential for referencing the item in [Translations](../i18n/i18n-overview.md) and access control. |
+| `type`        | `string` | Defines the behavior of the item. Accepted values: `parent` (contains children) or `entry` (link/action).                                    |
+| `label`       | `string` | The display name of the item in the UI (unless overridden by a [Translation](../i18n/i18n-overview.md)).                                     |
+| `description` | `string` | (Optional) A brief explanation of the item's purpose, often displayed as a tooltip or helper text.                                           |
+| `icon`        | `string` | (Optional) The name of an icon to visualize the item (e.g., from Material Icons).                                                            |
+| `children`    | `array`  | (For `parent` type) A list of nested Menu Item objects.                                                                                      |
 
 ### Entry Items
 
