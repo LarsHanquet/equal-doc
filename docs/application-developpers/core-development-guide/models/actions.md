@@ -1,8 +1,8 @@
 # Actions
 
-Actions are a convenient way to describe the operations available for a given entity, which can be manually applied to it. Each action can be associated with a series of [policies](TODO) to automatically restrict its availability based on the context (e.g., user, object, collection).
+Actions are a convenient way to describe the operations available for a given entity, which can be manually applied to it. Each action can be associated with a series of [policies](./authorization/authorization-overview/#policies) to automatically restrict its availability based on the context (e.g., user, object, collection).
 
-Actions can be invoked using the `::do($action)` method on any entity [Collection](TODO). If the action is unknown or cannot be performed due to one or more broken policies, an exception is raised.
+Actions can be invoked using the `::do($action)` method on any entity [Collection](./collections/collections-overview.md). If the action is unknown or cannot be performed due to one or more broken policies, an exception is raised.
 
 ## Defining Actions
 
@@ -57,7 +57,7 @@ Access control is a crucial topic in the eQual framework. It ensures that user i
 - **RBAC (Role-Based Access Control)**: Permissions assigned to roles (e.g., admin, editor, viewer).
 - **PBAC (Policy-Based Access Control)**: Policies that define complex rules for access.
 
-For more information on access control strategies, see the [AccessController documentation](TODO).
+For more information on access control strategies, see the [AccessController documentation](./authorization/access-controller.md).
 
 ## Key Concepts in Access Control
 
