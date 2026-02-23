@@ -1,6 +1,6 @@
 # Validation
 
-Validation ensures that data provided by users matches the field requirements defined in object schemas. The ObjectManager provider's `validate()` function performs this check during [CREATE and UPDATE operations](TODO), as well as when [controllers](TODO) are invoked with parameters.
+Validation ensures that data provided by users matches the field requirements defined in object schemas. The ObjectManager provider's `validate()` function performs this check during CREATE and UPDATE operations, as well as when [controllers](../controllers-routing/controllers.md) are invoked with parameters.
 
 The eQual framework treats both Models and Controllers as entities—their fields (provided by `getColumns()` and `params` respectively) are validated using the same logic.
 
@@ -16,7 +16,7 @@ Field validation is based on two complementary concepts: **Type** and **Usage**.
 
 ### Type and Usage Relationship
 
-Every field has a [usage](TODO) assigned. If not explicitly defined, it defaults based on the type. Usage takes precedence during validation—the type and usage must be compatible.
+Every field has a [usage](../models/entities/fields.md#usages) assigned. If not explicitly defined, it defaults based on the type. Usage takes precedence during validation—the type and usage must be compatible.
 
 **Example:**
 
@@ -49,7 +49,7 @@ However, the way their constraints are checked is the same: each constraint func
 ]
 ```
 
-Usages define validation rules tailored to specific data formats. The `getConstraints(Field $field)` method in `DataValidator.class.php` returns constraints for field type based on usage. Therefore, the same field type can have different constraints depending on its usage. For full details on available usages and their constraints, refer to the [Usage documentation](TODO).
+Usages define validation rules tailored to specific data formats. The `getConstraints(Field $field)` method in `DataValidator.class.php` returns constraints for field type based on usage. Therefore, the same field type can have different constraints depending on its usage. For full details on available usages and their constraints, refer to the [Usage documentation](../models/entities/fields.md#usages).
 
 **Example with Email Usage:**
 
@@ -166,7 +166,7 @@ When a required parameter is missing:
 
 ### Controller Announcements
 
-When a controller raises a validation error and calls the [`eQual::announce()`](TODO) method, the response includes an `announcement` property describing the expected request format:
+When a controller raises a validation error and calls the `eQual::announce()` method, the response includes an `announcement` property describing the expected request format:
 
 ```json
 {
