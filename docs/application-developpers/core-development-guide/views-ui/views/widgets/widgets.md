@@ -29,7 +29,7 @@ The `type` property overrides the default widget type determined by the field's 
 
 ### Widget Types
 
-Widgets come in various types that control the basic display and interaction mode of a field. For a complete list of available widget types, refer to the [Widget Types documentation](TODO).
+Widgets come in various types that control the basic display and interaction mode of a field. For a complete list of available widget types, refer to the [Widget Types documentation](./widget-types.md).
 
 **Example - Display datetime as date:**
 
@@ -82,7 +82,7 @@ Widgets support a variety of properties that control their behavior and appearan
 | `value`      | `string`  | The field name or value to display (e.g., `created`, `total_amount`)                        |
 | `link`       | `boolean` | If `true`, the item content is displayed as a clickable link                                |
 | `type`       | `string`  | Overrides the default display type based on the field type (e.g., `text`, `select`, `date`) |
-| `usage`      | `string`  | Overrides the field's [usage](TODO) to change display formatting                            |
+| `usage`      | `string`  | Overrides the field's [usage](../../../models/entities/fields.md#usages) to change display formatting                            |
 
 #### Relational Field Widgets
 
@@ -90,8 +90,7 @@ For one2many and many2many fields, additional properties customize how related o
 
 For many2one fields, since the display involves the name, an object is requested (instead of simply the id). Additional sub-fields can be specified using dot notation for nested properties (e.g., `object.target_id.target_field`).
 
-For further documentation, since most fields depend on the view type, see the [forms](TODO) and [lists](TODO) documentation for relational field widget examples and specific properties.
-TODO add mentions to other view types if they also support relational fields
+For further documentation, since most fields depend on the view type, see the [forms](../forms.md) and [lists](../lists.md) documentation for relational field widget examples and specific properties.
 
 ## Usage Formatting
 
@@ -109,7 +108,7 @@ The `usage` property applies formatting rules to field values based on predefine
 * `icon` - Icon selector or display
 * `url` - URL with link rendering
 
-For a complete list of available usages, refer to your project's [content-type specifications](TODO).
+For a complete list of available usages, refer to [content-type specifications](../../../models/entities/fields.md#common-usages).
 
 **Example - Display date with short format:**
 
@@ -231,7 +230,7 @@ In views, widgets control the display of fields within forms, lists, and other v
 
 **In Relational Fields:**
 
-For one2many and many2many fields, widget configuration affects how the related object list is displayed. Refer to the [forms documentation](TODO) for relational field widget examples.
+For one2many and many2many fields, widget configuration affects how the related object list is displayed. Refer to the [forms documentation](../forms.md) for relational field widget examples.
 
 ---
 

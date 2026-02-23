@@ -27,9 +27,9 @@ Widgets are the building blocks of your views, allowing you to display data in v
 
 **Edit Mode:**
 
-* Renders an input field for date entry, enchanced with a jQuery datepicker for easier date selection.
+* Renders an input field for date entry, enhanced with a jQuery date-picker for easier date selection.
 * The input field is interactive, allowing users to modify the date directly within the view.
-* A calendar button is provided to trigger the datepicker, enhancing usability.
+* A calendar button is provided to trigger the date-picker, enhancing usability.
 * Event handlers are attached to handle value changes, date selection, and formatting.
 * The input's values is formatted according to locale and usage, and updates are propagated to the widget's value.
 
@@ -50,14 +50,14 @@ Widgets are the building blocks of your views, allowing you to display data in v
 **Edit Mode:**
 
 * Renders an interactive input field for entering or editing a time value.
-* The input is intialized with the adapted (localized) time.
-* Event hanclers are attached to the input to detect changes, convert the value to UTC, and update the widget's vvalue.
+* The input is initialized with the adapted (localized) time.
+* Event handlers are attached to the input to detect changes, convert the value to UTC, and update the widget's value.
 * In list layout, the input's width is adjusted for better fit.
 
 **View Mode:**
 
 * Renders a non-editable display of the time value.
-* In list layout, the time is shown in a styled divn righ-aligned and formatted for readability.
+* In list layout, the time is shown in a styled div right-aligned and formatted for readability.
 * In non-list layouts, the time is displayed using a styled input view for consistency with edit mode, but it is disabled to prevent interaction.
 * The value is adapted for display and a title attribute is set for tooltip.
 
@@ -71,7 +71,7 @@ Widgets are the building blocks of your views, allowing you to display data in v
 
 **Edit Mode:**
 
-* Renders an interactive input field for date and time entry, enhanced with a jQuery datepicker widget supporting both date and time selection.
+* Renders an interactive input field for date and time entry, enhanced with a jQuery date-picker widget supporting both date and time selection.
 * The input is initialized with the formatted value and is editable.
 * A calendar button is provided to open the date/time picker popup.
 * Event handlers are attached to handle input changes, date/time selection, and formatting.
@@ -87,7 +87,7 @@ Widgets are the building blocks of your views, allowing you to display data in v
 
 ## One2Many
 
-One2Many widgets are designed to provide a similar vizual representation as a [Many2Many](TODO) widget.
+One2Many widgets are designed to provide a similar visual representation as a [Many2Many](#many2many) widget.
 
 ## Many2One
 
@@ -95,7 +95,7 @@ The widget displays a field representing a many-to-one relationship.
 
 | **PROPERTY** | **TYPE**  | **DESCRIPTION**                                             |
 | ------------ | --------- | ----------------------------------------------------------- |
-| `domain`     | `array`   | [Domain](TODO) conditions affecting display.                |
+| `domain`     | `array`   | [Domain](../../../models/domains.md) conditions affecting display.                |
 | `autoselect` | `boolean` | If `true`, automatically selects the only available option. |
 
 **Edit Mode vs View Mode**
@@ -106,7 +106,7 @@ The widget displays a field representing a many-to-one relationship.
 * Shows an input field for searching/selecting related objects with autocomplete and a dropdown menu for results.
 * Provides action buttons :
   * Open: Opens the selected related object in a new context.
-  * Create: Opens a forl to create a new related object.
+  * Create: Opens a form to create a new related object.
   * Reset: Clears the current selection.
 * The dropdown menu lists matching objects as the user types, with options for advanced search and instant creation.
 * Handles keyboard navigation (arrows, enter, escape) and debounced search.
@@ -138,8 +138,8 @@ The WidgetMany2Many widget is rendered as a dynamic container (a div with a mini
 **View Mode:**
 
 * The "add" (select) button is hidden or disabled  for many2many.
-* The "remove" button is not abailable.
-* The iwdget is read-only; users can only view the related records.
+* The "remove" button is not available.
+* The widget is read-only; users can only view the related records.
 
 ## Integer
 
@@ -172,7 +172,7 @@ The WidgetMany2Many widget is rendered as a dynamic container (a div with a mini
 
 * The value is displayed as non-editable text.
 * In list layout, the value is rendered directly in the element (not in an input), right-aligned, and with no wrapping.
-* Otherwise, the value is set in a disavled input field.
+* Otherwise, the value is set in a disabled input field.
 
 ## Link
 
@@ -239,7 +239,7 @@ Binary widgets are designed to handle file loads, images and signatures.
 
 **View Mode:**
 
-* Renders a div containing the text "[bianry data]" to indicate a file is present, but it does not show the file name or allow interaction.
+* Renders a div containing the text "[binary data]" to indicate a file is present, but it does not show the file name or allow interaction.
 
 ### Image Handling
 
@@ -250,7 +250,7 @@ You can set `usage` to `image` to display the binary data as an image and refine
 **Edit Mode:**
 
 * Renders a div with a background image showing the current image value.
-* The div is styled as "dropable" and supports drag-and-drop for image upload.
+* The div is styled as "droppable" and supports drag-and-drop for image upload.
 * When an image file is dropped, it is read as a data URL and set as the new value, updating the widget.
 * Visual feedback (highlight) is shown during drag-and-drop.
 
@@ -266,13 +266,13 @@ You can set `usage` to `image` to display the binary data as an image and refine
 **Edit Mode:**
 
 * Renders a canvas for drawing a signature.
-* Includes a "Clear" button to rease the signature.
+* Includes a "Clear" button to erase the signature.
 * Uses SignaturePad library to capture and manage the signature input.
 * When a signature is present, the widget automatically switches to view mode (signatures cannot be changed once set).
 
 **View Mode:**
 
-* Renders a div with a background image showing the savec signature (as a PNG image).
+* Renders a div with a background image showing the saved signature (as a PNG image).
 * The signature is display-only, with no editing or drawing possible.
 
 ## PDF
@@ -281,7 +281,7 @@ PDF widgets don't have specific view or edit mode behaviors.
 
 * Both modes render the same way.
 * If the layout is "list", a div displays the PDF value as plain text with a tooltip.
-* For other layouts, a div contains an iframe that loas the PDF with optional height from config and a fullscreen button overlay.
+* For other layouts, a div contains an iframe that loads the PDF with optional height from config and a fullscreen button overlay.
 
 | **PROPERTY** | **TYPE** | **DESCRIPTION**                                                       |
 | ------------ | -------- | --------------------------------------------------------------------- |
@@ -298,7 +298,7 @@ PDF widgets don't have specific view or edit mode behaviors.
 **Edit Mode:**
 
 * Renders a flex container with:
-  * A fidden file input for selecting files.
+  * A hidden file input for selecting files.
   * An SVG icon representing upload.
   * A text area with a "Browse" link and instructions ("or drop the document here").
 * Supports drag-and-drop for file upload, with visual highlight on drag.
@@ -311,7 +311,7 @@ PDF widgets don't have specific view or edit mode behaviors.
 
 ## Label
 
-In Label widgets, there are no differences in redereing between view and edit mode: 
+In Label widgets, there are no differences in rendering between view and edit mode: 
 
 * The widget always renders a styled span displaying the value as text.
 * No input, interaction, or mode-specific logic is present.
@@ -328,7 +328,7 @@ In Label widgets, there are no differences in redereing between view and edit mo
 **Edit Mode:**
 
 * For "list" layout: renders a single-line input for editing text.
-* For other layouts: renders a rich text editor (Quill) inside a styled div, with toolbar options for formating, color, alignments and fullscreen.
+* For other layouts: renders a rich text editor (Quill) inside a styled div, with toolbar options for formatting, color, alignments and fullscreen.
 * Handles text changes, copy-paste and updates the widget value accordingly.
 
 **View Mode:**
@@ -349,8 +349,8 @@ Select widgets render a dropdown menu for selecting a value from a predefined li
 
 **Edit Mode:**
 
-* The dropdown is interactinve, allowing the user to change the value.
-* Event handlers are attached for inpuit changes and jeyboard navigation.
+* The dropdown is interactive, allowing the user to change the value.
+* Event handlers are attached for input changes and keyboard navigation.
 * For list layout, the dropdown's width is adjusted for better fit.
 
 **View Mode:**
@@ -375,7 +375,7 @@ By default, using a `string` widget provides you with a customizable String Widg
 
 **Edit Mode vs View Mode**
 
-String widgets' vizual representation change wether the view is in edit mode or not.
+String widgets' visual representation change wether the view is in edit mode or not.
 
 **Edit Mode:**
 
@@ -386,7 +386,7 @@ String widgets' vizual representation change wether the view is in edit mode or 
 
 **View Mode:** 
 
-* Renders a non-editable dsplay of the value.
+* Renders a non-editable display of the value.
 * In list layout, if the usage is `phone` or `email`, the value is rendered as clickable links (`tel:` for phone numbers and `mailto:` for emails).
 * In other cases, the value is shown as plain text or using a styled input view for non-list layouts.
 * Additional styling and title attributes are applied for display purposes.
